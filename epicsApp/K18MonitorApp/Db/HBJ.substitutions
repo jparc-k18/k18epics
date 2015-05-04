@@ -1,0 +1,82 @@
+# PWO substitutions file
+# channel: form 1 to 128   (if 0, -999.99 is read out.)
+
+file "db/HBJ_LABVIEW.template" {
+#
+#
+### HV ###
+#
+#
+    { name = HBJ:GE01:HV,  ch =  1 }
+    { name = HBJ:GE02:HV,  ch =  2 }
+    { name = HBJ:GE03:HV,  ch =  3 }
+    { name = HBJ:GE04:HV,  ch =  4 }
+    { name = HBJ:GE05:HV,  ch =  5 }
+    { name = HBJ:GE06:HV,  ch =  6 }
+    { name = HBJ:GE07:HV,  ch =  7 }
+    { name = HBJ:GE08:HV,  ch =  8 }
+    { name = HBJ:GE09:HV,  ch =  9 }
+    { name = HBJ:GE10:HV,  ch = 10 }
+    { name = HBJ:GE11:HV,  ch = 11 }
+    { name = HBJ:GE12:HV,  ch = 12 }
+    { name = HBJ:GE13:HV,  ch = 13 }
+    { name = HBJ:GE14:HV,  ch = 14 }
+    { name = HBJ:GE15:HV,  ch = 15 }
+    { name = HBJ:GE16:HV,  ch = 16 }
+    { name = HBJ:GE17:HV,  ch = 17 }
+    { name = HBJ:GE18:HV,  ch = 18 }
+    { name = HBJ:GE19:HV,  ch = 19 }
+    { name = HBJ:GE20:HV,  ch = 20 }
+    { name = HBJ:GE21:HV,  ch = 21 }
+    { name = HBJ:GE22:HV,  ch = 22 }
+    { name = HBJ:GE23:HV,  ch = 23 }
+    { name = HBJ:GE24:HV,  ch = 24 }
+    { name = HBJ:GE25:HV,  ch = 25 }
+    { name = HBJ:GE26:HV,  ch = 26 }
+    { name = HBJ:GE27:HV,  ch = 27 }
+    { name = HBJ:GE28:HV,  ch = 28 }
+    { name = HBJ:GE29:HV,  ch = 29 }
+    { name = HBJ:GE30:HV,  ch = 30 }
+    { name = HBJ:GE31:HV,  ch = 31 }
+    { name = HBJ:GE32:HV,  ch = 32 }
+#
+#
+### Temp. ###
+#
+#
+    { name = HBJ:GE01:TEMP,  ch = 33 }
+    { name = HBJ:GE02:TEMP,  ch = 34 }
+    { name = HBJ:GE03:TEMP,  ch = 35 }
+    { name = HBJ:GE04:TEMP,  ch = 36 }
+    { name = HBJ:GE05:TEMP,  ch = 37 }
+    { name = HBJ:GE06:TEMP,  ch = 38 }
+    { name = HBJ:GE07:TEMP,  ch = 39 }
+    { name = HBJ:GE08:TEMP,  ch = 40 }
+    { name = HBJ:GE09:TEMP,  ch = 41 }
+    { name = HBJ:GE10:TEMP,  ch = 42 }
+    { name = HBJ:GE11:TEMP,  ch = 43 }
+    { name = HBJ:GE12:TEMP,  ch = 44 }
+    { name = HBJ:GE13:TEMP,  ch = 45 }
+    { name = HBJ:GE14:TEMP,  ch = 46 }
+    { name = HBJ:GE15:TEMP,  ch = 47 }
+    { name = HBJ:GE16:TEMP,  ch = 48 }
+    { name = HBJ:GE17:TEMP,  ch = 49 }
+    { name = HBJ:GE18:TEMP,  ch = 50 }
+    { name = HBJ:GE19:TEMP,  ch = 51 }
+    { name = HBJ:GE20:TEMP,  ch = 52 }
+    { name = HBJ:GE21:TEMP,  ch = 53 }
+    { name = HBJ:GE22:TEMP,  ch = 54 }
+    { name = HBJ:GE23:TEMP,  ch = 55 }
+    { name = HBJ:GE24:TEMP,  ch = 56 }
+    { name = HBJ:GE25:TEMP,  ch = 57 }
+    { name = HBJ:GE26:TEMP,  ch = 58 }
+    { name = HBJ:GE27:TEMP,  ch = 59 }
+    { name = HBJ:GE28:TEMP,  ch = 60 }
+    { name = HBJ:GE29:TEMP,  ch = 61 }
+    { name = HBJ:GE30:TEMP,  ch = 62 }
+    { name = HBJ:GE31:TEMP,  ch = 63 }
+    { name = HBJ:GE32:TEMP,  ch = 64 }
+#
+#
+}
+

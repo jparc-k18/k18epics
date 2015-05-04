@@ -1,0 +1,85 @@
+# PWO substitutions file
+# ch   :  form 1 to 60   (if 0, -999.99 is read out.) 
+# mode :  0: Temperature,  1: Humidity
+
+file "db/ZRRX40.template" {
+#
+#
+### Air ###
+#
+#
+    { name = HBJ:AIR1,      mode = 0, ch = 59 }
+    { name = HBJ:AIR2,      mode = 0, ch = 51 }
+    { name = HBJ:AIR3,      mode = 0, ch = 50 }
+    { name = HBJ:AIR4,      mode = 0, ch = 10 }
+    { name = HBJ:HUMIDITY1, mode = 1, ch = 13 }
+    { name = HBJ:HUMIDITY2, mode = 1, ch = 14 }
+    { name = HBJ:HUMIDITY3, mode = 1, ch = 15 }
+#
+#
+### Ge cooling water ###
+#
+#
+    { name = HBJ:NORTH_GE_WATER:IN,  mode = 0, ch = 40 }
+    { name = HBJ:NORTH_GE_WATER:OUT, mode = 0, ch = 56 }
+    { name = HBJ:SOUTH_GE_WATER:IN,  mode = 0, ch = 57 }
+    { name = HBJ:SOUTH_GE_WATER:OUT, mode = 0, ch = 58 }
+    { name = HBJ:GE_WATER:INLET,     mode = 0, ch =  0 }
+    { name = HBJ:GE_WATER:OUTLET,    mode = 0, ch = 11 }
+#
+#
+### PWO Upper half ###
+#
+#
+    { name = HBJ:PBOX01:IN,  mode = 0, ch =  1 }
+    { name = HBJ:PBOX01:OUT, mode = 0, ch = 21 }
+    { name = HBJ:PBOX02:IN,  mode = 0, ch =  2 }
+    { name = HBJ:PBOX02:OUT, mode = 0, ch = 22 }
+    { name = HBJ:PBOX03:IN,  mode = 0, ch =  3 }
+    { name = HBJ:PBOX03:OUT, mode = 0, ch = 23 }
+    { name = HBJ:PBOX04:IN,  mode = 0, ch =  4 }
+    { name = HBJ:PBOX04:OUT, mode = 0, ch = 24 }
+    { name = HBJ:PBOX05:IN,  mode = 0, ch =  5 }
+    { name = HBJ:PBOX05:OUT, mode = 0, ch = 25 }
+    { name = HBJ:PBOX06:IN,  mode = 0, ch =  6 }
+    { name = HBJ:PBOX06:OUT, mode = 0, ch = 26 }
+    { name = HBJ:PBOX07:IN,  mode = 0, ch =  7 }
+    { name = HBJ:PBOX07:OUT, mode = 0, ch = 27 }
+    { name = HBJ:PBOX08:IN,  mode = 0, ch =  8 }
+    { name = HBJ:PBOX08:OUT, mode = 0, ch = 28 }
+    { name = HBJ:PBOX09:IN,  mode = 0, ch =  0 }
+    { name = HBJ:PBOX09:OUT, mode = 0, ch =  0 }
+    { name = HBJ:PBOX10:IN,  mode = 0, ch =  9 }
+    { name = HBJ:PBOX10:OUT, mode = 0, ch = 29 }
+    { name = HBJ:PBOX11:IN,  mode = 0, ch =  0 }
+    { name = HBJ:PBOX11:OUT, mode = 0, ch =  0 }
+#
+#
+### PWO Lower half ###
+#
+#
+    { name = HBJ:PBOX12:IN,  mode = 0, ch = 41 }
+    { name = HBJ:PBOX12:OUT, mode = 0, ch = 16 }
+    { name = HBJ:PBOX13:IN,  mode = 0, ch = 42 }
+    { name = HBJ:PBOX13:OUT, mode = 0, ch = 17 }
+    { name = HBJ:PBOX14:IN,  mode = 0, ch = 43 }
+    { name = HBJ:PBOX14:OUT, mode = 0, ch = 18 }
+    { name = HBJ:PBOX15:IN,  mode = 0, ch = 44 }
+    { name = HBJ:PBOX15:OUT, mode = 0, ch = 19 }
+    { name = HBJ:PBOX16:IN,  mode = 0, ch = 45 }
+    { name = HBJ:PBOX16:OUT, mode = 0, ch = 20 }
+    { name = HBJ:PBOX17:IN,  mode = 0, ch = 46 }
+    { name = HBJ:PBOX17:OUT, mode = 0, ch = 36 }
+    { name = HBJ:PBOX18:IN,  mode = 0, ch = 47 }
+    { name = HBJ:PBOX18:OUT, mode = 0, ch = 37 }
+    { name = HBJ:PBOX19:IN,  mode = 0, ch = 48 }
+    { name = HBJ:PBOX19:OUT, mode = 0, ch = 38 }
+    { name = HBJ:PBOX20:IN,  mode = 0, ch =  0 }
+    { name = HBJ:PBOX20:OUT, mode = 0, ch =  0 }
+    { name = HBJ:PBOX21:IN,  mode = 0, ch = 49 }
+    { name = HBJ:PBOX21:OUT, mode = 0, ch = 39 }
+    { name = HBJ:PBOX22:IN,  mode = 0, ch =  0 }
+    { name = HBJ:PBOX22:OUT, mode = 0, ch =  0 }
+#
+#
+}

@@ -1,0 +1,19 @@
+record(ai, "SKS:Field")
+{
+	field(DESC, "SKS NMR [T]")
+	field(EGU, "T")
+	field(SCAN, "10 second")
+	field(PHAS, "0")
+	field(PREC, "7")
+	field(DTYP, "SKSNMRSup")
+}
+
+record(ai, "D4:Field")
+{
+	field(DESC, "D4 Probe [T]")
+	field(EGU, "T")
+	field(SCAN, "10 second")
+	field(PHAS, "0")
+	field(PREC, "7")
+	field(DTYP, "D4ProbeSup")
+}

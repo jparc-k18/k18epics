@@ -1,0 +1,2 @@
+include "base.dbd"
+device(waveform,INST_IO,devHTTP_k18magnet,"HTTP_k18magnet_Sup")

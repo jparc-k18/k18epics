@@ -1,0 +1,19 @@
+record(waveform, "HBJ:LABVIEW")
+{
+        field(DESC, "HBJ Labview data")
+	field(FTVL, "FLOAT")
+        field(NELM, "64")
+	field(SCAN, ".5 second")
+	field(PHAS, "0")
+	field(DTYP, "HBJSup")
+}
+
+record(ai, "$(name)")
+{
+	field(SCAN, "10 second")
+	field(INP, "HBJ:LABVIEW")
+	field(DTYP, "AiHBJSup")
+	field(PHAS, "1")
+	field(PREC, "4")
+	field(DESC, "HBJ@$(ch)")
+}

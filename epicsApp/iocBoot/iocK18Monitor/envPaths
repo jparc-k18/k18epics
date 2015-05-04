@@ -1,0 +1,4 @@
+epicsEnvSet("ARCH","linux-x86_64")
+epicsEnvSet("IOC","iocK18Monitor")
+epicsEnvSet("TOP","/home/sks/epics/epicsApp")
+epicsEnvSet("EPICS_BASE","/home/sks/epics/base")

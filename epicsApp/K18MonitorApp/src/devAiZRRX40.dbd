@@ -1,0 +1,2 @@
+include "base.dbd"
+device(ai,PV_LINK,devAiZRRX40,"AiZRRX40Sup")
