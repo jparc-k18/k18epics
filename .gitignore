@@ -1,0 +1,11 @@
+*.[ado]
+*~
+\#*\#
+*.swp
+bin/
+lib/
+logger/data
+logger/tmpdata/
+O.*/
+epicsApp/db/
+epicsApp/dbd/
