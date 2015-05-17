@@ -3,11 +3,6 @@
 #include <stdio.h>
 #include <string>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-
 #include "alarm.h"
 #include "cvtTable.h"
 #include "dbDefs.h"
@@ -19,23 +14,20 @@
 #include "aiRecord.h"
 #include "epicsExport.h"
 
-struct device_private{
-  short dbrType;
-  long  nelem;
-  int   channel;
-};
-
 static long read_ai(aiRecord *rec)
 { 
-  struct device_private *pdev = (struct device_private *)rec->dpvt; 
+  int ch = 0;
+  if( sscanf(rec->desc,"HTTP@%d",&ch) != 1 ) ch = 0;
   
-  int ch = pdev->channel;
-
+  long nelem = 0;
+  dbGetNelements(&rec->inp, &nelem);
+  if(nelem>200) nelem=200;
+  
   //printf("read ai\n");
-
-  if(1<= ch &&  ch <= pdev->nelem){ 
-    float buf[200];
-    dbGetLink(&rec->inp, pdev->dbrType, buf, NULL, &pdev->nelem);
+  
+  if(1<= ch &&  ch <= nelem){ 
+    float buf[210];
+    dbGetLink(&rec->inp, dbGetLinkDBFtype(&rec->inp), buf, NULL, &nelem);
     rec->val = buf[ch-1];
     //printf("%d %f\n",ch,buf[ch-1]);
   }else{
@@ -50,23 +42,6 @@ static long read_ai(aiRecord *rec)
 
 static long init_record(aiRecord *rec, int pass)
 { 
-  struct device_private *pdev;
-  pdev = (struct device_private *)malloc(sizeof(struct device_private));
-
-  pdev->dbrType = (short)dbGetLinkDBFtype(&rec->inp);
-  
-  long nRequest=0;
-  dbGetNelements(&rec->inp, &nRequest);
-  if(nRequest>200) nRequest=200;
-  pdev->nelem = nRequest;
-  
-  int ch=0;
-  sscanf(rec->desc,"HTTP@%d",&ch);
-  if(1<=ch && ch<= nRequest) pdev->channel = ch;
-  else pdev->channel = 0;
-  
-  rec->dpvt = pdev; 
-
   return 0;
 }
 
