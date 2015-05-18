@@ -11,12 +11,15 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
 DB += SKSD4.db
+DB += TR700W.db
 DB += K18Magnet.template
 DB += K18Magnet.substitutions
 DB += ALine.template
 DB += ALine.substitutions
 DB += Sepa.template
 DB += Sepa.substitutions
+DB += Accel.template
+DB += Accel.substitutions
 DB += ZRRX40.template
 DB += PWO.substitutions
 DB += HBJ_LABVIEW.template

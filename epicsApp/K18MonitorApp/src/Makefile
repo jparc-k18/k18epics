@@ -18,6 +18,7 @@ K18Monitor_DBD += base.dbd
 # Include dbd files from all support applications:
 K18Monitor_DBD += devSKSNMR.dbd
 K18Monitor_DBD += devD4Probe.dbd
+K18Monitor_DBD += devTR700W.dbd
 K18Monitor_DBD += devZRRX40.dbd
 K18Monitor_DBD += devAiZRRX40.dbd
 K18Monitor_DBD += devHBJ.dbd
@@ -25,6 +26,7 @@ K18Monitor_DBD += devAiHBJ.dbd
 K18Monitor_DBD += devHTTP_k18magnet.dbd
 K18Monitor_DBD += devHTTP_aline.dbd
 K18Monitor_DBD += devHTTP_sepa.dbd
+K18Monitor_DBD += devHTTP_accel.dbd
 K18Monitor_DBD += devAiHTTP.dbd
 
 # Add all the support libraries needed by this IOC
@@ -34,6 +36,7 @@ K18Monitor_DBD += devAiHTTP.dbd
 K18Monitor_SRCS += K18Monitor_registerRecordDeviceDriver.cpp
 K18Monitor_SRCS += devSKSNMR.cc
 K18Monitor_SRCS += devD4Probe.cc
+K18Monitor_SRCS += devTR700W.cc
 K18Monitor_SRCS += devZRRX40.cc
 K18Monitor_SRCS += devAiZRRX40.cc
 K18Monitor_SRCS += devHBJ.cc
@@ -41,6 +44,7 @@ K18Monitor_SRCS += devAiHBJ.cc
 K18Monitor_SRCS += devHTTP_k18magnet.cc
 K18Monitor_SRCS += devHTTP_aline.cc
 K18Monitor_SRCS += devHTTP_sepa.cc
+K18Monitor_SRCS += devHTTP_accel.cc
 K18Monitor_SRCS += devAiHTTP.cc
 
 # Build the main IOC entry point on workstation OSs.
