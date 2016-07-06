@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>719</width>
+    <height>621</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="caStripPlot" name="castripplot">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>20</y>
+      <width>700</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <property name="Title" stdset="0">
+     <string notr="true"/>
+    </property>
+    <property name="TitleX">
+     <string notr="true"/>
+    </property>
+    <property name="TitleY">
+     <string notr="true">mm</string>
+    </property>
+    <property name="channels" stdset="0">
+     <string notr="true">ACC:HD:T1_MEAN_X</string>
+    </property>
+    <property name="units">
+     <enum>caStripPlot::Second</enum>
+    </property>
+    <property name="period">
+     <double>3600.000000000000000</double>
+    </property>
+    <property name="YAxisScaling" stdset="0">
+     <enum>caStripPlot::autoScale</enum>
+    </property>
+    <property name="color_1">
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="XaxisEnabled">
+     <bool>true</bool>
+    </property>
+    <property name="LegendEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caStripPlot" name="castripplot_2">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>170</y>
+      <width>700</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <property name="Title" stdset="0">
+     <string notr="true"/>
+    </property>
+    <property name="TitleY">
+     <string notr="true">mm</string>
+    </property>
+    <property name="channels" stdset="0">
+     <string notr="true">ACC:HD:T1_SIGMA_X</string>
+    </property>
+    <property name="units">
+     <enum>caStripPlot::Second</enum>
+    </property>
+    <property name="period">
+     <double>3600.000000000000000</double>
+    </property>
+    <property name="YAxisScaling" stdset="0">
+     <enum>caStripPlot::autoScale</enum>
+    </property>
+    <property name="color_1">
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="LegendEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caStripPlot" name="castripplot_3">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>320</y>
+      <width>700</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <property name="Title" stdset="0">
+     <string notr="true"/>
+    </property>
+    <property name="TitleY">
+     <string notr="true">mm</string>
+    </property>
+    <property name="channels" stdset="0">
+     <string notr="true">ACC:HD:T1_MEAN_Y</string>
+    </property>
+    <property name="units">
+     <enum>caStripPlot::Second</enum>
+    </property>
+    <property name="period">
+     <double>3600.000000000000000</double>
+    </property>
+    <property name="YAxisScaling" stdset="0">
+     <enum>caStripPlot::autoScale</enum>
+    </property>
+    <property name="color_1">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="color_2">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="LegendEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caStripPlot" name="castripplot_4">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>470</y>
+      <width>700</width>
+      <height>140</height>
+     </rect>
+    </property>
+    <property name="Title" stdset="0">
+     <string notr="true"/>
+    </property>
+    <property name="TitleY">
+     <string notr="true">mm</string>
+    </property>
+    <property name="channels" stdset="0">
+     <string notr="true">ACC:HD:T1_SIGMA_Y</string>
+    </property>
+    <property name="units">
+     <enum>caStripPlot::Second</enum>
+    </property>
+    <property name="period">
+     <double>3600.000000000000000</double>
+    </property>
+    <property name="YAxisScaling" stdset="0">
+     <enum>caStripPlot::autoScale</enum>
+    </property>
+    <property name="color_1">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="color_2">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="LegendEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>castripplot_2</zorder>
+   <zorder>castripplot</zorder>
+   <zorder>castripplot_3</zorder>
+   <zorder>castripplot_4</zorder>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caStripPlot</class>
+   <extends>QFrame</extends>
+   <header>caStripPlot</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

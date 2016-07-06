@@ -20,7 +20,6 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
-void base64_decode(std::string const& s, unsigned char* ret);
 
 static long read_wf(waveformRecord *rec)
 {
@@ -32,7 +31,7 @@ static long read_wf(waveformRecord *rec)
   }
 
   int port           = 80;
-  double timeout_sec = 0.5;
+  double timeout_sec = 2.0;
   
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
   int sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -54,7 +53,7 @@ static long read_wf(waveformRecord *rec)
   }
   
   // send HTTP request
-  char cmdline[] = "GET /current.inc HTTP/1.0\r\nUser-Agent: Wget/1.12 (linux-gnu)\r\nAccept: */*\r\nHost: 192.168.30.31\r\nConnection: Keep-Alive\r\n\r\n ";
+  char cmdline[] = "GET /cdata.inc HTTP/1.0\r\nUser-Agent: Wget/1.12 (linux-gnu)\r\nAccept: */*\r\nHost: 192.168.30.31\r\nConnection: Keep-Alive\r\n\r\n ";
   write(sock, cmdline, strlen(cmdline));
 
   // receive
@@ -62,47 +61,34 @@ static long read_wf(waveformRecord *rec)
   int total_len=0;
   char c;
   while ( read(sock, &c, 1) > 0 ) {
-    buf += c;
-    total_len++;
+    if(0x20 < c && c <0x7f){ 
+      buf += c;
+      total_len++;
+    }
     if(total_len > 65535) break;
   }
   close(sock);
 
+  if(total_len!=271) {
+    time_t t;
+    t = time(NULL);
+    std::string date(ctime(&t));
+    date = date.substr(0, date.length()-1);
+    printf("%s | TR700W comunication error\n",date.c_str());
+    return 0;
+  }
   
-  int pos1 = buf.find("C02", 0);
-  std::string c02 = buf.substr(pos1+13, 10);
-  //std::cout <<c02<<std::endl;
-
-  int pos2 = buf.find("C03", 0);
-  std::string c03 = buf.substr(pos2+13, 10);
-  //std::cout <<c03<<std::endl;
-
-  if(c02 != c03) return 0;
+  std::string sub1 =  buf.substr(125, 4);
+  //printf("sub1: %s\n",sub1.c_str());
   
-  int pos3 = buf.find("D20", 0);
-  std::string d20 = buf.substr(pos3+14, 76);
-  //std::cout <<d20<<std::endl;
-  unsigned char ret[256];  
-  base64_decode(d20, ret);
-  
-
-  //unsigned int utc = (ret[13]<<24) | (ret[12]<<16) | (ret[11]<<8) | ret[10];
-  //printf("UTC: %u\n", utc);
-
-  //unsigned int lct = (ret[17]<<24) | (ret[16]<<16) | (ret[15]<<8) | ret[14];
-  //printf("LCT: %u\n", lct);
-
-  unsigned short ch1 = (ret[27]<<8) | ret[26];
-  //printf("ch1: %f\n", (ch1-1000)/10.);
-
-  unsigned short ch2 = (ret[43]<<8) | ret[42];
-  //printf("ch2: %f\n", (ch2-1000)/10.);
+  std::string sub2 =  buf.substr(155, 2);
+  //printf("sub2: %s\n",sub2.c_str());
   
   
   float* ptr = (float*)rec->bptr;
   
-  ptr[0] = (float)((ch1-1000)/10.);
-  ptr[1] = (float)((ch2-1000)/10.);
+  ptr[0] = (float)( atof(sub1.c_str()) );
+  ptr[1] = (float)( atof(sub2.c_str()) );
 
   rec->nord = 2;
  
@@ -144,23 +130,3 @@ char charconv(char c) {
   return 0;
 }
 
-void base64_decode(std::string const& in, unsigned char* ret) {
-  int len, i, iR;
-  char a1, a2, a3, a4;
-  len = in.size();
-  i = 0;
-  iR =0;
-  
-  while (1) {
-    if (i >= len) break;
-    a1 = charconv(in[i]);
-    a2 = charconv(in[i+1]);
-    a3 = charconv(in[i+2]);
-    a4 = charconv(in[i+3]);
-    ret[iR+0] = ((a1 << 2)&0xFF) | ((a2 >>4)&0xFF);
-    ret[iR+1] = ((a2 << 4)&0xFF) | ((a3 >>2)&0xFF);
-    ret[iR+2] = ((a3 << 6)&0xFF) | (a4&0xFF);
-    i  += 4;
-    iR += 3;
-  }
-} 

@@ -1,0 +1,26 @@
+# ZRRX40 substitutions file
+# ch   :  form 1 to 60   (if 0, -999.99 is read out.) 
+# mode :  0: Temperature,  1: Humidity,  2: Voltage
+
+file "db/ZRRX40.template" {
+    { name = ZRRX40:CH1,    mode = 2, ch =  1 }
+    { name = ZRRX40:CH2,    mode = 2, ch =  2 }
+    { name = ZRRX40:CH3,    mode = 2, ch =  3 }
+    { name = ZRRX40:CH4,    mode = 2, ch =  4 }
+    { name = ZRRX40:CH5,    mode = 2, ch =  5 }
+    { name = ZRRX40:CH6,    mode = 2, ch =  6 }
+    { name = ZRRX40:CH7,    mode = 2, ch =  7 } 
+    { name = ZRRX40:CH8,    mode = 2, ch =  8 }
+    { name = ZRRX40:CH9,    mode = 2, ch =  9 }
+    { name = ZRRX40:CH10,    mode = 2, ch =  10 }
+    { name = ZRRX40:CH11,    mode = 2, ch =  11 }
+    { name = ZRRX40:CH12,    mode = 2, ch =  12 }
+    { name = ZRRX40:CH13,    mode = 2, ch =  13 }
+    { name = ZRRX40:CH14,    mode = 2, ch =  14 }
+    { name = ZRRX40:CH15,    mode = 2, ch =  15 }
+    { name = ZRRX40:CH16,    mode = 2, ch =  16 }
+    { name = ZRRX40:CH17,    mode = 2, ch =  17 }
+    { name = ZRRX40:CH18,    mode = 2, ch =  18 }
+    { name = ZRRX40:CH19,    mode = 2, ch =  19 }
+    { name = ZRRX40:CH20,    mode = 2, ch =  20 }
+}

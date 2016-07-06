@@ -24,8 +24,15 @@
 static long read_wf(waveformRecord *rec)
 {
   //connect socket
-  char host[]        = "192.153.109.17";
-  int port           = 80;
+  
+  // w/o proxy server
+  //char host[]        = "192.153.109.17";
+  //int port           = 80;
+
+  // w/ proxy server
+  char host[]        = "192.168.30.1";
+  int port           = 8080;
+
   double timeout_sec = 0.5;
   
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
@@ -104,10 +111,14 @@ static long read_wf(waveformRecord *rec)
   int column_num = tb_content.size();
   for(int i=0;i<column_num;i++){
 
-    float val;
+    float val=0;
     char tmp[255];
     
-    if( sscanf(tb_content[i][1].c_str(),"%f %s",&val,tmp) == 2 ){
+    int ret = sscanf(tb_content[i][1].c_str(),"%f %s",&val,tmp);
+    
+    if(ret==2){
+      ptr[ndata++]=val;
+    }else if(ret==1){
       ptr[ndata++]=val;
     }else{
       ptr[ndata++]=(float)-9999;

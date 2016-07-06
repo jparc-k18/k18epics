@@ -1,0 +1,35 @@
+DEBUG output created by Wget 1.12 on linux-gnu.
+
+--2015-05-11 19:44:23--  http://192.168.30.31/current.inc
+Connecting to 192.168.30.31:80... connected.
+Created socket 4.
+Releasing 0x00000000013bad50 (new refcount 0).
+Deleting unused 0x00000000013bad50.
+
+---request begin---
+GET /current.inc HTTP/1.0
+User-Agent: Wget/1.12 (linux-gnu)
+Accept: */*
+Host: 192.168.30.31
+Connection: Keep-Alive
+
+---request end---
+HTTP request sent, awaiting response... 
+---response begin---
+HTTP/1.0 200 OK
+Content-type: text/html
+Connection: close
+Pragma: no-cache
+Cache-Control: no-cache
+Transfer-Encoding: Chunked
+
+---response end---
+200 OK
+Length: unspecified [text/html]
+Saving to: “current.inc.3”
+
+     0K                                                        69.1M=0s
+
+Closed fd 4
+2015-05-11 19:44:24 (69.1 MB/s) - “current.inc.3” saved [236]
+

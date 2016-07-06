@@ -24,8 +24,15 @@
 static long read_wf(waveformRecord *rec)
 {
   //connect socket
-  char host[]        = "192.153.109.17";
-  int port           = 80;
+
+  // w/o proxy server
+  //char host[]        = "192.153.109.17";
+  //int port           = 80;
+
+  // w/ proxy server
+  char host[]        = "192.168.30.1";
+  int port           = 8080;
+
   double timeout_sec = 0.5;
   
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};

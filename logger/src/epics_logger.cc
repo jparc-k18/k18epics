@@ -144,9 +144,12 @@ void GetEpicsData()
     fgets(input, 128, fp);
     if(pclose(fp) !=0) continue;
     
-    double data;
-    if( sscanf(input,"%lf",&data) == 1){
-      BranchData[i] = data;
+    double data1,data2,data3;
+    int ret = sscanf(input,"%lf %lf %lf",&data1, &data2, &data3);
+    if(ret==1){
+      BranchData[i] = data1;
+    }else if(ret == 3){
+      BranchData[i] = data2;
     }
     usleep(10000);
   }

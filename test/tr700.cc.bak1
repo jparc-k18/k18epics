@@ -1,0 +1,173 @@
+#include <cstdlib>
+#include <cstdio>
+#include <cstring>
+
+#include <time.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unistd.h>
+#include <arpa/inet.h>
+
+int main()
+{  
+  //connect socket
+  char host[]        = "192.168.30.33";
+  int port           = 62500;
+  double timeout_sec = 2.0;
+  
+  struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
+  int sock = socket(AF_INET, SOCK_STREAM, 0);
+  setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
+  
+  struct sockaddr_in addr;
+  addr.sin_family       = AF_INET;
+  addr.sin_port         = htons(port);
+  addr.sin_addr.s_addr  = inet_addr(host);
+
+  if(connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0){
+    time_t t;
+    t = time(NULL);
+    std::string date(ctime(&t));
+    date = date.substr(0, date.length()-1);
+    printf("%s | connection failure\n",date.c_str());
+    close(sock);
+    return 0;
+  }
+  
+  // receive login
+  char buf[255];
+  read(sock, buf, 5);
+  buf[5]='\0';
+  printf("%s\n",buf);
+
+  // send password
+  char cmdline[] = "password\r";
+  write(sock, cmdline, 9);
+
+  // receive OK
+  read(sock, buf, 2);
+  buf[2]='\0';
+  printf("%s\n",buf);
+
+  // send command
+  // cmdline[0]='T';
+  // cmdline[1]='2';
+  // cmdline[2]=0x0a;
+  // cmdline[3]=0x00;
+  // cmdline[4]='E';
+  // cmdline[5]='C';
+  // cmdline[6]='R';
+  // cmdline[7]='N';
+  // cmdline[8]='T';
+  // cmdline[9]=':';
+  // cmdline[10]='D';
+  // cmdline[11]='A';
+  // cmdline[12]='T';
+  // cmdline[13]='A';
+  // cmdline[14]=0xd0;
+  // cmdline[15]=0x02;
+
+  cmdline[0]='T';
+  cmdline[1]='2';
+  cmdline[2]=0x17;
+  cmdline[3]=0x00;
+  cmdline[4]='E';
+  cmdline[5]='C';
+  cmdline[6]='R';
+  cmdline[7]='N';
+  cmdline[8]='T';
+  cmdline[9]=':';
+  cmdline[10]='M';
+  cmdline[11]='O';
+  cmdline[12]='D';
+  cmdline[13]='E';
+  cmdline[14]='=';
+  cmdline[15]=0x01;
+  cmdline[16]=0x00;
+  cmdline[17]=0x09;
+  cmdline[18]='R';
+  cmdline[19]='A';
+  cmdline[20]='N';
+  cmdline[21]='G';
+  cmdline[22]='E';
+  cmdline[23]='=';
+  cmdline[24]=0x01;
+  cmdline[25]=0x00;
+  cmdline[26]=0x01;
+  cmdline[27]=0xce;
+  cmdline[28]=0x04;
+
+  unsigned int sum = 0;
+  for(int i=4;i<27;i++){
+    sum += cmdline[i];
+  }
+  printf("%04x\n",sum);
+
+  write(sock, cmdline, 29);
+  
+  // receive return
+  for(int i=0;i<256;i++){
+    buf[i]='a';
+  }
+
+  int size = 60;
+  read(sock, buf, size);
+  //buf[size]='\0';
+  for(int i=0;i<size-1;i++){
+    if(i==2 || i==3 ||i==15 || i==16 ) printf("%02x ", (unsigned char)buf[i]);
+    else  printf("%c ",buf[i]);
+  }
+
+  printf("\n");
+
+  return 0;
+
+  cmdline[0]='T';
+  cmdline[1]='2';
+  cmdline[2]=0x0e;
+  cmdline[3]=0x00;
+  cmdline[4]='E';
+  cmdline[5]='C';
+  cmdline[6]='R';
+  cmdline[7]='N';
+  cmdline[8]='T';
+  cmdline[9]=':';
+  cmdline[10]='M';
+  cmdline[11]='O';
+  cmdline[12]='D';
+  cmdline[13]='E';
+  cmdline[14]='=';
+  cmdline[15]=0x01;
+  cmdline[16]=0x00;
+  cmdline[17]=0x09;
+  cmdline[18]=0x22;
+  cmdline[19]=0x03;
+
+  sum = 0;
+  for(int i=4;i<18;i++){
+    sum += cmdline[i];
+  }
+  printf("%04x\n",sum);
+
+  write(sock, cmdline, 20);
+
+
+  // receive return
+  for(int i=0;i<256;i++){
+    buf[i]='a';
+  }
+
+  size = 60;
+  read(sock, buf, size);
+  buf[size]='\0';
+  for(int i=0;i<size-1;i++){
+    if(i==2 || i==3 ||i==15 || i==16 ) printf("%02x ", (unsigned char)buf[i]);
+    else  printf("%c ",buf[i]);
+  }
+
+  printf("\n");
+
+  close(sock);
+  return 0;
+}

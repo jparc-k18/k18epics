@@ -1,4 +1,4 @@
-# PWO substitutions file
+# HBJ substitutions file
 # channel: form 1 to 128   (if 0, -999.99 is read out.)
 
 file "db/HBJ_LABVIEW.template" {
@@ -41,7 +41,7 @@ file "db/HBJ_LABVIEW.template" {
     { name = HBJ:GE32:HV,  ch = 32 }
 #
 #
-### Temp. ###
+### Ge Crystal Temp. ###
 #
 #
     { name = HBJ:GE01:TEMP,  ch = 33 }

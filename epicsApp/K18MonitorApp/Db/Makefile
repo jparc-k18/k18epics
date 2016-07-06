@@ -20,10 +20,29 @@ DB += Sepa.template
 DB += Sepa.substitutions
 DB += Accel.template
 DB += Accel.substitutions
+DB += HDuser.template
+DB += HDuser.substitutions
+DB += CAENHV_A.template
+DB += CAENHV_B.template
+DB += CAENHV1-0.substitutions
+DB += CAENHV1-2.substitutions
+DB += CAENHV1-3.substitutions
+DB += CAENHV1-5.substitutions
+DB += CAENHV2-0.substitutions
+DB += CAENHV2-1.substitutions
+DB += CAENHV2-2.substitutions
+DB += CAENHV2-6.substitutions
+DB += CAENHV2-13.substitutions
+DB += CAENHV3-3.substitutions
+DB += CAENHV3-8.substitutions
+DB += CAENHV3-11.substitutions
+DB += CAENHV4-3.substitutions
 DB += ZRRX40.template
-DB += PWO.substitutions
-DB += HBJ_LABVIEW.template
-DB += HBJ.substitutions
+DB += ZRRX40.substitutions
+DB += ZRRX45.template
+DB += ZRRX45.substitutions
+#DB += HBJ_LABVIEW.template
+#DB += HBJ.substitutions
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

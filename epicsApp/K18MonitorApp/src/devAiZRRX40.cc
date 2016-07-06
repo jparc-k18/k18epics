@@ -23,7 +23,6 @@ struct device_private{
   short dbrType;
   long  nelem;
   int   channel;
-  int   mode;
 };
 
 static long read_ai(aiRecord *rec)
@@ -31,21 +30,17 @@ static long read_ai(aiRecord *rec)
   struct device_private *pdev = (struct device_private *)rec->dpvt; 
   
   int ch = pdev->channel;
-  int mode = pdev->mode;
 
   if(1<= ch &&  ch <= pdev->nelem){ 
     float buf[100];
     dbGetLink(&rec->inp, pdev->dbrType, buf, NULL, &pdev->nelem);
-    if     (mode==0) rec->val = buf[ch-1]/10.;
-    else if(mode==1) rec->val = buf[ch-1]/200.;
-    else             rec->val = buf[ch-1];
-
+    rec->rval = buf[ch-1];
   }else{
-    rec->val = -999.9; 
+    rec->rval = -9999; 
   }
 
   rec->udf = FALSE;
-  return 2;
+  return 0;
 }
 
 static long init_record(aiRecord *rec, int pass)
@@ -61,16 +56,11 @@ static long init_record(aiRecord *rec, int pass)
   pdev->nelem = nRequest;
   
   int ch=0;
-  int mode;
   
-  sscanf(rec->desc,"ZRRX40@%d@%d",&mode, &ch);
+  sscanf(rec->desc,"ZRRX40@%d",&ch);
   if(1<=ch && ch<= nRequest) pdev->channel = ch;
   else pdev->channel = 0;
   
-  if     (mode == 0) pdev->mode = mode;
-  else if(mode == 1) pdev->mode = mode;
-  else               pdev->mode = 2;
-
   rec->dpvt = pdev; 
 
   return 0;

@@ -1,0 +1,2 @@
+include "base.dbd"
+device(waveform,INST_IO,devZRRX45,"ZRRX45Sup")
