@@ -97,3 +97,36 @@ record(subArray, "AIR:KURAMA_TENT:HUMI")
 	field(PREC, "1")
 	field(INDX, "1")
 }
+#KURAMA SCH
+record(waveform, "TR700W4:DATA")
+{
+	field(DESC, "TR700W raw data")
+	field(FTVL, "FLOAT")
+	field(NELM, "2")
+	field(SCAN, "5 second")
+	field(PHAS, "0")
+	field(DTYP, "TR700WSup")
+	field(DESC, "HTTP@192.168.30.37")
+	field(FLNK, "AIR:SCH:TEMP")
+}
+record(subArray, "AIR:SCH:TEMP")
+{
+	field(SCAN, "Passive")
+	field(INP,  "TR700W4:DATA")
+	field(FTVL, "FLOAT")
+	field(MALM, "2")
+	field(NELM, "1")
+	field(PREC, "1")
+	field(INDX, "0")
+	field(FLNK, "AIR:SCH:HUMI")
+}
+record(subArray, "AIR:SCH:HUMI")
+{
+	field(SCAN, "Passive")
+	field(INP,  "TR700W4:DATA")
+	field(FTVL, "FLOAT")
+	field(MALM, "2")
+	field(NELM, "1")
+	field(PREC, "1")
+	field(INDX, "1")
+}

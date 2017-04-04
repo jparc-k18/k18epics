@@ -10,16 +10,16 @@
 #include <arpa/inet.h>
 
 int main()
-{  
+{
   //connect socket
-  char host[]        = "192.168.30.34";
+  char host[]        = "192.168.30.37";
   int port           = 62500;
   double timeout_sec = 2.0;
-  
+
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-  
+
   struct sockaddr_in addr;
   addr.sin_family       = AF_INET;
   addr.sin_port         = htons(port);
@@ -34,7 +34,7 @@ int main()
     close(sock);
     return 0;
   }
-  
+
   // receive login
   char buf[1024];
   read(sock, buf, 5);
@@ -56,14 +56,14 @@ int main()
   cmdline[ptr++]='2';
   cmdline[ptr++]=0x0;
   cmdline[ptr++]=0x0;
-  
+
   cmdline[ptr++]='E';
   cmdline[ptr++]='I';
   cmdline[ptr++]='R';
   cmdline[ptr++]='S';
   cmdline[ptr++]='P';
   cmdline[ptr++]=':';
-  
+
   cmdline[ptr++]='M';
   cmdline[ptr++]='O';
   cmdline[ptr++]='D';
@@ -88,7 +88,7 @@ int main()
   // cmdline[ptr++]=0x01;
   // cmdline[ptr++]=0x00;
   // cmdline[ptr++]=1;
-  
+
   // cmdline[ptr++]='M';
   // cmdline[ptr++]='E';
   // cmdline[ptr++]='T';
@@ -99,7 +99,7 @@ int main()
   // cmdline[ptr++]=0x01;
   // cmdline[ptr++]=0x00;
   // cmdline[ptr++]=1;
-  
+
   // cmdline[ptr++]='W';
   // cmdline[ptr++]='A';
   // cmdline[ptr++]='I';
@@ -117,7 +117,7 @@ int main()
   // cmdline[ptr++]=0x01;
   // cmdline[ptr++]=0x00;
   // cmdline[ptr++]=0;
-  
+
   // cmdline[ptr++]='D';
   // cmdline[ptr++]='I';
   // cmdline[ptr++]='S';
@@ -126,7 +126,7 @@ int main()
   // cmdline[ptr++]=0x01;
   // cmdline[ptr++]=0x00;
   // cmdline[ptr++]=0;
-  
+
   // cmdline[ptr++]='M';
   // cmdline[ptr++]='O';
   // cmdline[ptr++]='N';
@@ -148,9 +148,9 @@ int main()
 
   cmdline[ptr++]=(char)(sum&0xFF);
   cmdline[ptr++]=(char)((sum>>8)&0xFF);
-  
+
   write(sock, cmdline, ptr);
-  
+
   // receive return
   for(int i=0;i<1024;i++){
     buf[i]='a';

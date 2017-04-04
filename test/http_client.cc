@@ -12,20 +12,20 @@
 void print_ascii(const char* , int len);
 
 int main(int argc, char* argv[])
-{  
+{
   //connect socket
-  //char host[]        = "192.168.30.33"; 
+  //char host[]        = "192.168.30.33";
   //char host[]        = "192.153.109.17";
   char host[] = "192.168.30.1";
   //char *host = argv[1];
   //int port           = 80;
   int port           = 8080;
   double timeout_sec = 2.0;
-  
+
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-  
+
   struct sockaddr_in addr;
   addr.sin_family       = AF_INET;
   addr.sin_port         = htons(port);
@@ -40,7 +40,7 @@ int main(int argc, char* argv[])
     close(sock);
     return 0;
   }
-  
+
   // send HTTP request
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/magnet/k18 HTTP/1.0\n\n";
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/hduser/k18brpc HTTP/1.0\n\n";
@@ -56,13 +56,13 @@ int main(int argc, char* argv[])
   int total_len=0;
   char c;
   while ( read(sock, &c, 1) > 0 ) {
-    if(0x20 < c && c <0x7f){ 
+    if(0x20 < c && c <0x7f){
       buf += c;
       total_len++;
     }
     if(total_len > 65535) break;
   }
-  
+
   printf("total len =%d\n",total_len);
 
   close(sock);
@@ -76,21 +76,21 @@ int main(int argc, char* argv[])
   //print_ascii(buf.c_str(), total_len);
 
   if(total_len==271){
-    
+
     int ret=0;
-    
+
     int ok_flag;
     double temp,humi;
 
     std::string sub1 =  buf.substr(116, 1);
     printf("sub1: %s\n",sub1.c_str());
-    
+
     std::string sub2 =  buf.substr(125, 4);
     printf("sub2: %s\n",sub2.c_str());
 
     std::string sub3 =  buf.substr(155, 2);
     printf("sub3: %s\n",sub3.c_str());
-    
+
 
     printf("Temp: %f   Humi: %f\n", atof(sub2.c_str()), atof(sub3.c_str()));
 
@@ -100,14 +100,14 @@ int main(int argc, char* argv[])
     // char s1[256];
     // char s2[256];
     // char s3[256];
-    
+
     // int p1;
     // double p2,p3;
-    
+
     // int ret = sscanf(buf.c_str(),"%sChunked4#1%d8data1=4%f8unit1%sdata2=2%f8unit2%s",s1,p1,s2,p2,p3,s3);
 
     // printf("ret = %d\n",ret);
-    
+
   }
 
   return 0;
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
   // analize table
   typedef std::vector<std::string> tb_row;
   std::vector<tb_row> tb_content;
-  
+
 
   int index1=0;
   while(1){
@@ -123,12 +123,12 @@ int main(int argc, char* argv[])
     if(pos1 == std::string::npos) break;
     int pos2 = buf.find("</tr>", index1);
     if(pos2 == std::string::npos) break;
-    
+
     index1 = pos2 + 5;
-    
+
     std::string sub1 = buf.substr(pos1+4, pos2-pos1-5);
     //printf("%s\n",sub1.c_str());
-    
+
     tb_row row;
     int index2=0;
     while(1){
@@ -162,8 +162,8 @@ void print_ascii(const char* in, int len)
 {
   for(int i=0;i<len;i++){
     char c = in[i];
-    
-    if(0x20 < c && c <0x7f) printf("%c ",c); 
+
+    if(0x20 < c && c <0x7f) printf("%c ",c);
     //else printf(" ");
 
   }

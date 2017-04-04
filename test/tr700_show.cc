@@ -10,17 +10,17 @@
 #include <arpa/inet.h>
 
 int main(int argc, char* argv[])
-{  
+{
   //connect socket
   //char host[]        = "192.168.30.34";
   char *host = argv[1];
   int port           = 62500;
   double timeout_sec = 2.0;
-  
+
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-  
+
   struct sockaddr_in addr;
   addr.sin_family       = AF_INET;
   addr.sin_port         = htons(port);
@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     close(sock);
     return 0;
   }
-  
+
   // receive login
   char buf[1024];
   read(sock, buf, 5);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
   cmdline[ptr++]='2';
   cmdline[ptr++]=0x0;
   cmdline[ptr++]=0x0;
-  
+
   cmdline[ptr++]='R';
   cmdline[ptr++]='U';
   cmdline[ptr++]='I';
@@ -69,8 +69,8 @@ int main(int argc, char* argv[])
   printf("cmd_num: %04x\n",cmd_num);
   cmdline[2] = (char)(cmd_num&0xFF);
   cmdline[3] = (char)((cmd_num>>8)&0xFF);
-  
-  
+
+
   unsigned int sum = 0;
   for(int i=4;i<ptr;i++){
     sum += cmdline[i];
@@ -79,10 +79,10 @@ int main(int argc, char* argv[])
 
   cmdline[ptr++]=(char)(sum&0xFF);
   cmdline[ptr++]=(char)((sum>>8)&0xFF);
-  
+
 
   write(sock, cmdline, ptr);
-  
+
   // receive return
   for(int i=0;i<256;i++){
     buf[i]='a';
@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
   }
 
   printf("\n");
-  
+
   close(sock);
   return 0;
 }
