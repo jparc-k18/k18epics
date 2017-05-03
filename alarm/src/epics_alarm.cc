@@ -1,118 +1,176 @@
+// -*- C++ -*-
+
+#include <algorithm>
+#include <bitset>
 #include <cstdio>
 #include <cstdlib>
-#include <string>
+#include <ctime>
 #include <fstream>
-#include <algorithm>
+#include <iomanip>
+#include <iostream>
+#include <libgen.h>
+#include <sstream>
+#include <string>
 #include <vector>
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#define CHECK_INTERVAL           10     //second
+#include <TString.h>
+#include <TSystem.h>
+#include <TTimeStamp.h>
 
-std::vector<std::string> ChannelList;   //epics channel name
-std::vector<double>      HighLEVEL;     //
-std::vector<double>      LowLEVEL;      //
+#define Color 1
 
-time_t now;
-time_t last;
-
-void CheckEpicsData();
-void PrintTime();
-void AlarmSound();
-
-int main(int argc, char* argv[])
+namespace
 {
-  if(argc !=2){
-    printf("Usage: %s <channel_list_file> \n",argv[0]);
-    return 0;
+  const UInt_t CheckInterval = 10; // [s]
+  const UInt_t NTime         =  6;
+  std::vector<TString>  ChannelList;
+  std::vector<Double_t> HighLEVEL;
+  std::vector<Double_t> LowLEVEL;
+  std::vector< std::vector<Double_t> > value;
+  std::vector< std::bitset<NTime> > bit;
+  std::time_t now;
+}
+
+void CheckEpicsData( void );
+void PrintTime( void );
+void AlarmSound( void );
+
+//______________________________________________________________________________
+Int_t
+main(Int_t argc, Char_t* argv[])
+{
+  const TString& process = ::basename(argv[0]);
+
+  if( argc!=2 ){
+    std::cout << "Usage: " << process << " [channel_list_file]" << std::endl;
+    return EXIT_SUCCESS;
   }
-  
-  // channel_list_file check
+
   std::ifstream ifs(argv[1]);
-  if(!ifs){
-    printf("cannot access %s: No such file\n",argv[1]);
-    return 0;
+  if( !ifs.is_open() ){
+    std::cerr << "#E No such file " << argv[1] << std::endl;
+    return EXIT_FAILURE;
   }
-  
-  // read channel list
-  std::string line;
-  while(ifs && getline(ifs,line)){
-    if(line[0]=='#' || line.empty() ) continue;
 
-    char c[256];
-    double p1,p2;
-
-    if( sscanf(line.c_str(),"%s %lf %lf",c, &p1, &p2) == 3 ){
-      std::string name(c);
-      // epics channel name
-      ChannelList.push_back(name);
-      LowLEVEL.push_back(p1);
-      HighLEVEL.push_back(p2);
-      //printf("%s, %f, %f\n",c,p1,p2);
-    }   
+  TString line;
+  while( ifs.good() && line.ReadLine(ifs) ){
+    if( line[0]=='#' ) continue;
+    TString c;
+    Double_t p1,p2;
+    std::stringstream ss(line.Data());
+    if( !( ss >> c >> p1 >> p2 ) )
+      continue;
+    ChannelList.push_back(c);
+    LowLEVEL.push_back(p1);
+    HighLEVEL.push_back(p2);
   }
   ifs.close();
 
-  // print channel list
-  printf("================ EPICS channels ==================\n");
-  for(int i=0; i<(int)ChannelList.size(); ++i){
-    printf("%d %s   L=%f   H=%f\n", i+1, ChannelList[i].c_str(), LowLEVEL[i], HighLEVEL[i] );
-  }
-  printf("==================================================\n");
+  value.resize( ChannelList.size() );
+  bit.resize( ChannelList.size() );
 
-  last = time(0);
-  
-  while(1){
-    now = time(0);
-    
-    CheckEpicsData();
+  std::cout << TString('=', 60) << std::endl
+	    << std::left
+	    << std::setw(4) << "CH" << std::setw(20) << "Name"
+	    << std::right
+	    << std::setw(8) << "Low"
+	    << std::setw(8) << "High" << std::endl;
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
+    value[i].resize(NTime);
+    std::cout << std::left
+	      << std::setw(4) << i+1
+	      << std::setw(20) << ChannelList[i]
+	      << std::right << std::fixed << std::setprecision(1)
+	      << std::setw(8) << LowLEVEL[i]
+	      << std::setw(8) << HighLEVEL[i] << std::endl;
+  }
+  std::cout << TString('=', 60) << std::endl;
+
+  while( true ){
+    now = std::time(0);
+
     PrintTime();
-    
-    int rest = CHECK_INTERVAL - (time(0) - now);
-    if( rest>0 ) sleep(rest);
+    CheckEpicsData();
+
+    for( Int_t i=0, n=value.size()+1; i<n; ++i )
+      std::cout << "\033[1A";
+
+    Int_t rest = CheckInterval - (std::time(0) - now);
+    if( rest>0 ) ::sleep(rest);
   }
-  
-  return 0;
+
+  return EXIT_SUCCESS;
 }
 
-
-void CheckEpicsData()
+//______________________________________________________________________________
+void
+CheckEpicsData( void )
 {
-  std::string caget = "caget -w 3 -t ";
-  std::string cmdline;
-  FILE* fp;
-  char input[128];
+  TString caget = "caget -w 3 -t ";
+  TString cmdline;
+  FILE* pipe;
 
-  for(int i=0; i<(int)ChannelList.size(); ++i){
+  static Int_t count = 0;
+
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
     cmdline = caget+ChannelList[i];
-    fp=popen(cmdline.c_str(),"r");
-    fgets(input, 128, fp);
-    if(pclose(fp) !=0) continue;
-    
-    double data;
-    if( sscanf(input,"%lf",&data) == 1){
-      if(data < LowLEVEL[i]){
-	printf("%s (val=%f) exceeds the LOW limit !!!!\n",ChannelList[i].c_str(), data);
-	AlarmSound();
-      }
-      if(data > HighLEVEL[i]){
-	printf("%s (val=%f) exceeds the HIGH limit !!!!\n",ChannelList[i].c_str(), data);
-	AlarmSound();
-      }
+    pipe = gSystem->OpenPipe(cmdline, "r");
+    TString ret;
+    ret.Gets(pipe);
+    gSystem->ClosePipe(pipe);
+
+    Double_t data;
+    if( std::sscanf(ret.Data(), "%lf", &data) != 1)
+      continue;
+
+    value[i][count%NTime] = data;
+    bit[i].reset(count%NTime);
+
+    if( data < LowLEVEL[i] ){
+      bit[i].set(count%NTime);
     }
-    usleep(10000);
+    if(data > HighLEVEL[i]){
+      bit[i].set(count%NTime);
+    }
+    gSystem->Sleep(10);
   }
+
+  for( Int_t i=0, n=value.size(); i<n; ++i ){
+    std::stringstream ss; ss << bit[i];
+    TString flag = ss.str();
+    flag.ReplaceAll('0','.');
+#if Color
+    flag.ReplaceAll("1","\033[0;33;1m!\033[0m");
+#else
+    flag.ReplaceAll('1','!');
+#endif
+    std::cout << std::right << std::fixed << std::setprecision(1)
+	      << ChannelList[i] << " " << flag << " "
+	      << std::setw(2) << bit[i].count() << " ";
+    for( Int_t j=0, m=value[i].size(); j<m; ++j )
+      std::cout << std::setw(6) << value[i][m-j-1];
+
+    std::cout << std::endl;
+    if( bit[i].count()==NTime )
+      AlarmSound();
+  }
+
+  count++;
 }
 
-void PrintTime()
+//______________________________________________________________________________
+void
+PrintTime( void )
 {
-  char s[256];
-  struct tm *p = localtime(&now);
-  strftime(s, 256, "%Y/%m/%d %H:%M:%S", p);
-  printf("Last Check Time: %s\n",s);
+  TTimeStamp s;
+  s.Add( -TTimeStamp::GetZoneOffset() );
+  std::cout << "Last update : " << s.AsString("s") << std::endl;
 }
 
-void AlarmSound()
+//______________________________________________________________________________
+void AlarmSound( void )
 {
-  system("sh script/call_alarm.sh");
+  gSystem->Exec("sh script/call_alarm.sh 2>/dev/null");
 }

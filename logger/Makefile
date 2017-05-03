@@ -18,13 +18,14 @@ all: $(BIN_DIR)/epics_logger
 $(BIN_DIR)/epics_logger: $(SRC_DIR)/epics_logger.o
 	@echo Linking $@
 	@mkdir -p $(BIN_DIR)
-	@$(CXX) $(FLAGS) -o $@ $^ $(LIB) 
+	@$(CXX) $(FLAGS) -o $@ $^ $(LIB)
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.cc
 	@echo Compiling $< ...
-	@$(CXX) $(FLAGS) -c $< -o $@ 
+	@$(CXX) $(FLAGS) -c $< -o $@
 
 clean:
 	@echo Cleaning up ...
 	@rm -f $(BIN_DIR)/*
+	@find . -name "*~" -exec \rm -fv \{\} \;
 	@rm -f $(SRC_DIR)/*.o
