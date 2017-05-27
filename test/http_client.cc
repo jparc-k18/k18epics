@@ -42,9 +42,10 @@ int main(int argc, char* argv[])
   }
 
   // send HTTP request
+  char cmdline[] = "GET http://www-cont.j-parc.jp/HD/index HTTP/1.0\n\n";
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/magnet/k18 HTTP/1.0\n\n";
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/hduser/k18brpc HTTP/1.0\n\n";
-  char cmdline[] = "GET http://hd-temp-2.intra.j-parc.jp/index.wrc HTTP/1.0\n\n";
+  //char cmdline[] = "GET http://hd-temp-2.intra.j-parc.jp/index.wrc HTTP/1.0\n\n";
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/magnet/primary HTTP/1.0\n\n";
   //char cmdline[] = "GET http://www-cont.j-parc.jp/HD/separator HTTP/1.0\n\n";
   //char cmdline[] = "GET /cdata.inc HTTP/1.0\r\nUser-Agent: Wget/1.12 (linux-gnu)\r\nAccept: */*\r\nHost: 192.168.30.31\r\nConnection: Keep-Alive\r\n\r\n ";

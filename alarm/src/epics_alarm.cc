@@ -19,8 +19,6 @@
 #include <TSystem.h>
 #include <TTimeStamp.h>
 
-#define Color 1
-
 namespace
 {
   const UInt_t CheckInterval = 10; // [s]
@@ -35,6 +33,7 @@ namespace
 
 void CheckEpicsData( void );
 void PrintTime( void );
+void ShowThreshold( void );
 void AlarmSound( void );
 
 //______________________________________________________________________________
@@ -70,8 +69,107 @@ main(Int_t argc, Char_t* argv[])
 
   value.resize( ChannelList.size() );
   bit.resize( ChannelList.size() );
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i )
+    value[i].resize(NTime);
 
-  std::cout << TString('=', 60) << std::endl
+  while( true ){
+    std::cout << "\033[2J\033[1;1H" // Clear
+	      << "EPICS Alarm is running ..." << std::endl;
+
+    now = std::time(0);
+
+    ShowThreshold();
+    PrintTime();
+    CheckEpicsData();
+
+
+    Int_t rest = CheckInterval - (std::time(0) - now);
+    if( rest>0 ) ::sleep(rest);
+  }
+
+  return EXIT_SUCCESS;
+}
+
+//______________________________________________________________________________
+void
+CheckEpicsData( void )
+{
+  static const TString caget = "caget -w 3 -t ";
+  FILE* pipe;
+
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
+    for( Int_t j=0, m=NTime-1; j<m; ++j ){
+      value[i][j] = value[i][j+1];
+      bit[i][j] = bit[i][j+1];
+    }
+
+    pipe = gSystem->OpenPipe(caget+ChannelList[i], "r");
+    TString ret;
+    ret.Gets(pipe);
+    gSystem->ClosePipe(pipe);
+
+    Double_t data;
+    if( std::sscanf(ret.Data(), "%lf", &data) != 1)
+      continue;
+
+    value[i][NTime-1] = data;
+    bit[i].reset(NTime-1);
+
+    if( data < LowLEVEL[i] ){
+      bit[i].set(NTime-1);
+    }
+    if(data > HighLEVEL[i]){
+      bit[i].set(NTime-1);
+    }
+    gSystem->Sleep(10);
+  }
+
+  std::cout << std::left << std::setw(20) << "Name"
+	    << "Counts ";
+  for( Int_t i=0, n=NTime; i<n; ++i )
+    std::cout << std::right << std::setw(6)
+	      << Form("-%ds", CheckInterval*(n-i-1));
+  std::cout << std::endl;
+
+  for( Int_t i=0, n=value.size(); i<n; ++i ){
+    std::cout << std::left << std::fixed << std::setprecision(1)
+	      << std::setw(20) << ChannelList[i] << " "
+	      << std::right
+	      << std::setw(2) << bit[i].count() << "/"
+	      << std::setw(2) << NTime << " ";
+    for( Int_t j=0, m=value[i].size(); j<m; ++j ){
+      if( bit[i][j] ) std::cout << "\033[0;33;1m";
+      std::cout << std::right << std::setw(6)
+		<< Form("%.1lf", value[i][j]);
+      if( bit[i][j] ) std::cout << "\033[0m";
+    }
+
+    if( bit[i].count()==NTime ){
+      std::cout << "\033[0;33;1m"
+		<< "  !!! Alarm !!!" << "\033[0m";
+      AlarmSound();
+    }
+
+    std::cout << std::endl;
+  }
+
+}
+
+//______________________________________________________________________________
+void
+PrintTime( void )
+{
+  TTimeStamp s;
+  s.Add( -TTimeStamp::GetZoneOffset() );
+  std::cout << "Last update : " << s.AsString("s") << std::endl
+	    << std::endl;
+}
+
+//______________________________________________________________________________
+void
+ShowThreshold( void )
+{
+  std::cout << TString('=',5) << " Threshold " << TString('=', 64) << std::endl
 	    << std::left
 	    << std::setw(4) << "CH" << std::setw(20) << "Name"
 	    << std::right
@@ -86,91 +184,11 @@ main(Int_t argc, Char_t* argv[])
 	      << std::setw(8) << LowLEVEL[i]
 	      << std::setw(8) << HighLEVEL[i] << std::endl;
   }
-  std::cout << TString('=', 60) << std::endl;
-
-  while( true ){
-    now = std::time(0);
-
-    PrintTime();
-    CheckEpicsData();
-
-    for( Int_t i=0, n=value.size()+1; i<n; ++i )
-      std::cout << "\033[1A";
-
-    Int_t rest = CheckInterval - (std::time(0) - now);
-    if( rest>0 ) ::sleep(rest);
-  }
-
-  return EXIT_SUCCESS;
-}
-
-//______________________________________________________________________________
-void
-CheckEpicsData( void )
-{
-  TString caget = "caget -w 3 -t ";
-  TString cmdline;
-  FILE* pipe;
-
-  static Int_t count = 0;
-
-  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
-    cmdline = caget+ChannelList[i];
-    pipe = gSystem->OpenPipe(cmdline, "r");
-    TString ret;
-    ret.Gets(pipe);
-    gSystem->ClosePipe(pipe);
-
-    Double_t data;
-    if( std::sscanf(ret.Data(), "%lf", &data) != 1)
-      continue;
-
-    value[i][count%NTime] = data;
-    bit[i].reset(count%NTime);
-
-    if( data < LowLEVEL[i] ){
-      bit[i].set(count%NTime);
-    }
-    if(data > HighLEVEL[i]){
-      bit[i].set(count%NTime);
-    }
-    gSystem->Sleep(10);
-  }
-
-  for( Int_t i=0, n=value.size(); i<n; ++i ){
-    std::stringstream ss; ss << bit[i];
-    TString flag = ss.str();
-    flag.ReplaceAll('0','.');
-#if Color
-    flag.ReplaceAll("1","\033[0;33;1m!\033[0m");
-#else
-    flag.ReplaceAll('1','!');
-#endif
-    std::cout << std::right << std::fixed << std::setprecision(1)
-	      << ChannelList[i] << " " << flag << " "
-	      << std::setw(2) << bit[i].count() << " ";
-    for( Int_t j=0, m=value[i].size(); j<m; ++j )
-      std::cout << std::setw(6) << value[i][m-j-1];
-
-    std::cout << std::endl;
-    if( bit[i].count()==NTime )
-      AlarmSound();
-  }
-
-  count++;
-}
-
-//______________________________________________________________________________
-void
-PrintTime( void )
-{
-  TTimeStamp s;
-  s.Add( -TTimeStamp::GetZoneOffset() );
-  std::cout << "Last update : " << s.AsString("s") << std::endl;
+  std::cout << TString('=', 80) << std::endl;
 }
 
 //______________________________________________________________________________
 void AlarmSound( void )
 {
-  gSystem->Exec("sh script/call_alarm.sh 2>/dev/null");
+  gSystem->Exec("sh script/call_alarm.sh 2>/dev/null &");
 }

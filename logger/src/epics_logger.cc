@@ -34,8 +34,8 @@ namespace
   std::vector<Double_t> BranchData;         //tree branch data
 
   TTree *tree=0;
-  time_t now;
-  time_t last;
+  std::time_t now;
+  std::time_t last;
   TString output_dir;
   std::vector<TCanvas*> canvas;
   std::vector<TGraph*>  graph;
@@ -68,7 +68,7 @@ main( Int_t argc, char* argv[] )
 
   // output directory check
   struct stat st;
-  if( stat(argv[2], &st) ){
+  if( ::stat(argv[2], &st) ){
     std::cerr << "#E no such directory : " << argv[2] << std::endl;
     return EXIT_FAILURE;
   }
@@ -141,7 +141,7 @@ main( Int_t argc, char* argv[] )
 
   ::signal(SIGINT, sigint_handler);
 
-  last = time(0);
+  last = std::time(0);
 
   while( !stop_flag ){
     now = std::time(0);
@@ -157,7 +157,7 @@ main( Int_t argc, char* argv[] )
     }
 
     Int_t rest = LOGGING_INTERVAL - (time(0) - now);
-    if( rest>0 ) sleep(rest);
+    if( rest>0 ) ::sleep(rest);
   }
 
   WriteRootFile();
@@ -173,8 +173,8 @@ void
 WriteRootFile( void )
 {
   char s[256];
-  struct tm *p = localtime(&last);
-  strftime(s, 256, "%Y%m%d_%H%M%S", p);
+  struct tm *p = std::localtime(&last);
+  std::strftime(s, sizeof(s), "%Y%m%d_%H%M%S", p);
 
   TString filename = output_dir + "/" + "k18epics_" + s + ".root";
   TFile* file = new TFile(filename, "RECREATE");
@@ -201,7 +201,7 @@ GetEpicsData( void )
     BranchData[i] = TREE_DEFAULT_VALUE;
     cmdline = caget+ChannelList[i];
     fp=popen(cmdline.c_str(),"r");
-    fgets(input, 128, fp);
+    fgets(input, sizeof(input), fp);
     if(pclose(fp) !=0) continue;
 
     Double_t data1,data2,data3;
@@ -238,8 +238,8 @@ void
 PrintData( void )
 {
   char s[256];
-  struct tm *p = localtime(&now);
-  strftime(s, 256, "%Y/%m/%d %H:%M:%S", p);
+  struct tm *p = std::localtime(&now);
+  std::strftime(s, sizeof(s), "%Y/%m/%d %H:%M:%S", p);
   std::cout << std::endl << "Time: " << s << std::endl;
   for( std::size_t i=0; i<ChannelList.size(); ++i ){
     std::cout << ChannelList[i] << " = " << BranchData[i] << std::endl;
@@ -251,8 +251,8 @@ void
 PrintTime( void )
 {
   char s[256];
-  struct tm *p = localtime(&now);
-  strftime(s, 256, "%Y/%m/%d %H:%M:%S", p);
+  struct tm *p = std::localtime(&now);
+  std::strftime(s, sizeof(s), "%Y/%m/%d %H:%M:%S", p);
   Int_t remain = NEW_FILE_INTERVAL-(now-last);
   std::cout << "Last Log Time : " << s
 	    << " [" << remain << "]" << std::endl;
@@ -262,7 +262,7 @@ PrintTime( void )
 void
 sigint_handler( int sig )
 {
-  signal( SIGINT, SIG_IGN );
+  ::signal( SIGINT, SIG_IGN );
   std::cout << std::endl << std::endl
 	    << "Received SIGINT"
 	    << std::endl << std::endl;

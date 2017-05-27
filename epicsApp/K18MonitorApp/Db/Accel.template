@@ -3,14 +3,14 @@ record(waveform, "HTTP:Accel:DATA")
         field(DESC, "MR Accelerator Status")
 	field(FTVL, "FLOAT")
         field(NELM, "200")
-	field(SCAN, "5 second")
+	field(SCAN, "1 second")
 	field(PHAS, "0")
 	field(DTYP, "HTTP_accel_Sup")
 }
 
 record(ai, "$(name)")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "1 second")
 	field(INP,  "HTTP:Accel:DATA")
 	field(DTYP, "AiHTTPSup")
 	field(PHAS, "1")
