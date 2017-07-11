@@ -21,7 +21,10 @@
 #include <TFile.h>
 #include <TGraph.h>
 #include <TString.h>
+#include <TSystem.h>
 #include <TTree.h>
+
+#define MAKE_ROOT_FILE 0
 
 #define TREE_DEFAULT_VALUE -999999.999
 #define LOGGING_INTERVAL           30   //second
@@ -29,17 +32,18 @@
 
 namespace
 {
+  enum eArgv { kProcess, kChannelList, kOutputDir, kArgc };
   std::vector<std::string> ChannelList;   //epics channel name
   std::vector<std::string> BranchList;    //tree branch name
-  std::vector<Double_t> BranchData;         //tree branch data
+  std::vector<Double_t>    BranchData;    //tree branch data
 
-  TTree *tree=0;
+  TTree *tree = 0;
   std::time_t now;
   std::time_t last;
   TString output_dir;
   std::vector<TCanvas*> canvas;
   std::vector<TGraph*>  graph;
-  const std::size_t NumOfPlot = NEW_FILE_INTERVAL/LOGGING_INTERVAL;
+  const Int_t NumOfPlot = NEW_FILE_INTERVAL/LOGGING_INTERVAL;
   std::vector< std::vector<Double_t> > PlotData;
   std::vector< std::vector<Double_t> > PlotTime;
   // PlotData[NBranch][NPlot]
@@ -60,24 +64,28 @@ main( Int_t argc, char* argv[] )
 {
   gErrorIgnoreLevel = kFatal;
 
-  if(argc !=3){
-    std::cout << "Usage: " << ::basename(argv[0])
+  TString process = ::basename(argv[kProcess]);
+
+  if( argc != 3 ){
+    std::cout << "Usage: " << process
 	      << " [channel_list_file] [storage_path]" << std::endl;
     return EXIT_SUCCESS;
   }
 
-  // output directory check
-  struct stat st;
-  if( ::stat(argv[2], &st) ){
-    std::cerr << "#E no such directory : " << argv[2] << std::endl;
-    return EXIT_FAILURE;
-  }
-  output_dir = argv[2];
+  TString channel_list = argv[kChannelList];
+  output_dir   = argv[kOutputDir];
 
   // channel_list_file check
-  std::ifstream ifs(argv[1]);
+  std::ifstream ifs( channel_list );
   if( !ifs.good() ){
-    std::cerr << "#E no such file : " << argv[1] << std::endl;
+    std::cerr << "#E no such file : " << channel_list << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // output directory check
+  struct stat st;
+  if( ::stat(output_dir, &st) ){
+    std::cerr << "#E no such directory : " << output_dir << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -102,6 +110,7 @@ main( Int_t argc, char* argv[] )
 				  Form("c_%s", line.c_str()),
 				  1000, 800) );
     TGraph *g = new TGraph;
+    g->SetName(line.c_str());
     g->SetTitle(line.c_str());
     g->SetLineColor(kBlue+1);
     g->SetLineWidth(3);
@@ -114,7 +123,7 @@ main( Int_t argc, char* argv[] )
 
   // print channel list
   std::cout << "====== EPICS channels =======" << std::endl;
-  for( std::size_t i=0; i<ChannelList.size(); ++i ){
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
     std::cout << std::setw(3)  << i+1 << " "
 	      << ChannelList[i] << std::endl;
   }
@@ -123,7 +132,7 @@ main( Int_t argc, char* argv[] )
   // create tree
   tree = new TTree("tree", "K1.8 EPICS Data");
   tree->Branch("UnixTime", &now, "UnixTime/I");
-  for( std::size_t i=0; i<BranchList.size(); ++i ){
+  for( Int_t i=0, n=BranchList.size(); i<n; ++i ){
     tree->Branch( BranchList[i].c_str(),
 		  &BranchData[i],
 		  Form("%s/D",BranchList[i].c_str()) );
@@ -131,15 +140,15 @@ main( Int_t argc, char* argv[] )
 
   PlotData.resize( BranchList.size() );
   PlotTime.resize( BranchList.size() );
-  for( std::size_t i=0; i<BranchList.size(); ++i ){
+  for( Int_t i=0, n=BranchList.size(); i<n; ++i ){
     PlotData[i].resize( NumOfPlot );
     PlotTime[i].resize( NumOfPlot );
-    for( std::size_t j=0; j<NumOfPlot; ++j ){
+    for( Int_t j=0, m=NumOfPlot; j<m; ++j ){
       PlotTime[i][j] = std::time(0) - NumOfPlot + j;
     }
   }
 
-  ::signal(SIGINT, sigint_handler);
+  ::signal( SIGINT, sigint_handler );
 
   last = std::time(0);
 
@@ -172,6 +181,10 @@ namespace
 void
 WriteRootFile( void )
 {
+#if !MAKE_ROOT_FILE
+  return;
+#endif
+
   char s[256];
   struct tm *p = std::localtime(&last);
   std::strftime(s, sizeof(s), "%Y%m%d_%H%M%S", p);
@@ -191,29 +204,31 @@ WriteRootFile( void )
 void
 GetEpicsData( void )
 {
-  //std::string caget = "caget -w 0.1 -t ";
-  std::string caget = "caget -w 30 -t ";
-  std::string cmdline;
-  FILE* fp;
-  char input[128];
-
-  for( std::size_t i=0; i<ChannelList.size(); ++i ){
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
     BranchData[i] = TREE_DEFAULT_VALUE;
-    cmdline = caget+ChannelList[i];
-    fp=popen(cmdline.c_str(),"r");
-    fgets(input, sizeof(input), fp);
-    if(pclose(fp) !=0) continue;
+    TString cmd("caget -w 10 -t "+ChannelList[i]);
+    FILE *pipe = gSystem->OpenPipe( cmd, "r" );
+    if( !pipe ){
+      std::cerr << "#E TSystem::OpenPipe() failed : "
+		<< cmd << std::endl;
+      continue;
+    }
 
-    Double_t data1,data2,data3;
-    Int_t ret = sscanf(input,"%lf %lf %lf",&data1, &data2, &data3);
-    if(ret==1){
+    TString input;
+    input.Gets( pipe );
+    gSystem->ClosePipe( pipe );
+
+    Double_t data1, data2, data3;
+    Int_t ret = std::sscanf( input.Data(), "%lf %lf %lf",
+			     &data1, &data2, &data3 );
+    if( ret==1 ){
       BranchData[i] = data1;
-    }else if(ret == 3){
+    }else if( ret == 3 ){
       BranchData[i] = data2;
     }
 
     graph[i]->Set(0);
-    for( std::size_t j=0; j<NumOfPlot-1; ++j ){
+    for( Int_t j=0, m=NumOfPlot-1; j<m; ++j ){
       PlotData[i][j] = PlotData[i][j+1];
       PlotTime[i][j] = PlotTime[i][j+1];
       graph[i]->SetPoint(j, PlotTime[i][j], PlotData[i][j]);
@@ -241,7 +256,7 @@ PrintData( void )
   struct tm *p = std::localtime(&now);
   std::strftime(s, sizeof(s), "%Y/%m/%d %H:%M:%S", p);
   std::cout << std::endl << "Time: " << s << std::endl;
-  for( std::size_t i=0; i<ChannelList.size(); ++i ){
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
     std::cout << ChannelList[i] << " = " << BranchData[i] << std::endl;
   }
 }

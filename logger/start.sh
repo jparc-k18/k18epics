@@ -1,6 +1,8 @@
 #!/bin/sh
 
-list=param/channel_list_e07_2017.txt
-log=data/epics_`date +%Y%m%d_%H%M%S`.log
+thisroot_sh=$HOME/software/ROOT/pro/bin/thisroot.sh
 
-bin/epics_logger $list data > $log &
+param=param/channel_list_e07_2017.txt
+
+screen -AmdS EpicsLogger \
+    sh -c ". $thisroot_sh && bin/epics_logger $param data"
