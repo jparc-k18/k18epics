@@ -3,8 +3,6 @@
 // Author: Shuhei Hayakawa
 
 #include <algorithm>
-#include <cstdio>
-#include <cstdlib>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
@@ -15,11 +13,8 @@
 #include <sys/stat.h>
 #include <signal.h>
 
-#include <TAxis.h>
-#include <TCanvas.h>
 #include <TError.h>
 #include <TFile.h>
-#include <TGraph.h>
 #include <TString.h>
 #include <TSystem.h>
 #include <TTree.h>
@@ -41,14 +36,6 @@ namespace
   std::time_t now;
   std::time_t last;
   TString output_dir;
-  std::vector<TCanvas*> canvas;
-  std::vector<TGraph*>  graph;
-  const Int_t NumOfPlot = NEW_FILE_INTERVAL/LOGGING_INTERVAL;
-  std::vector< std::vector<Double_t> > PlotData;
-  std::vector< std::vector<Double_t> > PlotTime;
-  // PlotData[NBranch][NPlot]
-  Int_t npoint = 0;
-  std::vector<TString> pic_name;
 
   Bool_t stop_flag = false;
   void sigint_handler( Int_t sig );
@@ -73,7 +60,7 @@ main( Int_t argc, char* argv[] )
   }
 
   TString channel_list = argv[kChannelList];
-  output_dir   = argv[kOutputDir];
+  output_dir = argv[kOutputDir];
 
   // channel_list_file check
   std::ifstream ifs( channel_list );
@@ -105,19 +92,6 @@ main( Int_t argc, char* argv[] )
     std::replace(line.begin(), line.end(), ':', '_');
     BranchList.push_back(line);
     BranchData.push_back(0);
-
-    canvas.push_back( new TCanvas(Form("c_%s", line.c_str()),
-				  Form("c_%s", line.c_str()),
-				  1000, 800) );
-    TGraph *g = new TGraph;
-    g->SetName(line.c_str());
-    g->SetTitle(line.c_str());
-    g->SetLineColor(kBlue+1);
-    g->SetLineWidth(3);
-    g->Draw("AL");
-    graph.push_back( g );
-
-    pic_name.push_back( TString("pic/"+line+".png") );
   }
   ifs.close();
 
@@ -136,16 +110,6 @@ main( Int_t argc, char* argv[] )
     tree->Branch( BranchList[i].c_str(),
 		  &BranchData[i],
 		  Form("%s/D",BranchList[i].c_str()) );
-  }
-
-  PlotData.resize( BranchList.size() );
-  PlotTime.resize( BranchList.size() );
-  for( Int_t i=0, n=BranchList.size(); i<n; ++i ){
-    PlotData[i].resize( NumOfPlot );
-    PlotTime[i].resize( NumOfPlot );
-    for( Int_t j=0, m=NumOfPlot; j<m; ++j ){
-      PlotTime[i][j] = std::time(0) - NumOfPlot + j;
-    }
   }
 
   ::signal( SIGINT, sigint_handler );
@@ -227,25 +191,8 @@ GetEpicsData( void )
       BranchData[i] = data2;
     }
 
-    graph[i]->Set(0);
-    for( Int_t j=0, m=NumOfPlot-1; j<m; ++j ){
-      PlotData[i][j] = PlotData[i][j+1];
-      PlotTime[i][j] = PlotTime[i][j+1];
-      graph[i]->SetPoint(j, PlotTime[i][j], PlotData[i][j]);
-    }
-    PlotData[i][NumOfPlot-1] = BranchData[i];
-    PlotTime[i][NumOfPlot-1] = now;
-    graph[i]->SetPoint(NumOfPlot-1, now, BranchData[i]);
-    graph[i]->GetXaxis()->SetTimeDisplay(1);
-    graph[i]->GetXaxis()->SetLabelOffset(0.04);
-    graph[i]->GetXaxis()->SetTimeFormat("#splitline{%Y/%m/%d}{  %H:%M:%S}");
-    graph[i]->GetXaxis()->SetTimeOffset(0,"jpg");
-    graph[i]->GetXaxis()->SetNdivisions(-503);
-    canvas[i]->SetGrid();
-    canvas[i]->Print( pic_name[i] );
     ::usleep(10000);
   }
-  npoint++;
 }
 
 //______________________________________________________________________________
