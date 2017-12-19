@@ -7,6 +7,8 @@
 
 #include <TString.h>
 
+#ifndef FUNC_NAME
 #define FUNC_NAME TString("["+ClassName()+"::"+__func__+"()]")
+#endif
 
 #endif

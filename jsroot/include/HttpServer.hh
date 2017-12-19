@@ -31,9 +31,9 @@ private:
   THttpServer* m_http;
 
 public:
-  Bool_t Initialize( void );
   Int_t  GetPort( void ) const { return m_port; }
-  void   Print( TString arg="" ) const;
+  Bool_t Initialize( void );
+  void   Print( const TString& arg="" ) const;
   void   Register( TGraph *graph );
   void   SetPort( Int_t port ){ m_port = port; }
 

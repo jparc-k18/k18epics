@@ -2,8 +2,6 @@
 
 // Author: Shuhei Hayakawa
 
-#include <ctime>
-#include <iomanip>
 #include <iostream>
 
 #include "EpicsManager.hh"
@@ -13,20 +11,19 @@ enum eArgv { kProcess, kChannelList, kArgc };
 
 //______________________________________________________________________________
 Int_t
-main( Int_t argc, char* argv[] )
+main( Int_t argc, Char_t* argv[] )
 {
   // gErrorIgnoreLevel = kFatal;
 
-  TString process = ::basename(argv[kProcess]);
-
   if( argc != kArgc ){
-    std::cout << "Usage: " << process
+    std::cout << "Usage: " << ::basename(argv[kProcess])
 	      << " [channel_list_file]" << std::endl;
     return EXIT_SUCCESS;
   }
 
-  HttpServer&   gHttp  = HttpServer::GetInstance();
+  HttpServer& gHttp = HttpServer::GetInstance();
   gHttp.SetPort( 9090 );
+
   EpicsManager& gEpics = EpicsManager::GetInstance();
   gEpics.SetFileName( argv[kChannelList] );
 
@@ -40,5 +37,5 @@ main( Int_t argc, char* argv[] )
 
   gEpics.Run();
 
-  return 0;
+  return EXIT_SUCCESS;
 }

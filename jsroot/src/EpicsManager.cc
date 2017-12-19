@@ -37,8 +37,8 @@ namespace
 //______________________________________________________________________________
 EpicsManager::EpicsManager( void )
   : m_file_name("channel_list.txt"),
-    m_data_list(0),
-    m_canvas_list(0)
+    m_data_list(),
+    m_canvas_list()
 {
 }
 
@@ -47,14 +47,14 @@ EpicsManager::~EpicsManager( void )
 {
   for( Int_t i=0, n=m_data_list.size(); i<n; ++i ){
     delete m_data_list.at(i);
-    m_data_list.at(i) = 0;
+    m_data_list.at(i) = nullptr;
   }
   m_data_list.clear();
 }
 
 //______________________________________________________________________________
 EpicsData*
-EpicsManager::GetEpicsData( TString name ) const
+EpicsManager::GetEpicsData( const TString& name ) const
 {
   for( Int_t i=0, n=m_data_list.size(); i<n; ++i ){
     if( name == m_data_list.at(i)->GetName() )
@@ -63,14 +63,20 @@ EpicsManager::GetEpicsData( TString name ) const
 
   std::cerr << FUNC_NAME << std::endl
 	    << " * no such data : " << name << std::endl;
-  return NULL;
+  return nullptr;
 }
 
 //______________________________________________________________________________
 TGraph*
-EpicsManager::GetGraph( TString name ) const
+EpicsManager::GetGraph( const TString& name ) const
 {
-  return GetEpicsData( name )->GetGraph();
+  const EpicsData* e = GetEpicsData( name );
+  if( e )
+    return e->GetGraph();
+
+  std::cerr << FUNC_NAME << std::endl
+	    << " * no such data : " << name << std::endl;
+  return nullptr;
 }
 
 //______________________________________________________________________________
@@ -93,15 +99,17 @@ EpicsManager::Initialize( void )
   }
 
   // Canvases
-  m_canvas_list.push_back( canvas::AirHumi() );
-  m_canvas_list.push_back( canvas::AirTemp() );
+  m_canvas_list.push_back( canvas::ACC() );
+  m_canvas_list.push_back( canvas::AIR() );
+  m_canvas_list.push_back( canvas::ESS() );
+  m_canvas_list.push_back( canvas::Field() );
 
   return true;
 }
 
 //______________________________________________________________________________
 void
-EpicsManager::Print( TString arg ) const
+EpicsManager::Print( const TString& arg ) const
 {
   std::cout << FUNC_NAME << " " << arg << std::endl;
   for( Int_t i=0, n=m_data_list.size(); i<n; ++i ){
@@ -117,7 +125,7 @@ EpicsManager::PrintTime( void ) const
   TTimeStamp now;
   now.Add( -TTimeStamp::GetZoneOffset() );
   std::cout // << FUNC_NAME << std::endl
-	    << " Last Log Time : "
+	    << " Last Log : "
 	    << now.AsString("s") << std::endl;
 }
 
@@ -135,7 +143,7 @@ EpicsManager::Run( void )
       for( Int_t i=0, n=m_data_list.size();
 	   !user_stop && !gSystem->ProcessEvents() && i<n;
 	   ++i ){
-	m_data_list.at(i)->Get();
+	m_data_list.at(i)->Update();
       }
       PrintTime();
       now = std::time(0);

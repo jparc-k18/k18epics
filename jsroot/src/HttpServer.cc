@@ -24,6 +24,8 @@ HttpServer::HttpServer( void )
 //______________________________________________________________________________
 HttpServer::~HttpServer( void )
 {
+  delete m_http;
+  m_http = nullptr;
 }
 
 //______________________________________________________________________________
@@ -33,12 +35,14 @@ HttpServer::Initialize( void )
   m_http = new THttpServer( Form("http:%d", m_port) );
   m_http->Restrict("/", "allow=all");
   m_http->SetReadOnly(kTRUE);
+  m_http->SetJSROOT("https://root.cern.ch/js/latest/");
+  m_http->SetTopName("K1.8 EPICS");
   return m_http->IsAnyEngine();
 }
 
 //______________________________________________________________________________
 void
-HttpServer::Print( TString arg ) const
+HttpServer::Print( const TString& arg ) const
 {
   std::cout << FUNC_NAME << " " << arg << std::endl;
   m_http->Print();

@@ -31,10 +31,10 @@ private:
   std::vector<Double_t> m_data;
 
 public:
-  Bool_t  Get( void );
   TGraph* GetGraph( void ) const { return m_graph; }
   TString GetName( void ) const { return m_channel_name; }
-  void    Print( TString arg="" ) const;
+  void    Print( const TString& arg="" ) const;
+  Bool_t  Update( void );
 
 };
 

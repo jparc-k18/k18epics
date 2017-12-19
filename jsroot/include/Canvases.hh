@@ -10,8 +10,12 @@
 //______________________________________________________________________________
 namespace canvas
 {
-  TCanvas* AirHumi( void );
-  TCanvas* AirTemp( void );
+  TCanvas* ACC( void );
+  TCanvas* AIR( void );
+  TCanvas* ESS( void );
+  TCanvas* Field( void );
+
+  TCanvas* Get( const TString& name );
 }
 
 #endif

@@ -35,16 +35,15 @@ private:
   std::vector<TCanvas*>   m_canvas_list;
 
 public:
-  TCanvas*   GetCanvas( TString name ) const;
-  EpicsData* GetEpicsData( TString name ) const;
-  TGraph*    GetGraph( TString name ) const;
+  EpicsData* GetEpicsData( const TString& name ) const;
+  TGraph*    GetGraph( const TString& name ) const;
   Int_t      GetLoggingInterval( void ) const { return LoggingInterval; }
   Int_t      GetMaxPoints( void ) const { return MaxPoints; }
   Bool_t     Initialize( void );
-  void       Print( TString arg="" ) const;
+  void       Print( const TString& arg="" ) const;
   void       PrintTime( void ) const;
   void       Run( void );
-  void       SetFileName( TString file_name ) { m_file_name = file_name; }
+  void       SetFileName( const TString& file_name ){ m_file_name = file_name; }
 
 };
 

@@ -2,6 +2,7 @@
 
 // Author: Shuhei Hayakawa
 
+#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
@@ -9,7 +10,6 @@
 #include <TAxis.h>
 #include <TGraph.h>
 #include <TSystem.h>
-#include <TTimeStamp.h>
 
 #include "EpicsData.hh"
 #include "EpicsManager.hh"
@@ -31,12 +31,32 @@ EpicsData::EpicsData( TString name )
     m_data( MaxPoints )
 {
   m_graph->SetNameTitle( name, name );
+  m_graph->SetLineColor( kBlue+1 );
   m_graph->SetLineWidth(3);
 
-  TTimeStamp now;
-  now.Add( -now.GetZoneOffset() );
+  // Color
+  if( name.Contains("ACC") ){
+    m_graph->SetLineColor( kRed+1 );
+  }
+  if( name.Contains("POS") ){
+    m_graph->SetLineColor( kRed+1 );
+  }
+  if( name.Contains("TEMP") ){
+    m_graph->SetLineColor( kRed+1 );
+  }
+  if( name.Contains("D4:Field") ){
+    m_graph->SetLineColor( kGreen+1 );
+  }
+  if( name.Contains("KURAMA:Field") ){
+    m_graph->SetLineColor( kRed+1 );
+  }
+  if( name.Contains("CAENHV") ){
+    m_graph->SetLineColor( kRed+1 );
+  }
+
+  std::time_t now = std::time(0);
   for( Int_t i=0; i<MaxPoints; ++i ){
-    m_time.at(i) = now.GetSec()
+    m_time.at(i) = now
       + gEpics.GetLoggingInterval()*( i - MaxPoints );
     m_data.at(i) = 0.;
   }
@@ -46,11 +66,22 @@ EpicsData::EpicsData( TString name )
 //______________________________________________________________________________
 EpicsData::~EpicsData( void )
 {
+  delete m_graph;
+  m_graph = nullptr;
+}
+
+//______________________________________________________________________________
+void
+EpicsData::Print( const TString& arg ) const
+{
+  std::cout << FUNC_NAME << " " << arg << std::endl
+	    << "   channel_name : " << m_channel_name
+	    << std::endl;
 }
 
 //______________________________________________________________________________
 Bool_t
-EpicsData::Get( void )
+EpicsData::Update( void )
 {
   Double_t val = -9999.;
   TString cmd("caget -w 10 -t "+m_channel_name);
@@ -83,12 +114,9 @@ EpicsData::Get( void )
   std::cout << FUNC_NAME << " " << m_channel_name << " " << val << std::endl;
 #endif
 
-  TTimeStamp now;
-  now.Add( -now.GetZoneOffset() );
-
   m_time.erase( m_time.begin() );
   m_data.erase( m_data.begin() );
-  m_time.push_back( now.GetSec() );
+  m_time.push_back( std::time(0) );
   m_data.push_back( val );
 
   m_graph->Set(0);
@@ -98,18 +126,11 @@ EpicsData::Get( void )
 
   m_graph->GetXaxis()->SetTimeDisplay(1);
   // m_graph->GetXaxis()->SetTimeFormat("%Y/%m/%d %H:%M:%S");
-  m_graph->GetXaxis()->SetTimeFormat("%H:%M:%S");
+  m_graph->GetXaxis()->SetTimeFormat("%m/%d %H:%M");
+  // m_graph->GetXaxis()->SetTimeFormat("%H:%M:%S");
   m_graph->GetXaxis()->SetLabelOffset(0.04);
   m_graph->GetXaxis()->SetTimeOffset(0,"jpn");
   // m_graph->GetXaxis()->SetNdivisions(-503);
-  return true;
-}
 
-//______________________________________________________________________________
-void
-EpicsData::Print( TString arg ) const
-{
-  std::cout << FUNC_NAME << " " << arg << std::endl
-	    << "   channel_name : " << m_channel_name
-	    << std::endl;
+  return true;
 }
