@@ -2,7 +2,7 @@
 
 process=(
     K18Monitor
-    epics
+    Epics
 )
 
 echo "Following processes are running ..."

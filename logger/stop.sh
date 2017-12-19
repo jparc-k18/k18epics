@@ -1,3 +1,3 @@
 #!/bin/sh
 
-killall -v -s SIGINT epics_logger
+killall -v -s SIGINT EpicsLogger
