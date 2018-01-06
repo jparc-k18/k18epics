@@ -38,7 +38,7 @@ EpicsData::EpicsData( TString name )
   if( name.Contains("ACC") ){
     m_graph->SetLineColor( kRed+1 );
   }
-  if( name.Contains("POS") ){
+  if( name.Contains("ESS2") ){
     m_graph->SetLineColor( kRed+1 );
   }
   if( name.Contains("TEMP") ){
