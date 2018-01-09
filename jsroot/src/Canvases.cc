@@ -86,6 +86,27 @@ canvas::Field( void )
 
 //______________________________________________________________________________
 TCanvas*
+canvas::SLIT( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide( 4, 3 );
+  c1->cd(1); Draw("SLIT:IFH:LEFT");
+  c1->cd(2); Draw("SLIT:IFH:RIGHT");
+  c1->cd(3); Draw("SLIT:IFV:LOWER");
+  c1->cd(4); Draw("SLIT:IFV:UPPER");
+  c1->cd(5); Draw("SLIT:MOM:LEFT");
+  c1->cd(6); Draw("SLIT:MOM:RIGHT");
+  c1->cd(7);
+  c1->cd(8);
+  c1->cd(9); Draw("SLIT:MASS1:LOWER");
+  c1->cd(10); Draw("SLIT:MASS1:UPPER");
+  c1->cd(11); Draw("SLIT:MASS2:LOWER");
+  c1->cd(12); Draw("SLIT:MASS2:UPPER");
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
 canvas::Get( const TString& name )
 {
   return

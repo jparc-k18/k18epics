@@ -14,6 +14,7 @@ namespace canvas
   TCanvas* AIR( void );
   TCanvas* ESS( void );
   TCanvas* Field( void );
+  TCanvas* SLIT( void );
 
   TCanvas* Get( const TString& name );
 }
