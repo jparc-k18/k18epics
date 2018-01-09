@@ -6,11 +6,12 @@ color	= 1
 
 src_dir		= src
 bin_dir		= bin
+inc_dir		= include
 build_dir	= $(src_dir)/build
 
 CXX     = g++
 CFLAGS  = -O2 -Wall
-FLAGS   = $(CFLAGS) -I.
+FLAGS   = $(CFLAGS) -I. -I$(inc_dir)
 LIB     =
 
 root_config	:= root-config
@@ -48,16 +49,16 @@ all: $(bin_dir)/$(target)
 -include $(dependencies)
 
 $(bin_dir)/$(target): $(objects)
-	@ $(echo) "$(magenta) === Linking $@ $(default_color)"
+	@ $(echo) "$(magenta)=== Linking $@ $(default_color)"
 	@ mkdir -p $(bin_dir)
 	$(CXX) $(FLAGS) -o $@ $^ $(LIB)
 
 $(build_dir)/%.o: $(src_dir)/%.cc
-	@ $(echo) "$(green) === Compiling $@ ... $(default_color)"
+	@ $(echo) "$(green)=== Compiling $@ ... $(default_color)"
 	@ mkdir -p $(build_dir)
 	$(CXX) $(FLAGS) -o $@ -MMD -c $<
 
 clean:
-	@ $(echo) "$(green) === Cleaning up ... $(default_color)"
+	@ $(echo) "$(green)=== Cleaning up ... $(default_color)"
 	@ rm -rfv $(build_dir)
 	@ find . -name "*~" -exec \rm -fv \{\} \;

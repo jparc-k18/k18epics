@@ -1,23 +1,24 @@
 // -*- C++ -*-
 
+// Author: Shuhei Hayakawa
+
 #include <algorithm>
 #include <bitset>
-#include <cstdio>
-#include <cstdlib>
 #include <ctime>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <libgen.h>
 #include <sstream>
-#include <string>
 #include <vector>
-#include <sys/types.h>
-#include <sys/stat.h>
 
 #include <TString.h>
 #include <TSystem.h>
 #include <TTimeStamp.h>
+
+#include "EpicsAlarm.hh"
+
+namespace epics
+{
 
 namespace
 {
@@ -31,26 +32,84 @@ namespace
   std::time_t now;
 }
 
-void CheckEpicsData( void );
-void PrintTime( void );
-void ShowThreshold( void );
-void AlarmSound( void );
+//______________________________________________________________________________
+void
+AlarmSound( void )
+{
+  gSystem->Exec("sh script/call_alarm.sh 2>/dev/null &");
+}
 
 //______________________________________________________________________________
-Int_t
-main(Int_t argc, Char_t* argv[])
+void
+CheckEpicsData( void )
 {
-  const TString& process = ::basename(argv[0]);
+  static const TString caget = "caget -w 3 -t ";
 
-  if( argc!=2 ){
-    std::cout << "Usage: " << process << " [channel_list_file]" << std::endl;
-    return EXIT_SUCCESS;
+  for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
+    FILE* pipe = gSystem->OpenPipe(caget+ChannelList[i], "r");
+    TString ret;
+    ret.Gets(pipe);
+    gSystem->ClosePipe(pipe);
+
+    Double_t data = ret.Atof();
+    // if( std::sscanf( ret.Data(), "%lf", &data) != 1 ){
+    //   continue;
+    // }
+
+    for( Int_t j=0, m=NTime-1; j<m; ++j ){
+      value[i][j] = value[i][j+1];
+      bit[i][j] = bit[i][j+1];
+    }
+
+    value[i][NTime-1] = data;
+    bit[i].reset(NTime-1);
+
+    if( data < LowLEVEL[i] || HighLEVEL[i] < data )
+      bit[i].set(NTime-1);
+
+    gSystem->Sleep(10);
   }
 
-  std::ifstream ifs(argv[1]);
+  std::cout << std::left << std::setw(20) << "Name ";
+	    // << "Counts ";
+  for( Int_t i=0, n=NTime; i<n; ++i )
+    std::cout << std::right << std::setw(6)
+	      << Form("-%ds", CheckInterval*(n-i-1));
+  std::cout << std::endl;
+
+  for( Int_t i=0, n=value.size(); i<n; ++i ){
+    std::cout << std::left << std::fixed << std::setprecision(1)
+	      << std::setw(20) << ChannelList[i];// << " ";
+	      // << std::right
+	      // << std::setw(2) << bit[i].count() << "/"
+	      // << std::setw(2) << NTime << " ";
+    for( Int_t j=0, m=value[i].size(); j<m; ++j ){
+      if( bit[i][j] ) std::cout << "\033[0;33;1m";
+      std::cout << std::right << std::setw(6)
+		<< Form("%.1lf", value[i][j]);
+      if( bit[i][j] ) std::cout << "\033[0m";
+    }
+
+    // if( bit[i].count()==NTime ){
+    if( bit[i].count()>0 ){
+      std::cout << "\033[0;33;1m"
+		<< "  !!! Alarm !!!" << "\033[0m";
+      AlarmSound();
+    }
+
+    std::cout << std::endl;
+  }
+
+}
+
+//______________________________________________________________________________
+void
+Initialize( const TString& file_name )
+{
+  std::ifstream ifs( file_name );
   if( !ifs.is_open() ){
-    std::cerr << "#E No such file " << argv[1] << std::endl;
-    return EXIT_FAILURE;
+    std::cerr << "#E No such file " << file_name << std::endl;
+    std::exit( EXIT_FAILURE );
   }
 
   TString line;
@@ -69,90 +128,9 @@ main(Int_t argc, Char_t* argv[])
 
   value.resize( ChannelList.size() );
   bit.resize( ChannelList.size() );
-  for( Int_t i=0, n=ChannelList.size(); i<n; ++i )
-    value[i].resize(NTime);
-
-  while( true ){
-    std::cout << "\033[2J\033[1;1H" // Clear
-	      << "EPICS Alarm is running ..." << std::endl;
-
-    now = std::time(0);
-
-    ShowThreshold();
-    PrintTime();
-    CheckEpicsData();
-
-
-    Int_t rest = CheckInterval - (std::time(0) - now);
-    if( rest>0 ) ::sleep(rest);
-  }
-
-  return EXIT_SUCCESS;
-}
-
-//______________________________________________________________________________
-void
-CheckEpicsData( void )
-{
-  static const TString caget = "caget -w 3 -t ";
-  FILE* pipe;
-
   for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
-    for( Int_t j=0, m=NTime-1; j<m; ++j ){
-      value[i][j] = value[i][j+1];
-      bit[i][j] = bit[i][j+1];
-    }
-
-    pipe = gSystem->OpenPipe(caget+ChannelList[i], "r");
-    TString ret;
-    ret.Gets(pipe);
-    gSystem->ClosePipe(pipe);
-
-    Double_t data;
-    if( std::sscanf(ret.Data(), "%lf", &data) != 1)
-      continue;
-
-    value[i][NTime-1] = data;
-    bit[i].reset(NTime-1);
-
-    if( data < LowLEVEL[i] ){
-      bit[i].set(NTime-1);
-    }
-    if(data > HighLEVEL[i]){
-      bit[i].set(NTime-1);
-    }
-    gSystem->Sleep(10);
+    value[i].resize(NTime);
   }
-
-  std::cout << std::left << std::setw(20) << "Name"
-	    << "Counts ";
-  for( Int_t i=0, n=NTime; i<n; ++i )
-    std::cout << std::right << std::setw(6)
-	      << Form("-%ds", CheckInterval*(n-i-1));
-  std::cout << std::endl;
-
-  for( Int_t i=0, n=value.size(); i<n; ++i ){
-    std::cout << std::left << std::fixed << std::setprecision(1)
-	      << std::setw(20) << ChannelList[i] << " "
-	      << std::right
-	      << std::setw(2) << bit[i].count() << "/"
-	      << std::setw(2) << NTime << " ";
-    for( Int_t j=0, m=value[i].size(); j<m; ++j ){
-      if( bit[i][j] ) std::cout << "\033[0;33;1m";
-      std::cout << std::right << std::setw(6)
-		<< Form("%.1lf", value[i][j]);
-      if( bit[i][j] ) std::cout << "\033[0m";
-    }
-
-    if( bit[i].count()==NTime ){
-      std::cout << "\033[0;33;1m"
-		<< "  !!! Alarm !!!" << "\033[0m";
-      AlarmSound();
-    }
-
-    std::cout << std::endl;
-  }
-
 }
 
 //______________________________________________________________________________
@@ -163,6 +141,25 @@ PrintTime( void )
   s.Add( -TTimeStamp::GetZoneOffset() );
   std::cout << "Last update : " << s.AsString("s") << std::endl
 	    << std::endl;
+}
+
+//______________________________________________________________________________
+void
+Run( void )
+{
+  while( true ){
+    std::cout << "\033[2J\033[1;1H" // Clear
+	      << "EPICS Alarm is running ..." << std::endl;
+
+    now = std::time(0);
+
+    ShowThreshold();
+    PrintTime();
+    CheckEpicsData();
+
+    Int_t rest = CheckInterval - (std::time(0) - now);
+    if( rest>0 ) ::sleep(rest);
+  }
 }
 
 //______________________________________________________________________________
@@ -187,8 +184,4 @@ ShowThreshold( void )
   std::cout << TString('=', 80) << std::endl;
 }
 
-//______________________________________________________________________________
-void AlarmSound( void )
-{
-  gSystem->Exec("sh script/call_alarm.sh 2>/dev/null &");
 }
