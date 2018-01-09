@@ -17,7 +17,8 @@ namespace
   // local function
   void Draw( TString name, Option_t *option="AL" )
   {
-    gEpics.GetGraph( name )->Draw( option );
+    if( gEpics.GetGraph( name ) )
+      gEpics.GetGraph( name )->Draw( option );
   }
 }
 
