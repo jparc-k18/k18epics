@@ -41,6 +41,9 @@ DB += ZRRX40.template
 DB += ZRRX40.substitutions
 DB += ZRRX45.template
 DB += ZRRX45.substitutions
+DB += HDDAQ_runno.template
+DB += HDDAQ_runno.substitutions
+
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions
 

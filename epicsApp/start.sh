@@ -32,3 +32,5 @@ screen -S CAENHV1 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/
 screen -S CAENHV2 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor caenhv2.cmd'
 screen -S CAENHV3 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor caenhv3.cmd'
 screen -S CAENHV4 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor caenhv4.cmd'
+
+screen -S HDDAQ -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor hddaq.cmd'

@@ -1,0 +1,7 @@
+# Sepalator substitutions file
+# ch   :  form 1 to 100   (if 0, -999.99 is read out.)
+
+file "db/HDDAQ_runno.template" {
+# K1.8ESS1
+     { name = HDDAQ:RUNNUMBER,      ch =  1 }
+}
