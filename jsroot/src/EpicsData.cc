@@ -9,6 +9,7 @@
 
 #include <TAxis.h>
 #include <TGraph.h>
+#include <TMath.h>
 #include <TSystem.h>
 
 #include "EpicsData.hh"
@@ -107,7 +108,7 @@ EpicsData::Update( void )
   if( ret == 0 || val == -9999. )
     return false;
 
-  if( TMath::Abs( val ) < 1.e-3 )
+  if( TMath::Abs( val ) < 1.e-3  || TMath::IsNaN( val ) )
     val = 0.;
 
 #ifdef DEBUG
