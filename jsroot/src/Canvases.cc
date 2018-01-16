@@ -41,6 +41,19 @@ canvas::ACC( void )
 
 //______________________________________________________________________________
 TCanvas*
+canvas::T1( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide( 2, 2 );
+  c1->cd(1); Draw("ACC:HD:T1_MEAN_X");
+  c1->cd(2); Draw("ACC:HD:T1_MEAN_Y");
+  c1->cd(3); Draw("ACC:HD:T1_SIGMA_X");
+  c1->cd(4); Draw("ACC:HD:T1_SIGMA_Y");
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
 canvas::AIR( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
