@@ -32,7 +32,7 @@ static long read_wf(waveformRecord *rec)
 
   int port           = 80;
   double timeout_sec = 2.0;
-  
+
   struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
   int sock = socket(AF_INET, SOCK_STREAM, 0);
   setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
@@ -51,7 +51,7 @@ static long read_wf(waveformRecord *rec)
     close(sock);
     return 0;
   }
-  
+
   // send HTTP request
   char cmdline[] = "GET /cdata.inc HTTP/1.0\r\nUser-Agent: Wget/1.12 (linux-gnu)\r\nAccept: */*\r\nHost: 192.168.30.31\r\nConnection: Keep-Alive\r\n\r\n ";
   write(sock, cmdline, strlen(cmdline));
@@ -61,7 +61,7 @@ static long read_wf(waveformRecord *rec)
   int total_len=0;
   char c;
   while ( read(sock, &c, 1) > 0 ) {
-    if(0x20 < c && c <0x7f){ 
+    if(0x20 < c && c <0x7f){
       buf += c;
       total_len++;
     }
@@ -77,21 +77,21 @@ static long read_wf(waveformRecord *rec)
     printf("%s | TR700W comunication error\n",date.c_str());
     return 0;
   }
-  
+
   std::string sub1 =  buf.substr(125, 4);
   //printf("sub1: %s\n",sub1.c_str());
-  
+
   std::string sub2 =  buf.substr(155, 2);
   //printf("sub2: %s\n",sub2.c_str());
-  
-  
+
+
   float* ptr = (float*)rec->bptr;
-  
+
   ptr[0] = (float)( atof(sub1.c_str()) );
   ptr[1] = (float)( atof(sub2.c_str()) );
 
   rec->nord = 2;
- 
+
   return 0;
 }
 

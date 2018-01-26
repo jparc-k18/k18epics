@@ -26,17 +26,17 @@ struct device_private{
 };
 
 static long read_ai(aiRecord *rec)
-{ 
-  struct device_private *pdev = (struct device_private *)rec->dpvt; 
-  
-  int ch = pdev->channel;
+{
+  device_private *pdev = (device_private *)rec->dpvt;
 
-  if(1<= ch &&  ch <= pdev->nelem){ 
-    float buf[100];
-    dbGetLink(&rec->inp, pdev->dbrType, buf, NULL, &pdev->nelem);
+  int ch = pdev->channel;
+  long nelem = pdev->nelem;
+  if( 1<= ch && ch <= nelem ){
+    float buf[200];
+    long status = dbGetLink(&rec->inp, dbGetLinkDBFtype(&rec->inp), buf, NULL, &pdev->nelem);
     rec->rval = buf[ch-1];
   }else{
-    rec->rval = -9999; 
+    rec->rval = -9999;
   }
 
   rec->udf = FALSE;
@@ -44,25 +44,24 @@ static long read_ai(aiRecord *rec)
 }
 
 static long init_record(aiRecord *rec, int pass)
-{ 
+{
   struct device_private *pdev;
   pdev = (struct device_private *)malloc(sizeof(struct device_private));
 
   pdev->dbrType = (short)dbGetLinkDBFtype(&rec->inp);
-  
+
   long nRequest=0;
   dbGetNelements(&rec->inp, &nRequest);
   if(nRequest>100) nRequest=100;
   pdev->nelem = nRequest;
-  
+
   int ch=0;
-  
+
   sscanf(rec->desc,"ZRRX40@%d",&ch);
   if(1<=ch && ch<= nRequest) pdev->channel = ch;
   else pdev->channel = 0;
-  
-  rec->dpvt = pdev; 
 
+  rec->dpvt = pdev;
   return 0;
 }
 

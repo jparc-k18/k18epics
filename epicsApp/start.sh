@@ -23,9 +23,12 @@ screen -S Accel -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K1
 # Hadron beam status
 screen -S Hadron -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor hadron.cmd'
 
-# XRRX40
+# ZRRX40
 screen -S ZRRX40 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor zrrx40.cmd'
 screen -S ZRRX45 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor zrrx45.cmd'
+
+# GL840-BGO
+screen -S GL840 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor gl840_bgo.cmd'
 
 # CAEN HV Crate
 screen -S CAENHV1 -d -m sh -c 'cd iocBoot/iocK18Monitor; ../../bin/linux-x86_64/K18Monitor caenhv1.cmd'

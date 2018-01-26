@@ -10,7 +10,7 @@ record(waveform, "HDDAQ:RUNNUMBER:DATA")
 
 record(ai, "$(name)")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "1 second")
 	field(INP,  "HDDAQ:RUNNUMBER:DATA")
 	field(DTYP, "HDDAQ_Sup")
 	field(PHAS, "1")
