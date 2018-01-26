@@ -17,7 +17,7 @@ namespace
   const EpicsManager& gEpics = EpicsManager::GetInstance();
 
   // local function
-  void Draw( TString name, Option_t *option="AL" )
+  void Draw( TString name, Option_t *option="L" )
   {
     if( gEpics.GetGraph( name ) )
       gEpics.GetGraph( name )->Draw( option );
@@ -78,9 +78,10 @@ canvas::BGO( void )
   TCanvas *c1 = new TCanvas(__func__, __func__);
   // TLegend *l1 = new TLegend( 0.2, 0.2, 0.6, 0.4 );
   gEpics.GetGraph("BGO:CH1")->SetTitle("BGO Temp.");
-  Draw("BGO:CH1");
   for( Int_t i=0; i<20; ++i ){
-    Draw( Form("BGO:CH%d", i+1), "L" );
+    if( i==12 || i==17 || i==18 || i==19 )
+      continue;
+    Draw( Form("BGO:CH%d", i+1) );
     // l1->AddEntry( gEpics.GetGraph( Form("BGO:CH%d", i+1) )
     // 		  Form("BGO:CH%d", i+1), "L" );
   }
