@@ -1,1 +1,1 @@
-channel_list_e40_20180109.txt
+channel_list_e40_20180127.txt
