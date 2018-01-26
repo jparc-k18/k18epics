@@ -102,6 +102,7 @@ EpicsManager::Initialize( void )
   m_canvas_list.push_back( canvas::ACC() );
   m_canvas_list.push_back( canvas::T1() );
   m_canvas_list.push_back( canvas::AIR() );
+  m_canvas_list.push_back( canvas::BGO() );
   m_canvas_list.push_back( canvas::SLIT() );
   m_canvas_list.push_back( canvas::ESS() );
   m_canvas_list.push_back( canvas::Field() );
@@ -147,6 +148,7 @@ EpicsManager::Run( void )
 	   ++i ){
 	m_data_list.at(i)->Update();
       }
+      canvas::Update();
       PrintTime();
       now = std::time(0);
     }

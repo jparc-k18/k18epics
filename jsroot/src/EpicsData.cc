@@ -45,6 +45,12 @@ EpicsData::EpicsData( TString name )
   if( name.Contains("TEMP") ){
     m_graph->SetLineColor( kRed+1 );
   }
+  if( name.Contains("BGO") ){
+    name.ReplaceAll("BGO:CH","");
+    Int_t ch = name.Atoi();
+    Color_t color = ch%10 == 0 ? 11 : ch%10;
+    m_graph->SetLineColor( color );
+  }
   if( name.Contains("D4:Field") ){
     m_graph->SetLineColor( kGreen+1 );
   }

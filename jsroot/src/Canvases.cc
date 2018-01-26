@@ -2,8 +2,10 @@
 
 // Author: Shuhei Hayakawa
 
+#include <TAxis.h>
 #include <TCanvas.h>
 #include <TGraph.h>
+#include <TLegend.h>
 #include <TROOT.h>
 
 #include "Canvases.hh"
@@ -71,6 +73,24 @@ canvas::AIR( void )
 
 //______________________________________________________________________________
 TCanvas*
+canvas::BGO( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  // TLegend *l1 = new TLegend( 0.2, 0.2, 0.6, 0.4 );
+  gEpics.GetGraph("BGO:CH1")->SetTitle("BGO Temp.");
+  Draw("BGO:CH1");
+  for( Int_t i=0; i<20; ++i ){
+    Draw( Form("BGO:CH%d", i+1), "L" );
+    // l1->AddEntry( gEpics.GetGraph( Form("BGO:CH%d", i+1) )
+    // 		  Form("BGO:CH%d", i+1), "L" );
+  }
+  // l1->Draw();
+
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
 canvas::ESS( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
@@ -124,4 +144,24 @@ canvas::Get( const TString& name )
 {
   return
     dynamic_cast<TCanvas*>( gROOT->GetListOfCanvases()->FindObject( name ) );
+}
+
+//______________________________________________________________________________
+void
+canvas::Update( void )
+{
+  {
+    Double_t min = 0., max = 0.;
+    for( Int_t i=0; i<20; ++i ){
+      TGraph *g = gEpics.GetGraph( Form("BGO:CH%d", i+1) );
+      Int_t n = g->GetN();
+      Double_t* py = g->GetY();
+      for( Int_t j=0; j<n; ++j ){
+	if( py[j] < min ) min = py[j];
+	if( max < py[j] ) max = py[j];
+      }
+    }
+    gEpics.GetGraph("BGO:CH1")->GetYaxis()->SetRangeUser( min-1., max+1. );
+  }
+  return;
 }
