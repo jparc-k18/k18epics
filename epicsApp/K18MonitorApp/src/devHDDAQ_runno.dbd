@@ -1,2 +1,2 @@
 include "base.dbd"
-device(waveform,INST_IO,devHDDAQ_runno,"HDDAQ_Sup")
+device(ai,INST_IO,devHDDAQ_runno,"HDDAQ_Sup")

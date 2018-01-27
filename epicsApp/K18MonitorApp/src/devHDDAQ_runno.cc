@@ -18,31 +18,49 @@
 #include "recSup.h"
 #include "devSup.h"
 #include "link.h"
-#include "waveformRecord.h"
+#include "aiRecord.h"
 #include "epicsExport.h"
 
-static long read_wf(waveformRecord *rec)
+static long read_ai(aiRecord *rec)
 {
-  float* ptr = (float*)rec->bptr;
   int ndata=0;
 
-  FILE *pipe = popen( "ssh axis@eb0 cat daq/data/misc/runno.txt", "r");
+  FILE *pipe;
+  char buf[256];
+
+  // Trig ON/OFF
+  pipe = popen("ssh axis@eb0 cat daq/data/misc/trig.txt", "r");
   if( !pipe ){
     std::cerr << "#E popen() failed" << std::endl;
     return 0;
   }
 
-  char buf[256];
   fgets( buf, sizeof(buf), pipe );
   pclose( pipe );
 
-  ptr[ndata++] = atoi(buf);
-  rec->nord = ndata;
+  std::string trig = buf;
+  if( trig == "OFF" ){
+    rec->val = 0;
+    return 0;
+  }
 
-  return 0;
+  // Run Number
+  pipe = popen("ssh axis@eb0 cat daq/data/misc/runno.txt", "r");
+  if( !pipe ){
+    std::cerr << "#E popen() failed" << std::endl;
+    return 0;
+  }
+
+  fgets( buf, sizeof(buf), pipe );
+  pclose( pipe );
+
+  rec->val = atoi(buf);
+  rec->udf = FALSE;
+
+  return 2;
 }
 
-static long init_record(waveformRecord *rec, int pass)
+static long init_record(aiRecord *rec)
 {
   return 0;
 }
@@ -53,7 +71,7 @@ struct IOC{
   DEVSUPFUN init;
   DEVSUPFUN init_record;
   DEVSUPFUN get_ioint_info;
-  DEVSUPFUN read_wf;
+  DEVSUPFUN read_ai;
   DEVSUPFUN special_linconv;
 };
 
@@ -63,7 +81,7 @@ struct IOC devHDDAQ_runno={
   NULL,
   (DEVSUPFUN) init_record,
   NULL,
-  (DEVSUPFUN) read_wf,
+  (DEVSUPFUN) read_ai,
   NULL
 };
 epicsExportAddress(dset,devHDDAQ_runno);

@@ -50,8 +50,7 @@ DB += ZRRX45.substitutions
 DB += GL840_BGO.db
 # DB += GL840_BGO.template
 # DB += GL840_BGO.substitutions
-DB += HDDAQ_runno.template
-DB += HDDAQ_runno.substitutions
+DB += HDDAQ_runno.db
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions

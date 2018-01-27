@@ -1,0 +1,8 @@
+record(ai, "HDDAQ:RUNNUMBER")
+{
+        field(DESC, "HDDAQ Run Number")
+	field(SCAN, "1 second")
+	field(PHAS, "0")
+	field(PREC, "4")
+	field(DTYP, "HDDAQ_Sup")
+}
