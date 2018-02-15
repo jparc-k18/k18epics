@@ -196,9 +196,6 @@ static void req_server (void *pParm)
                 sockErrBuf, sizeof ( sockErrBuf ) );
             errlogPrintf("CAS: Client accept error was \"%s\"\n",
                 sockErrBuf );
-
-	    exit(-1); // added 2018.01.28
-
 	    epicsThreadSleep(15.0);
             continue;
         }
@@ -729,11 +726,11 @@ struct client * create_client ( SOCKET sock, int proto )
     client->sock = sock;
     client->proto = proto;
 
-    client->blockSem = epicsEventCreate ( epicsEventEmpty );
-    client->lock = epicsMutexCreate();
+    client->blockSem      = epicsEventCreate ( epicsEventEmpty );
+    client->lock          = epicsMutexCreate();
     client->putNotifyLock = epicsMutexCreate();
-    client->chanListLock = epicsMutexCreate();
-    client->eventqLock = epicsMutexCreate();
+    client->chanListLock  = epicsMutexCreate();
+    client->eventqLock    = epicsMutexCreate();
     if ( ! client->blockSem || ! client->lock || ! client->putNotifyLock ||
         ! client->chanListLock || ! client->eventqLock ) {
         destroy_client ( client );

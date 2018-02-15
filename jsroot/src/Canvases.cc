@@ -78,8 +78,9 @@ canvas::BGO( void )
   TCanvas *c1 = new TCanvas(__func__, __func__);
   // TLegend *l1 = new TLegend( 0.2, 0.2, 0.6, 0.4 );
   gEpics.GetGraph("BGO:CH1")->SetTitle("BGO Temp.");
+  gEpics.GetGraph("BGO:CH1")->GetYaxis()->SetRangeUser(0.,40.);
   for( Int_t i=0; i<20; ++i ){
-    if( i==12 || i==17 || i==18 || i==19 )
+    if( i==17 || i==18 || i==19 )
       continue;
     Draw( Form("BGO:CH%d", i+1) );
     // l1->AddEntry( gEpics.GetGraph( Form("BGO:CH%d", i+1) )

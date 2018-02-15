@@ -39,6 +39,7 @@ K18Monitor_DBD += devHDDAQ_runno.dbd
 #K18Monitor_LIBS += xxx
 
 # K18Monitor_registerRecordDeviceDriver.cpp derives from K18Monitor.dbd
+K18Monitor_SRCS += UserSocket.cc
 K18Monitor_SRCS += K18Monitor_registerRecordDeviceDriver.cpp
 K18Monitor_SRCS += devSKSNMR.cc
 K18Monitor_SRCS += devD4Probe.cc

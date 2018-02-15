@@ -19,7 +19,8 @@
 #include "aiRecord.h"
 #include "epicsExport.h"
 
-struct device_private{
+struct device_private
+{
   short dbrType;
   long  nelem;
   int   channel;

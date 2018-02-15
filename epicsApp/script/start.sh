@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 script_dir=$(dirname $(readlink -f $0))
 
 cmd_list=(
@@ -22,7 +24,8 @@ cmd_list=(
 
 for cmd in ${cmd_list[@]}
 do
-    screen -ls | grep $cmd >/dev/null && continue
-    echo "start K18Monitor $cmd"
-    screen -S $cmd -d -m sh -c "$script_dir/K18Monitor.sh $cmd"
+    screen -ls | grep $cmd >/dev/null && \
+	continue
+    screen -S $cmd -d -m sh -c "$script_dir/K18Monitor.sh $cmd" && \
+	echo "start K18Monitor $cmd"
 done

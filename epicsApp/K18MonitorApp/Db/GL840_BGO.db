@@ -10,7 +10,7 @@ record(waveform, "BGO:DATA")
 }
 record(subArray, "BGO:CH1")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -21,7 +21,7 @@ record(subArray, "BGO:CH1")
 }
 record(subArray, "BGO:CH2")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -32,7 +32,7 @@ record(subArray, "BGO:CH2")
 }
 record(subArray, "BGO:CH3")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -43,7 +43,7 @@ record(subArray, "BGO:CH3")
 }
 record(subArray, "BGO:CH4")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -54,7 +54,7 @@ record(subArray, "BGO:CH4")
 }
 record(subArray, "BGO:CH5")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -65,7 +65,7 @@ record(subArray, "BGO:CH5")
 }
 record(subArray, "BGO:CH6")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -76,7 +76,7 @@ record(subArray, "BGO:CH6")
 }
 record(subArray, "BGO:CH7")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -87,7 +87,7 @@ record(subArray, "BGO:CH7")
 }
 record(subArray, "BGO:CH8")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -98,7 +98,7 @@ record(subArray, "BGO:CH8")
 }
 record(subArray, "BGO:CH9")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -109,7 +109,7 @@ record(subArray, "BGO:CH9")
 }
 record(subArray, "BGO:CH10")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -120,7 +120,7 @@ record(subArray, "BGO:CH10")
 }
 record(subArray, "BGO:CH11")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -131,7 +131,7 @@ record(subArray, "BGO:CH11")
 }
 record(subArray, "BGO:CH12")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -142,7 +142,7 @@ record(subArray, "BGO:CH12")
 }
 record(subArray, "BGO:CH13")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -153,7 +153,7 @@ record(subArray, "BGO:CH13")
 }
 record(subArray, "BGO:CH14")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -164,7 +164,7 @@ record(subArray, "BGO:CH14")
 }
 record(subArray, "BGO:CH15")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -175,7 +175,7 @@ record(subArray, "BGO:CH15")
 }
 record(subArray, "BGO:CH16")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -186,7 +186,7 @@ record(subArray, "BGO:CH16")
 }
 record(subArray, "BGO:CH17")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -197,7 +197,7 @@ record(subArray, "BGO:CH17")
 }
 record(subArray, "BGO:CH18")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -208,7 +208,7 @@ record(subArray, "BGO:CH18")
 }
 record(subArray, "BGO:CH19")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")
@@ -219,7 +219,7 @@ record(subArray, "BGO:CH19")
 }
 record(subArray, "BGO:CH20")
 {
-	field(SCAN, "10 second")
+	field(SCAN, "Passive")
 	field(INP, "BGO:DATA")
 	field(FTVL, "FLOAT")
 	field(MALM, "20")

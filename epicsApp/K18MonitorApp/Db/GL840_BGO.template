@@ -9,7 +9,7 @@ record(waveform, "GL840_BGO:DATA")
 }
 record(ai, "$(name)")
 {
-	field(SCAN, "2 second")
+	field(SCAN, "10 second")
 	field(INP, "GL840_BGO:DATA")
 	field(DTYP, "AiZRRX40Sup")
 	field(PHAS, "1")

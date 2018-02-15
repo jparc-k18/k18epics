@@ -28,8 +28,8 @@ private:
   EpicsManager operator =( EpicsManager& );
 
 private:
-  static const Int_t LoggingInterval = 30; // second
-  static const Int_t MaxPoints       = 2*60*12;
+  static const Int_t LoggingInterval = 60; // second
+  static const Int_t MaxPoints       = 60*24; // 24 hours
   TString                 m_file_name;
   std::vector<EpicsData*> m_data_list;
   std::vector<TCanvas*>   m_canvas_list;

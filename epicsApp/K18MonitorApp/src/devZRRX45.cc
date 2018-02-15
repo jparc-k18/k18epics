@@ -1,6 +1,6 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 
 #include <unistd.h>
@@ -17,43 +17,24 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+#include "UserSocket.hh"
+
 static long read_wf(waveformRecord *rec)
 {
   //connect socket
-  char host[]        = "192.168.30.32";
-  int port           = 1111;
-  //double timeout_sec = 0.5;
-  double timeout_sec = 2;
-
-  struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
-  int sock = socket(AF_INET, SOCK_STREAM, 0);
-  setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-
-  struct sockaddr_in addr;
-  addr.sin_family       = AF_INET;
-  addr.sin_port         = htons(port);
-  addr.sin_addr.s_addr  = inet_addr(host);
-
-  if(connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0){
-    time_t t;
-    t = time(NULL);
-    std::string date(ctime(&t));
-    date = date.substr(0, date.length()-1);
-    printf("%s | ZR-RX45 connection failure\n",date.c_str());
-    close(sock);
-    return 0;
-  }
+  UserSocket sock( "192.168.30.32", 1111 );
+  if( !sock.IsOpen() )
+    return -1;
 
   //get channel number
-  write(sock,":INFO:CH?\n",10);
+  sock.Write(":INFO:CH?\n",10);
   char buf[255];
-  read(sock,buf,255);
+  sock.Read(buf,255);
   int ch;
-  sscanf(buf,":INFO:CH %d\r",&ch);
+  std::sscanf(buf,":INFO:CH %d\r",&ch);
 
   if(ch>20){
     printf("too many ch number: %d\n",ch);
-    close(sock);
     rec->nord = 0;
     return -1;
   }
@@ -61,22 +42,21 @@ static long read_wf(waveformRecord *rec)
   rec->nord = ch;
 
   //get data
-  write(sock,":MEAS:OUTP:ONE?\n",16);
+  sock.Write(":MEAS:OUTP:ONE?\n",16);
   char header[8];
-  read(sock,header,8);  //skip header
+  sock.Read(header,8);  //skip header
 
   float* ptr = (float*)rec->bptr;
 
   short data;
   for(int i=0;i<ch;i++){
-    read(sock,&data,2);
+    sock.Read(&data,2);
     data = __bswap_16(data);
 
     if(data==0x7ffd) ptr[i]=(float)-9999;
     else ptr[i]=(float)data;
   }
 
-  close(sock);
   return 0;
 }
 

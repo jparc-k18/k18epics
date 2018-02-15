@@ -1,6 +1,6 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <sstream>
 
@@ -18,35 +18,25 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+#include "UserSocket.hh"
+
 static long read_wf(waveformRecord *rec)
 {
   //UDP socket
-  int port           = 12345;
-  double timeout_sec = 0.5;
-  
-  struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
-  int sock = socket(AF_INET, SOCK_DGRAM, 0);
-  setsockopt( sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv) );
-
-  struct sockaddr_in addr;
-  addr.sin_family       = AF_INET;
-  addr.sin_port         = htons(port);
-  addr.sin_addr.s_addr  = INADDR_ANY;
-
-  bind(sock, (struct sockaddr *)&addr, sizeof(addr));
+  UserSocket sock( 12345 );
+  if( !sock.IsOpen() )
+    return -1;
 
   char buf[2048]={0};
 
-  if(recv(sock, buf, sizeof(buf), 0) < 0){
-    time_t t;
-    t = time(NULL);
-    std::string date(ctime(&t));
+  if( sock.Recv( buf, sizeof(buf), 0 ) < 0){
+    std::time_t t;
+    t = std::time(NULL);
+    std::string date( std::ctime(&t) );
     date = date.substr(0, date.length()-1);
     //printf("%s | HBJ UDP recv timeout\n",date.c_str());
-    close(sock);
     return 0;
   }
-  close(sock);
 
   //printf("%s\n",buf);
 
@@ -65,7 +55,7 @@ static long read_wf(waveformRecord *rec)
       ndata++;
     }
   }
-  
+
   rec->nord = ndata;
   //printf("HBJ_LABVIEW: ndata=%d\n",ndata);
   return 0;

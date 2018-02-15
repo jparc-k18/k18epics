@@ -21,71 +21,49 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+#include "UserSocket.hh"
+
 static long read_wf(waveformRecord *rec)
 {
-  //connect socket
-  
-  // w/o proxy server
-  //char host[]        = "192.153.109.17";
-  //int port           = 80;
+  // connect socket w/ proxy server
+  UserSocket sock( "192.168.30.1", 8080, 0.5 );
 
-  // w/ proxy server
-  char host[]        = "192.168.30.1";
-  int port           = 8080;
+  // connect socket w/o proxy server
+  // UserSocket sock( "192.153.109.17", 80, 0.5 );
 
-  double timeout_sec = 0.5;
-  
-  struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
-  int sock = socket(AF_INET, SOCK_STREAM, 0);
-  setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-  //setsockopt( sock, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv) );
+  if( !sock.IsOpen() )
+    return -1;
 
-  struct sockaddr_in addr;
-  addr.sin_family       = AF_INET;
-  addr.sin_port         = htons(port);
-  addr.sin_addr.s_addr  = inet_addr(host);
-
-  if(connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0){
-    time_t t;
-    t = time(NULL);
-    std::string date(ctime(&t));
-    date = date.substr(0, date.length()-1);
-    printf("%s | HTTP HDuser connection failure\n",date.c_str());
-    close(sock);
-    return 0;
-  }
-  
   // send HTTP request
   char cmdline[] = "GET http://www-cont.j-parc.jp/HD/hduser/k18brpc HTTP/1.0\n\n";
-  write(sock, cmdline, strlen(cmdline));
-  
+  sock.Write( cmdline, strlen(cmdline) );
+
   // receive
   std::string buf;
   int total_len=0;
   char c;
-  while ( read(sock, &c, 1) > 0 ) {
+  while ( sock.Read( &c, 1 ) > 0 ) {
     buf += c;
     total_len++;
     if(total_len > 65535) break;
   }
-  close(sock);
-  
+
   // analize table
   typedef std::vector<std::string> tb_row;
   std::vector<tb_row> tb_content;
-  
+
   int index1=0;
   while(1){
     int pos1 = buf.find("<tr>", index1);
     if(pos1 == (int)std::string::npos) break;
     int pos2 = buf.find("</tr>", index1);
     if(pos2 == (int)std::string::npos) break;
-    
+
     index1 = pos2 + 5;
-    
+
     std::string sub1 = buf.substr(pos1+4, pos2-pos1-5);
     //printf("%s\n",sub1.c_str());
-    
+
     tb_row row;
     int index2=0;
     while(1){
@@ -102,8 +80,8 @@ static long read_wf(waveformRecord *rec)
     }
     tb_content.push_back(row);
   }
-  
- 
+
+
 
   // fill
   float* ptr = (float*)rec->bptr;
@@ -112,9 +90,9 @@ static long read_wf(waveformRecord *rec)
   for(int i=0;i<column_num;i++){
 
     float val=0;
-    
+
     int ret = sscanf(tb_content[i][1].c_str(),"%f",&val);
-    
+
     if(ret==1){
       ptr[ndata++]=val;
     }else{
@@ -124,7 +102,7 @@ static long read_wf(waveformRecord *rec)
   }
 
   rec->nord = ndata;
-  
+
   return 0;
 }
 

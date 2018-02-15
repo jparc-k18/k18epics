@@ -20,6 +20,7 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+#include "UserSocket.hh"
 
 static long read_wf(waveformRecord *rec)
 {
@@ -30,44 +31,26 @@ static long read_wf(waveformRecord *rec)
     return 0;
   }
 
-  int port           = 80;
-  double timeout_sec = 2.0;
-
-  struct timeval tv={(int)timeout_sec, (timeout_sec-(int)timeout_sec)*1000000.};
-  int sock = socket(AF_INET, SOCK_STREAM, 0);
-  setsockopt( sock, SOL_SOCKET, SO_SNDTIMEO, &tv, sizeof(tv) );
-
-  struct sockaddr_in addr;
-  addr.sin_family       = AF_INET;
-  addr.sin_port         = htons(port);
-  addr.sin_addr.s_addr  = inet_addr(host);
-
-  if(connect(sock, (struct sockaddr*)&addr, sizeof(addr)) < 0){
-    time_t t;
-    t = time(NULL);
-    std::string date(ctime(&t));
-    date = date.substr(0, date.length()-1);
-    printf("%s | TR700W connection failure\n",date.c_str());
-    close(sock);
-    return 0;
-  }
+  UserSocket sock( host, 80 );
+  if( !sock.IsOpen() )
+    return -1;
 
   // send HTTP request
   char cmdline[] = "GET /cdata.inc HTTP/1.0\r\nUser-Agent: Wget/1.12 (linux-gnu)\r\nAccept: */*\r\nHost: 192.168.30.31\r\nConnection: Keep-Alive\r\n\r\n ";
-  write(sock, cmdline, strlen(cmdline));
+
+  sock.Write( cmdline, strlen(cmdline) );
 
   // receive
   std::string buf;
   int total_len=0;
   char c;
-  while ( read(sock, &c, 1) > 0 ) {
+  while ( sock.Read( &c, 1 ) > 0 ) {
     if(0x20 < c && c <0x7f){
       buf += c;
       total_len++;
     }
     if(total_len > 65535) break;
   }
-  close(sock);
 
   if(total_len!=271) {
     time_t t;
