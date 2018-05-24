@@ -31,6 +31,8 @@ K18Monitor_DBD += devAiZRRX40.dbd
 K18Monitor_DBD += devZRRX45.dbd
 K18Monitor_DBD += devGL840_BGO.dbd
 K18Monitor_DBD += devHDDAQ_runno.dbd
+K18Monitor_DBD += devMppcBias.dbd
+K18Monitor_DBD += devAiMppcBias.dbd
 
 #K18Monitor_DBD += devHBJ.dbd
 #K18Monitor_DBD += devAiHBJ.dbd
@@ -56,6 +58,8 @@ K18Monitor_SRCS += devZRRX40.cc
 K18Monitor_SRCS += devZRRX45.cc
 K18Monitor_SRCS += devGL840_BGO.cc
 K18Monitor_SRCS += devHDDAQ_runno.cc
+K18Monitor_SRCS += devAiMppcBias.cc
+K18Monitor_SRCS += devMppcBias.cc
 
 #K18Monitor_SRCS += devHBJ.cc
 #K18Monitor_SRCS += devAiHBJ.cc

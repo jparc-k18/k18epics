@@ -20,6 +20,7 @@ cmd_list=(
     caenhv3.cmd
     caenhv4.cmd
     hddaq.cmd
+    mppcbias.cmd
 )
 
 for cmd in ${cmd_list[@]}

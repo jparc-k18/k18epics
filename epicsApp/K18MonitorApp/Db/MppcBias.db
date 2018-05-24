@@ -1,0 +1,33 @@
+#SFT
+record(waveform, "MPPCBIAS:DATA")
+{
+	field(DESC, "Mppc Bias controller")
+	field(FTVL, "FLOAT")
+	field(NELM, "2")
+	field(SCAN, "60 second")
+	field(PHAS, "0")
+	field(DTYP, "MppcBiasSup")
+	field(DESC, "board1")
+	field(FLNK, "MPPCBIAS:SFT:VSET")
+}
+record(subArray, "MPPCBIAS:SFT:VSET")
+{
+	field(SCAN, "Passive")
+	field(INP,  "MPPCBIAS:DATA")
+	field(FTVL, "FLOAT")
+	field(MALM, "2")
+	field(NELM, "1")
+	field(PREC, "1")
+	field(INDX, "0")
+	field(FLNK, "MPPCBIAS:SFT:VMON")
+}
+record(subArray, "CURRENT")
+{
+	field(SCAN, "Passive")
+	field(INP,  "MPPCBIAS:DATA")
+	field(FTVL, "FLOAT")
+	field(MALM, "2")
+	field(NELM, "1")
+	field(PREC, "1")
+	field(INDX, "1")
+}
