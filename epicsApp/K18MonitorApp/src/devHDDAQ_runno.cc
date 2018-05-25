@@ -1,6 +1,6 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstdio>
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -23,20 +23,23 @@
 
 static long read_ai(aiRecord *rec)
 {
-  int ndata=0;
-
   FILE *pipe;
   char buf[256];
 
+  std::string cat("ssh axis@");
+  cat += std::getenv("HDDAQ_EBHOST");
+  cat += " cat ";
+
   // Trig ON/OFF
-  pipe = popen("ssh axis@eb0 cat daq/data/misc/trig.txt", "r");
+  std::string command = cat + "daq/data/misc/trig.txt";
+  pipe = ::popen(command.c_str(), "r");
   if( !pipe ){
     std::cerr << "#E popen() failed" << std::endl;
     return 0;
   }
 
-  fgets( buf, sizeof(buf), pipe );
-  pclose( pipe );
+  std::fgets( buf, sizeof(buf), pipe );
+  ::pclose( pipe );
 
   std::string trig = buf;
   if( trig == "OFF" ){
@@ -45,16 +48,17 @@ static long read_ai(aiRecord *rec)
   }
 
   // Run Number
-  pipe = popen("ssh axis@eb0 cat daq/data/misc/runno.txt", "r");
+  command = cat + "daq/data/misc/runno.txt";
+  pipe = ::popen(command.c_str(), "r");
   if( !pipe ){
     std::cerr << "#E popen() failed" << std::endl;
     return 0;
   }
 
-  fgets( buf, sizeof(buf), pipe );
-  pclose( pipe );
+  std::fgets( buf, sizeof(buf), pipe );
+  ::pclose( pipe );
 
-  rec->val = atoi(buf);
+  rec->val = std::atoi(buf);
   rec->udf = FALSE;
 
   return 2;
