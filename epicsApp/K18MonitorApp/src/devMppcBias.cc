@@ -39,10 +39,10 @@ static long read_wf(waveformRecord *rec)
     std::string state;
     ss >> label >> state;
     if( label.find("192.168.") == 0 ){
-      if( state.find("ON") == 0 )
-	ptr[ndata++] = 10.;
-      else if( state.find("OFF") == 0 )
+      if( state.find("OFF") == 0 )
 	ptr[ndata++] = 0.;
+      else if( state.find("ON") == 0 )
+	ptr[ndata++] = 10.;
       else
 	ptr[ndata++] = -10.;
     }
@@ -54,10 +54,12 @@ static long read_wf(waveformRecord *rec)
       double imon = -9999.;
       double temp = -9999.;
       ss >> date >> time >> vset >> vmon >> imon >> temp;
-      if( state.find("ON") == 0 )
-	ptr[ndata++] = 10.;
-      else if( state.find("OFF") == 0 )
+      if( state.find("OFF") == 0 )
 	ptr[ndata++] = 0.;
+      else if( state.find("ON") == 0 )
+	ptr[ndata++] = 10.;
+      else if( state.find("NOUPDATE") == 0 )
+	ptr[ndata++] = 20.;
       else
 	ptr[ndata++] = -10.;
       ptr[ndata++] = vset * 10.;
