@@ -95,6 +95,8 @@ CheckEpicsData( void )
       std::cout << "\033[0;33;1m"
 		<< "  !!! Alarm !!!" << "\033[0m";
       AlarmSound();
+    } else {
+      std::cout << "               ";
     }
 
     std::cout << std::endl;
