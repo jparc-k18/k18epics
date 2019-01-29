@@ -4,6 +4,7 @@
 file "db/Accel.template" {
      { name = ACC:RUN_NUMBER,                ch =  3 }
      { name = ACC:SHOT_NUMBER,               ch =  4 }
+     { name = ACC:LAST_SHOT_TIME,            ch =  5 }
      { name = ACC:MR:POWER,                  ch =  6 }
      { name = ACC:MR:INTENSITY,              ch =  7 }
      { name = ACC:SX:DUTY,                   ch =  8 }

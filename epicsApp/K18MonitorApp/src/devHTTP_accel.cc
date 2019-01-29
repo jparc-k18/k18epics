@@ -86,15 +86,37 @@ static long read_wf(waveformRecord *rec)
   int ndata=0;
   int column_num = tb_content.size();
   for(int i=0;i<column_num;i++){
-
-    float val=0;
+    float val = 0;
     char tmp[255];
 
-    int ret = sscanf(tb_content[i][1].c_str(),"%f %s",&val,tmp);
+    float val2[6]= {};
+
+    int ret;
+    if( i != 4 ){
+      ret = sscanf(tb_content[i][1].c_str(),"%f %s", &val, tmp);
+    } else {
+      // std::cout << tb_content[i][1] << std::endl;
+      ret = sscanf(tb_content[i][1].c_str(), "%02f/%02f/%02f %02f:%02f:%02f",
+		   &val2[0], &val2[1], &val2[2], &val2[3], &val2[4], &val2[5]);
+      struct tm tm;
+      tm.tm_sec  = val2[5];
+      tm.tm_min  = val2[4];
+      tm.tm_hour = val2[3];
+      tm.tm_mday = val2[2];
+      tm.tm_mon  = val2[1];
+      tm.tm_year = val2[0] + 2000 - 1900;
+      val = mktime(&tm) - timezone;
+      // for( int j=0; j<6; ++j ){
+      // 	std::cout <<  val2[j] << " ";
+      // }
+      // std::cout <<  (long)val << std::endl;
+    }
 
     if(ret==2){
       ptr[ndata++]=val;
     }else if(ret==1){
+      ptr[ndata++]=val;
+    }else if(ret==6){
       ptr[ndata++]=val;
     }else{
       ptr[ndata++]=(float)-9999;

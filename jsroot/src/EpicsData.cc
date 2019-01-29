@@ -51,6 +51,12 @@ EpicsData::EpicsData( TString name )
     Color_t color = ch%10 == 0 ? 11 : ch%10;
     m_graph->SetLineColor( color );
   }
+  if( name.Contains("MPPC") ){
+    name.ReplaceAll(name(0,11),"");
+    Int_t ch = name.Atoi();
+    Color_t color = ch%10 == 0 ? 11 : ch%10;
+    m_graph->SetLineColor( color );
+  }
   if( name.Contains("D4:Field") ){
     m_graph->SetLineColor( kGreen+1 );
   }
@@ -91,7 +97,7 @@ Bool_t
 EpicsData::Update( void )
 {
   Double_t val = -9999.;
-  TString cmd("caget -w 1 -t "+m_channel_name);
+  TString cmd("caget -w 10 -t "+m_channel_name);
   FILE *pipe = gSystem->OpenPipe( cmd, "r" );
   if( !pipe ){
     std::cerr << FUNC_NAME << std::endl << " * "
@@ -115,7 +121,8 @@ EpicsData::Update( void )
     return false;
 
   if( TMath::Abs( val ) < 1.e-3  || TMath::IsNaN( val ) )
-    return false;
+    val = 0.;
+    // return false;
 
 #ifdef DEBUG
   std::cout << FUNC_NAME << " " << m_channel_name << " " << val << std::endl;

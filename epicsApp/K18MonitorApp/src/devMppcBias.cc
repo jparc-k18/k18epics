@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string>
 #include <cstring>
+#include <ctime>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -25,15 +26,20 @@ static long read_wf(waveformRecord *rec)
 {
   float* ptr = (float*)rec->bptr;
 
-  std::ifstream ifs("/data3/E40SubData/epics_2018jun/mppcbias_summary.txt");
+  static std::string summary_txt("/data3/E40SubData/epics_2018jun/mppcbias_summary.txt");
+  std::ifstream ifs( summary_txt.c_str() );
   if( !ifs.is_open() ){
+    std::cerr << "ERROR: cannot open file: " << summary_txt << std::endl;
     rec->nord = 0;
     return 0;
   }
 
+  std::cout << std::time(0) << std::endl;
+
   std::string line;
   int ndata = 0;
   while( !ifs.eof() && std::getline(ifs, line) ){
+    std::cout << line << std::endl;
     std::stringstream ss(line);
     std::string label;
     std::string state;
@@ -66,6 +72,17 @@ static long read_wf(waveformRecord *rec)
       ptr[ndata++] = vmon * 10.;
       ptr[ndata++] = imon * 10.;
       ptr[ndata++] = temp * 10.;
+    }
+  }
+
+  int i = 0;
+  for( int b=0; b<2; ++b ){
+    std::cout << i << " " << ptr[i++] << std::endl;
+    for( int j=0; j<8; ++j ){
+      for( int j=0; j<5; ++j ){
+	std::cout << ptr[i++] << " ";
+      }
+      std::cout << std::endl;
     }
   }
 

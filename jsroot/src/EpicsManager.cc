@@ -103,6 +103,8 @@ EpicsManager::Initialize( void )
   m_canvas_list.push_back( canvas::T1() );
   m_canvas_list.push_back( canvas::AIR() );
   m_canvas_list.push_back( canvas::BGO() );
+  m_canvas_list.push_back( canvas::MPPC_SFT() );
+  m_canvas_list.push_back( canvas::MPPC_CFT() );
   m_canvas_list.push_back( canvas::SLIT() );
   m_canvas_list.push_back( canvas::ESS() );
   m_canvas_list.push_back( canvas::Field() );

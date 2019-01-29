@@ -91,7 +91,7 @@ CheckEpicsData( void )
     }
 
     // if( bit[i].count()==NTime ){
-    if( bit[i].count()>0 ){
+    if( bit[i][NTime-1] ){
       std::cout << "\033[0;33;1m"
 		<< "  !!! Alarm !!!" << "\033[0m";
       AlarmSound();
@@ -148,17 +148,19 @@ void
 Run( void )
 {
   while( true ){
-    std::cout << "\033[2J\033[1;1H" // Clear
-	      << "EPICS Alarm is running ..." << std::endl;
+    std::cout << "EPICS Alarm is running ..." << std::endl;
+    // std::cout << "\033[2J\033[1;1H" // Clear
+    // 	      << "EPICS Alarm is running ..." << std::endl;
 
     now = std::time(0);
 
-    ShowThreshold();
+    // ShowThreshold();
     PrintTime();
     CheckEpicsData();
 
     Int_t rest = CheckInterval - (std::time(0) - now);
     if( rest>0 ) ::sleep(rest);
+    std::cout << "\033[41A" << std::flush; // Move cursor
   }
 }
 

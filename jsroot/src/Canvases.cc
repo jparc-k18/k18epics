@@ -78,7 +78,6 @@ canvas::BGO( void )
   TCanvas *c1 = new TCanvas(__func__, __func__);
   // TLegend *l1 = new TLegend( 0.2, 0.2, 0.6, 0.4 );
   gEpics.GetGraph("BGO:CH1")->SetTitle("BGO Temp.");
-  gEpics.GetGraph("BGO:CH1")->GetYaxis()->SetRangeUser(0.,40.);
   for( Int_t i=0; i<20; ++i ){
     if( i==17 || i==18 || i==19 )
       continue;
@@ -116,6 +115,42 @@ canvas::Field( void )
   c1->Divide( 1, 2 );
   c1->cd(1); Draw("D4:Field");
   c1->cd(2); Draw("KURAMA:Field");
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
+canvas::MPPC_SFT( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide(2, 2);
+  TString mon[] = { "VSET", "VMON", "IMON", "TEMP" };
+  for( Int_t m=0; m<4; ++m ){
+    c1->cd(m + 1);
+    gEpics.GetGraph(Form("MPPC:SFT:CH0:%s", mon[m].Data()))
+      ->SetTitle(Form("MPPC Bias SFT %s", mon[m].Data()));
+    for( Int_t i=0; i<8; ++i ){
+      Draw( Form("MPPC:SFT:CH%d:%s", i, mon[m].Data()) );
+    }
+  }
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
+canvas::MPPC_CFT( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide(2, 2);
+  TString mon[] = { "VSET", "VMON", "IMON", "TEMP" };
+  for( Int_t m=0; m<4; ++m ){
+    c1->cd(m + 1);
+    gEpics.GetGraph(Form("MPPC:CFT:CH0:%s", mon[m].Data()))
+      ->SetTitle(Form("MPPC Bias CFT %s", mon[m].Data()));
+    for( Int_t i=0; i<8; ++i ){
+      Draw( Form("MPPC:CFT:CH%d:%s", i, mon[m].Data()) );
+    }
+  }
   return c1;
 }
 
@@ -159,11 +194,33 @@ canvas::Update( void )
       Int_t n = g->GetN();
       Double_t* py = g->GetY();
       for( Int_t j=0; j<n; ++j ){
+	if( py[j] <= 0.1 ) continue;
 	if( py[j] < min ) min = py[j];
 	if( max < py[j] ) max = py[j];
       }
     }
+    // gEpics.GetGraph("BGO:CH1")->GetYaxis()->SetRangeUser(0.,40.);
     gEpics.GetGraph("BGO:CH1")->GetYaxis()->SetRangeUser( min-1., max+1. );
+  }
+  TString board[] = { "SFT", "CFT" };
+  TString mon[] = { "VSET", "VMON", "IMON", "TEMP" };
+  for( Int_t b=0; b<2; ++b ){
+    for( Int_t m=0; m<4; ++m ){
+      Double_t min = 0., max = 0.;
+      for( Int_t i=0; i<8; ++i ){
+	TGraph *g = gEpics.GetGraph( Form("MPPC:%s:CH%d:%s",
+					  board[b].Data(), i, mon[m].Data()) );
+	Int_t n = g->GetN();
+	Double_t* py = g->GetY();
+	for( Int_t j=0; j<n; ++j ){
+	  if( py[j] <= 0.1 ) continue;
+	  if( py[j] < min ) min = py[j];
+	  if( max < py[j] ) max = py[j];
+	}
+      }
+      gEpics.GetGraph(Form("MPPC:%s:CH0:%s", board[b].Data(), mon[m].Data()))
+	->GetYaxis()->SetRangeUser( min-1., max+1. );
+    }
   }
   return;
 }
