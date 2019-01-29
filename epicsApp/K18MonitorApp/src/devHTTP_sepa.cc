@@ -62,8 +62,8 @@ static long read_wf(waveformRecord *rec)
 
     index1 = pos2 + 5;
 
-    std::string sub1 = buf.substr(pos1+4, pos2-pos1-5);
-    //printf("%s\n",sub1.c_str());
+    std::string sub1 = buf.substr(pos1+4, pos2-pos1-4);
+    // printf("%s\n",sub1.c_str());
 
     tb_row row;
     int index2=0;
@@ -77,7 +77,7 @@ static long read_wf(waveformRecord *rec)
 
       std::string sub2 = sub1.substr(pos3+1, pos4-pos3-1);
       row.push_back(sub2);
-      //printf("%s\n",sub2.c_str());
+      // printf("%s\n",sub2.c_str());
     }
     tb_content.push_back(row);
   }
@@ -86,39 +86,50 @@ static long read_wf(waveformRecord *rec)
   // fill
   float* ptr = (float*)rec->bptr;
   int ndata=0;
-  int column_num = tb_content.size();
-  for(int i=0;i<column_num;i++){
+  if( tb_content.size() == 6 ){
+    for(int i=0;i<4;i++){
+      float val;
 
-    float val;
+      //VSET
+      if( sscanf(tb_content[i][1].c_str(),"%f",&val) == 1 ){
+	ptr[ndata++]=val;
+      }else{
+	ptr[ndata++]=(float)-9999;
+      }
 
-    //VSET
-    if( sscanf(tb_content[i][1].c_str(),"%f",&val) == 1 ){
-      ptr[ndata++]=val;
-    }else{
-      ptr[ndata++]=(float)-9999;
+      //VMON
+      if( sscanf(tb_content[i][2].c_str(),"%f",&val) == 1 ){
+	ptr[ndata++]=val;
+      }else{
+	ptr[ndata++]=(float)-9999;
+      }
+
+      //IMON
+      if( sscanf(tb_content[i][3].c_str(),"%f",&val) == 1 ){
+	ptr[ndata++]=val;
+      }else{
+	ptr[ndata++]=(float)-9999;
+      }
+
+      if(ndata > (int)rec->nelm - 10){
+	printf("HTTP Sepa received too many elements\n");
+	return 0;
+      }
     }
-
-    //VMON
-    if( sscanf(tb_content[i][2].c_str(),"%f",&val) == 1 ){
-      ptr[ndata++]=val;
-    }else{
-      ptr[ndata++]=(float)-9999;
+    for(int i=4;i<6;i++){
+      float val;
+      // CCG
+      if( sscanf(tb_content[i][1].c_str(),"%f Pa",&val) == 1 ){
+	ptr[ndata++]=val;
+      }else{
+	ptr[ndata++]=(float)-9999;
+      }
+      if(ndata > (int)rec->nelm - 10){
+	printf("HTTP Sepa received too many elements\n");
+	return 0;
+      }
     }
-
-    //IMON
-    if( sscanf(tb_content[i][3].c_str(),"%f",&val) == 1 ){
-      ptr[ndata++]=val;
-    }else{
-      ptr[ndata++]=(float)-9999;
-    }
-
-    if(ndata > (int)rec->nelm - 10){
-      printf("HTTP Sepa received too many elements\n");
-      return 0;
-    }
-
   }
-
   rec->nord = ndata;
 
   return 0;
