@@ -160,7 +160,8 @@ Run( void )
 
     Int_t rest = CheckInterval - (std::time(0) - now);
     if( rest>0 ) ::sleep(rest);
-    std::cout << "\033[41A" << std::flush; // Move cursor
+    // Move cursor
+    std::cout << Form("\033[%dA", ChannelList.size()+4) << std::flush;
   }
 }
 
