@@ -30,6 +30,7 @@ static long read_wf(waveformRecord *rec)
     printf("TR700W no host ip address\n");
     return 0;
   }
+  // printf("IP : %s\n", host);
 
   UserSocket sock( host, 80 );
   if( !sock.IsOpen() )
@@ -52,7 +53,9 @@ static long read_wf(waveformRecord *rec)
     if(total_len > 65535) break;
   }
 
-  if(total_len!=271) {
+  int offset = 271 - total_len;
+
+  if( offset != 0  && offset != 1 ) {
     time_t t;
     t = time(NULL);
     std::string date(ctime(&t));
@@ -61,17 +64,19 @@ static long read_wf(waveformRecord *rec)
     return 0;
   }
 
-  std::string sub1 =  buf.substr(125, 4);
-  //printf("sub1: %s\n",sub1.c_str());
+  // printf("total len = %d\n%s\n", total_len, buf.c_str());
 
-  std::string sub2 =  buf.substr(155, 2);
-  //printf("sub2: %s\n",sub2.c_str());
+  std::string sub1 =  buf.substr(125, 4);
+  // printf("sub1: %s\n",sub1.c_str());
+
+  std::string sub2 =  buf.substr(155-offset, 3);
+  // printf("sub2: %s\n",sub2.c_str());
 
 
   float* ptr = (float*)rec->bptr;
 
   ptr[0] = (float)( atof(sub1.c_str()) );
-  ptr[1] = (float)( atof(sub2.c_str()) );
+  ptr[1] = (float)( atof(sub2.c_str()) ) * 0.1;
 
   rec->nord = 2;
 
