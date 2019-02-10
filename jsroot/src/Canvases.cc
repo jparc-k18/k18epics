@@ -95,15 +95,17 @@ TCanvas*
 canvas::ESS( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide( 4, 2 );
-  c1->cd(1); Draw("ESS1:POS:VMON");
-  c1->cd(2); Draw("ESS1:NEG:VMON");
-  c1->cd(3); Draw("ESS2:POS:VMON");
-  c1->cd(4); Draw("ESS2:NEG:VMON");
-  c1->cd(5); Draw("ESS1:POS:IMON");
-  c1->cd(6); Draw("ESS1:NEG:IMON");
-  c1->cd(7); Draw("ESS2:POS:IMON");
-  c1->cd(8); Draw("ESS2:NEG:IMON");
+  c1->Divide( 5, 2 );
+  c1->cd( 1); Draw("ESS1:POS:VMON");
+  c1->cd( 2); Draw("ESS1:NEG:VMON");
+  c1->cd( 3); Draw("ESS2:POS:VMON");
+  c1->cd( 4); Draw("ESS2:NEG:VMON");
+  c1->cd( 5); Draw("ESS1:CCG");
+  c1->cd( 6); Draw("ESS1:POS:IMON");
+  c1->cd( 7); Draw("ESS1:NEG:IMON");
+  c1->cd( 8); Draw("ESS2:POS:IMON");
+  c1->cd( 9); Draw("ESS2:NEG:IMON");
+  c1->cd(10); Draw("ESS2:CCG");
   return c1;
 }
 

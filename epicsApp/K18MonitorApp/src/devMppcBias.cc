@@ -26,7 +26,8 @@ static long read_wf(waveformRecord *rec)
 {
   float* ptr = (float*)rec->bptr;
 
-  static std::string summary_txt("/data3/E40SubData/epics_2018jun/mppcbias_summary.txt");
+  static std::string summary_txt("/data3/E40SubData2019Feb/epics_2019feb/mppcbias_summary.txt");
+  // static std::string summary_txt("/data3/E40SubData/epics_2018jun/mppcbias_summary.txt");
   std::ifstream ifs( summary_txt.c_str() );
   if( !ifs.is_open() ){
     std::cerr << "ERROR: cannot open file: " << summary_txt << std::endl;
