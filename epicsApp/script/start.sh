@@ -13,7 +13,7 @@ cmd_list=(
     accel.cmd
     hadron.cmd
     zrrx40.cmd
-    zrrx45.cmd
+    # zrrx45.cmd
     gl840_bgo.cmd
     caenhv1.cmd
     caenhv2.cmd

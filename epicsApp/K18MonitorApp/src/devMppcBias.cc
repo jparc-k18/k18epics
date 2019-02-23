@@ -64,15 +64,15 @@ static long read_wf(waveformRecord *rec)
       if( state.find("OFF") == 0 )
 	ptr[ndata++] = 0.;
       else if( state.find("ON") == 0 )
-	ptr[ndata++] = 10.;
+	ptr[ndata++] = 100.;
       else if( state.find("NOUPDATE") == 0 )
-	ptr[ndata++] = 20.;
+	ptr[ndata++] = 200.;
       else
-	ptr[ndata++] = -10.;
-      ptr[ndata++] = vset * 10.;
-      ptr[ndata++] = vmon * 10.;
-      ptr[ndata++] = imon * 10.;
-      ptr[ndata++] = temp * 10.;
+	ptr[ndata++] = -100.;
+      ptr[ndata++] = vset * 100.;
+      ptr[ndata++] = vmon * 100.;
+      ptr[ndata++] = imon * 100.;
+      ptr[ndata++] = temp * 100.;
     }
   }
 

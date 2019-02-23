@@ -16,6 +16,6 @@ record(ai, "$(name)")
 	field(DTYP, "AiMppcBiasSup")
 	field(PHAS, "1")
 	field(LINR, "LINEAR")
-	field(ESLO, "0.1")
+	field(ESLO, "0.01")
 	field(DESC, "MppcBias@$(ch)")
 }
