@@ -70,38 +70,52 @@ CheckEpicsData( void )
     gSystem->Sleep(10);
   }
 
-  std::cout << std::left << std::setw(20) << "Name ";
-	    // << "Counts ";
+  std::stringstream ss;
+
+  ss << std::left << std::setw(30) << "Name ";// << "Counts ";
   for( Int_t i=0, n=NTime; i<n; ++i )
-    std::cout << std::right << std::setw(6)
-	      << Form("-%ds", CheckInterval*(n-i-1));
-  std::cout << std::endl;
+    ss << std::right << std::setw(6)
+       << Form("-%ds", CheckInterval*(n-i-1));
+  ss << std::endl;
+
+  Int_t nAlarm = 0;
+  Int_t nDisp = 0;
 
   for( Int_t i=0, n=value.size(); i<n; ++i ){
-    std::cout << std::left << std::fixed << std::setprecision(1)
-	      << std::setw(20) << ChannelList[i];// << " ";
-	      // << std::right
-	      // << std::setw(2) << bit[i].count() << "/"
-	      // << std::setw(2) << NTime << " ";
+    // << std::right
+    // << std::setw(2) << bit[i].count() << "/"
+    // << std::setw(2) << NTime << " ";
+    std::stringstream sbuf;
     for( Int_t j=0, m=value[i].size(); j<m; ++j ){
-      if( bit[i][j] ) std::cout << "\033[0;33;1m";
-      std::cout << std::right << std::setw(6)
-		<< Form("%.1lf", value[i][j]);
-      if( bit[i][j] ) std::cout << "\033[0m";
+      if( bit[i][j] ) sbuf << "\033[0;33;1m";
+      sbuf << std::right << std::setw(6)
+	   << Form("%.1lf", value[i][j]);
+      if( bit[i][j] ) sbuf << "\033[0m";
     }
 
     // if( bit[i].count()==NTime ){
     if( bit[i][NTime-1] ){
-      std::cout << "\033[0;33;1m"
-		<< "  !!! Alarm !!!" << "\033[0m";
-      AlarmSound();
+      sbuf << "\033[0;33;1m"
+	   << "  !!! Alarm !!!" << "\033[0m";
+      nAlarm++;
     } else {
-      std::cout << "               ";
+      sbuf << "               ";
     }
 
-    std::cout << std::endl;
+    sbuf << std::endl;
+    if( bit[i].any() ){
+      ss << std::left << std::fixed << std::setprecision(1)
+	 << std::setw(30) << ChannelList[i]// << " ";
+	 << sbuf.str();
+      nDisp++;
+    }
   }
-
+  if( nDisp > 0 )
+    std::cout << ss.str() << "\033[J" << std::flush;
+  else
+    std::cout << " " << ChannelList.size() << " channels are ok" << std::endl;
+  if( nAlarm > 0 )
+    AlarmSound();
 }
 
 //______________________________________________________________________________
@@ -149,21 +163,16 @@ PrintTime( void )
 void
 Run( void )
 {
+  std::cout << "\033[2J";
   while( true ){
-    std::cout << "EPICS Alarm is running ..." << std::endl;
-    // std::cout << "\033[2J\033[1;1H" // Clear
-    // 	      << "EPICS Alarm is running ..." << std::endl;
-
+    std::cout << "\033[H"
+	      << "EPICS Alarm is running ..." << std::endl;
     now = std::time(0);
-
     // ShowThreshold();
     PrintTime();
     CheckEpicsData();
-
     Int_t rest = CheckInterval - (std::time(0) - now);
     if( rest>0 ) ::sleep(rest);
-    // Move cursor
-    std::cout << Form("\033[%dA", ChannelList.size()+4) << std::flush;
   }
 }
 
