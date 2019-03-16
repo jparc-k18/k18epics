@@ -49,9 +49,9 @@ static long read_wf(waveformRecord *rec)
       if( state.find("OFF") == 0 )
 	ptr[ndata++] = 0.;
       else if( state.find("ON") == 0 )
-	ptr[ndata++] = 10.;
+	ptr[ndata++] = 100.;
       else
-	ptr[ndata++] = -10.;
+	ptr[ndata++] = -100.;
     }
     if( label.find("CH") == 0 ){
       std::string date;

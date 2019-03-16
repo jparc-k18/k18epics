@@ -19,18 +19,39 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+enum E_CAEN_STATUS
+  {
+    kOn                   = 0,
+    kRampingUp            = 1,
+    kRampingDown          = 2,
+    kOverCurrent          = 3,
+    kOverVoltage          = 4,
+    kUnderVoltage         = 5,
+    kExternalTrip         = 6,
+    kMaxV                 = 7,
+    kExternalDisable      = 8,
+    kInternalTrip         = 9,
+    kUnplugged            = 10,
+    kReserved             = 11,
+    kOverVolageProtection = 12,
+    kPowerFail            = 13,
+    kTemperatureError     = 14,
+    N_CAEN_STATUS         = 15
+  };
+
 static long read_wf(waveformRecord *rec)
 {
-  char board[16];
-  char host[256];
-  int slot;
-  int ch_max;
-  if( sscanf(rec->desc,"%s %s %d %d",board, host, &slot, &ch_max) != 4 ){
+  char board[16] = {};
+  char host[256] = {};
+  int slot_buf = 0;
+  int ch_max_buf = 0;
+  if( sscanf(rec->desc,"%s %s %d %d",board, host, &slot_buf, &ch_max_buf) != 4 ){
     printf("CAEN HV: DESC format error\n");
     return 0;
   }
 
-  if(ch_max>24) ch_max=24;
+  const int slot = slot_buf;
+  const int ch_max = ch_max_buf>24 ? 24 : ch_max_buf;
 
   CAENHV_SYSTEM_TYPE_t sysType;
   int link = LINKTYPE_TCPIP;
@@ -53,20 +74,25 @@ static long read_wf(waveformRecord *rec)
     }
   }
 
+  unsigned short slotList[1] = { slot };
   unsigned short ChList[24] = {
     0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
   };
-  float V0Set[24]     = {};
-  float I0Set[24]     = {};
-  float VMon[24]      = {};
-  float IMon[24]      = {};
+  float V0Set[24] = {};
+  float I0Set[24] = {};
+  float VMon[24] = {};
+  float IMon[24] = {};
   unsigned int Pw[24] = {};
+  unsigned int Status[24] = {};
+  unsigned int BdStatus = 0;
 
+  CAENHV_GetBdParam(sysHndl, slot, slotList, "BdStatus", &BdStatus);
   CAENHV_GetChParam(sysHndl, slot, "V0Set", ch_max, ChList, V0Set);
   CAENHV_GetChParam(sysHndl, slot, "I0Set", ch_max, ChList, I0Set);
   CAENHV_GetChParam(sysHndl, slot, "VMon", ch_max, ChList, VMon);
   CAENHV_GetChParam(sysHndl, slot, "IMon", ch_max, ChList, IMon);
   CAENHV_GetChParam(sysHndl, slot, "Pw", ch_max, ChList, Pw);
+  CAENHV_GetChParam(sysHndl, slot, "Status", ch_max, ChList, Status);
 
   // {
   //   int ret = CAENHV_DeinitSystem(sysHndl);
@@ -80,6 +106,8 @@ static long read_wf(waveformRecord *rec)
   float* ptr = (float*)rec->bptr;
   int ndata=0;
 
+  ptr[ndata++] = BdStatus;
+
   for(int i=0;i<ch_max;i++){
     // printf("CH:%d  V0Set:%f  I0Set:%f  VMon:%f  IMon:%f  Pw:%s\n",
     // 	   i, V0Set[i], I0Set[i], VMon[i], IMon[i], Pw[i]? "ON":"OFF");
@@ -88,6 +116,7 @@ static long read_wf(waveformRecord *rec)
     ptr[ndata++] = VMon[i];
     ptr[ndata++] = IMon[i];
     ptr[ndata++] = (float)Pw[i];
+    ptr[ndata++] = (float)Status[i];
   }
 
   rec->nord = ndata;
