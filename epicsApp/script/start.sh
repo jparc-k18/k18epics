@@ -5,28 +5,28 @@ set -e
 script_dir=$(dirname $(readlink -f $0))
 
 cmd_list=(
-    tr700.cmd
-    separator.cmd
-    sksd4.cmd
-    k18line.cmd
-    aline.cmd
-    accel.cmd
-    hadron.cmd
-    zrrx40.cmd
-    # zrrx45.cmd
-    gl840_bgo.cmd
-    caenhv1.cmd
-    caenhv2.cmd
-    caenhv3.cmd
-    caenhv4.cmd
-    hddaq.cmd
-    mppcbias.cmd
+    tr700
+    separator
+    sksd4
+    k18line
+    aline
+    accel
+    hadron
+    zrrx40
+    # zrrx45
+    gl840_bgo
+    caenhv1
+    caenhv2
+    caenhv3
+    caenhv4
+    hddaq
+    mppcbias
 )
 
 for cmd in ${cmd_list[@]}
 do
-    screen -ls | grep $cmd >/dev/null && \
-	continue
-    screen -S $cmd -d -m sh -c "$script_dir/K18Monitor.sh $cmd" && \
-	echo "start K18Monitor $cmd"
+    tmux ls | grep $cmd >/dev/null 2>&1 && continue
+    tmux new-session -d -s ioc_$cmd \
+	"$script_dir/K18Monitor.sh $cmd.cmd" && \
+	echo "create session ioc_$cmd"
 done
