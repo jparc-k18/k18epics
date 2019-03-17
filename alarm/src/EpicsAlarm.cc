@@ -113,7 +113,7 @@ CheckEpicsData( void )
   if( nDisp > 0 )
     std::cout << ss.str() << "\033[J" << std::flush;
   else
-    std::cout << " " << ChannelList.size() << " channels are ok" << std::endl;
+    std::cout << " " << ChannelList.size() << " channels are ok\033[J" << std::endl;
   if( nAlarm > 0 )
     AlarmSound();
 }
