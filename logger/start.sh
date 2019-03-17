@@ -1,8 +1,20 @@
 #!/bin/sh
 
-thisroot_sh=`root-config --prefix`/bin/thisroot.sh
+top_dir=$(dirname $(readlink -f $0))
 
-param=param/channel_list.txt
+name=epics_logger
 
-screen -AmdS EpicsLogger \
-    sh -c ". $thisroot_sh && bin/EpicsLogger $param data"
+session=`tmux ls | grep $name 2>/dev/null`
+
+command="$top_dir/bin/EpicsLogger \
+    $top_dir/param/channel_list.txt \
+    $top_dir/data"
+
+if [ -z "$session" ]; then
+    echo "create new session $name"
+    tmux new-session -d -s $name "$command"
+else
+    # echo "session $name already exists"
+    echo "attach session $name"
+    tmux a -t $name
+fi
