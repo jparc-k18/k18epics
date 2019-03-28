@@ -144,7 +144,7 @@ EpicsData::Update( void )
   // m_graph->GetXaxis()->SetTimeFormat("%H:%M:%S");
   m_graph->GetXaxis()->SetLabelOffset(0.04);
   m_graph->GetXaxis()->SetTimeOffset(0,"jpn");
-  // m_graph->GetXaxis()->SetNdivisions(-503);
+  m_graph->GetXaxis()->SetNdivisions(-504);
 
   return true;
 }

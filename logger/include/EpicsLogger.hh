@@ -29,7 +29,7 @@ private:
 private:
   static const Double_t DefaultValue    = -999999.999;
   static const Int_t    LoggingInterval = 30;    //second
-  static const Int_t    NewFileInterval = 14400/4; //second
+  static const Int_t    NewFileInterval = 14400; //second
 
 private:
   TString               m_param_file;
