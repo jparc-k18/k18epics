@@ -113,7 +113,8 @@ CheckEpicsData( void )
   if( nDisp > 0 )
     std::cout << ss.str() << "\033[J" << std::flush;
   else
-    std::cout << " " << ChannelList.size() << " channels are ok\033[J" << std::endl;
+    std::cout << " " << ChannelList.size() << " channels are ok\033[0K\033[J"
+	      << std::endl;
   if( nAlarm > 0 )
     AlarmSound();
 }
@@ -155,8 +156,8 @@ PrintTime( void )
 {
   TTimeStamp s;
   s.Add( -TTimeStamp::GetZoneOffset() );
-  std::cout << "Last update : " << s.AsString("s") << std::endl
-	    << std::endl;
+  std::cout << "Last update : " << s.AsString("s") << "\033[0K"
+	    << std::endl << "\033[0K" << std::endl;
 }
 
 //______________________________________________________________________________
@@ -166,7 +167,7 @@ Run( void )
   std::cout << "\033[2J";
   while( true ){
     std::cout << "\033[H"
-	      << "EPICS Alarm is running ..." << std::endl;
+	      << "EPICS Alarm is running ...\033[0K" << std::endl;
     now = std::time(0);
     // ShowThreshold();
     PrintTime();
