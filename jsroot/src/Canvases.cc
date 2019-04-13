@@ -114,9 +114,20 @@ TCanvas*
 canvas::Field( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide( 1, 2 );
+  c1->Divide(1, 2);
   c1->cd(1); Draw("D4:Field");
   c1->cd(2); Draw("KURAMA:Field");
+  return c1;
+}
+
+//______________________________________________________________________________
+TCanvas*
+canvas::GAS( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide(1, 2);
+  c1->cd(1); Draw("GAS:SDC2:DIFP");
+  c1->cd(2); Draw("GAS:SDC3:DIFP");
   return c1;
 }
 
