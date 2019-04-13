@@ -2,7 +2,7 @@
 
 while true
 do
-    ret=(`ps ax | grep K18Monitor | grep gl840 | grep -v SCREEN | grep -v /bin/sh`)
+    ret=(`ps ax | grep K18Monitor | grep gl840 | grep -v tmux | grep -v /bin/sh`)
     pid=${ret[0]}
     nthread=`ls /proc/$pid/task 2>/dev/null | wc -l`
     if [ $nthread -gt 24 ]; then
@@ -11,7 +11,7 @@ do
 	kill $pid
     fi
 
-    ret=(`ps ax | grep K18Monitor | grep mppc | grep -v SCREEN | grep -v /bin/sh`)
+    ret=(`ps ax | grep K18Monitor | grep mppc | grep -v tmux | grep -v /bin/sh`)
     pid=${ret[0]}
     nthread=`ls /proc/$pid/task 2>/dev/null | wc -l`
     if [ $nthread -gt 24 ]; then

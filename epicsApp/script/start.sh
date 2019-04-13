@@ -21,6 +21,7 @@ cmd_list=(
     caenhv4
     hddaq
     mppcbias
+    gas
 )
 
 for cmd in ${cmd_list[@]}

@@ -54,6 +54,9 @@ DB += HDDAQ_runno.db
 # DB += MppcBias.db
 DB += MppcBias.template
 DB += MppcBias.substitutions
+ DB += GAS.db
+# DB += GAS.template
+# DB += GAS.substitutions
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions

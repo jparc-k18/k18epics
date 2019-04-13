@@ -35,12 +35,12 @@ static long read_wf(waveformRecord *rec)
     return 0;
   }
 
-  std::cout << std::time(0) << std::endl;
+  // std::cout << std::time(0) << std::endl;
 
   std::string line;
   int ndata = 0;
   while( !ifs.eof() && std::getline(ifs, line) ){
-    std::cout << line << std::endl;
+    // std::cout << line << std::endl;
     std::stringstream ss(line);
     std::string label;
     std::string state;
@@ -76,6 +76,7 @@ static long read_wf(waveformRecord *rec)
     }
   }
 
+#if 0
   int i = 0;
   for( int b=0; b<2; ++b ){
     std::cout << i << " " << ptr[i++] << std::endl;
@@ -86,6 +87,7 @@ static long read_wf(waveformRecord *rec)
       std::cout << std::endl;
     }
   }
+#endif
 
   rec->nord = ndata;
   return 0;
