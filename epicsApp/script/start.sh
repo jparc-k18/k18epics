@@ -22,6 +22,7 @@ cmd_list=(
     hddaq
     mppcbias
     gas
+    tr72nw
 )
 
 for cmd in ${cmd_list[@]}

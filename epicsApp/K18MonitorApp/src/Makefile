@@ -19,6 +19,8 @@ K18Monitor_DBD += base.dbd
 K18Monitor_DBD += devSKSNMR.dbd
 K18Monitor_DBD += devD4Probe.dbd
 K18Monitor_DBD += devTR700W.dbd
+K18Monitor_DBD += devTR72NW.dbd
+K18Monitor_DBD += devAiTR72NW.dbd
 K18Monitor_DBD += devHTTP_k18magnet.dbd
 K18Monitor_DBD += devHTTP_aline.dbd
 K18Monitor_DBD += devHTTP_sepa.dbd
@@ -47,6 +49,8 @@ K18Monitor_SRCS += K18Monitor_registerRecordDeviceDriver.cpp
 K18Monitor_SRCS += devSKSNMR.cc
 K18Monitor_SRCS += devD4Probe.cc
 K18Monitor_SRCS += devTR700W.cc
+K18Monitor_SRCS += devTR72NW.cc
+K18Monitor_SRCS += devAiTR72NW.cc
 K18Monitor_SRCS += devHTTP_k18magnet.cc
 K18Monitor_SRCS += devHTTP_aline.cc
 K18Monitor_SRCS += devHTTP_sepa.cc
@@ -77,7 +81,7 @@ K18Monitor_SRCS_vxWorks += -nil-
 K18Monitor_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 # User Link
-USR_LDFLAGS += -lcaenhvwrapper
+USR_LDFLAGS += -lcaenhvwrapper -lcurl
 
 #===========================
 

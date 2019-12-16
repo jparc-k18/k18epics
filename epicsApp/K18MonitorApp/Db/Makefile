@@ -12,6 +12,8 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 DB += SKSD4.db
 DB += TR700W.db
+DB += TR72NW.template
+DB += TR72NW.substitutions
 DB += K18Magnet.template
 DB += K18Magnet.substitutions
 DB += ALine.template

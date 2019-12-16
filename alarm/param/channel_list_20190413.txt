@@ -291,3 +291,8 @@ CAENHV:CRATE4:SLOT2:CH11:Status	0	5
 # #BGO:CH18		-1.0		70.0
 # #BGO:CH19		-1.0		70.0
 # #BGO:CH20		-1.0		70.0
+
+D4:Field		-1.0		2.0
+KURAMA:Field		-1.0		2.0
+# D4:Field		0.4		2.0
+# KURAMA:Field		0.5		2.0
