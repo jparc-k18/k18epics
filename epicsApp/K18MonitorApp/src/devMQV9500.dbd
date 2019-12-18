@@ -1,0 +1,2 @@
+include "base.dbd"
+device(waveform,INST_IO,devMQV9500,"MQV9500Sup")

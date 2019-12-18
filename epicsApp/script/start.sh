@@ -23,6 +23,7 @@ cmd_list=(
     mppcbias
     gas
     tr72nw
+    mqv9500
 )
 
 for cmd in ${cmd_list[@]}

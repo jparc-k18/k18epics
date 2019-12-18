@@ -1,0 +1,8 @@
+# MQV9500 substitutions file
+# ch   :  form 1 to 2
+
+file "db/MQV9500.template" {
+   { ch=1, name=GAS:TPC:STAT }
+   { ch=2, name=GAS:TPC:FSET }
+   { ch=3, name=GAS:TPC:FMON }
+}
