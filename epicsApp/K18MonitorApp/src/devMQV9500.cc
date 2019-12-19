@@ -27,7 +27,6 @@
 
 namespace
 {
-  UserSocket *sock = NULL;
   std::string host;
   int         addr;
 
@@ -38,27 +37,6 @@ namespace mqv
   const std::string Term( "\r\n" );
   const std::string SubAddr( "00" );
   const std::string DeviceCode( "X" );
-
-  //___________________________________________________________________________
-  bool Read( std::string& buf )
-  {
-    buf.clear();
-    unsigned char c;
-    while( sock->Read( &c, 1 ) > 0 ){
-      buf += c;
-      if( buf.find( Term ) != std::string::npos )
-	break;
-      if( buf.empty() )
-      	return false;
-    }
-    return true;
-  }
-
-  //___________________________________________________________________________
-  bool Write( const std::string& msg )
-  {
-    return ( sock->Write( msg.c_str(), msg.size() ) >= 0 );
-  }
 
   //___________________________________________________________________________
   void CplSum( const std::string& msg, int len, std::string& buf )
@@ -76,9 +54,10 @@ namespace mqv
   }
 
   //_____________________________________________________________________________
-  bool Apply( const std::string& command, std::string& receive )
+  bool Apply( UserSocket& sock,
+	      const std::string& command, std::string& receive )
   {
-#if DEBUG
+#ifdef DEBUG
     std::cout << "Command : " << command << std::endl;
 #endif
     receive.clear();
@@ -89,9 +68,16 @@ namespace mqv
     std::string sum;
     CplSum( message, message.size(), sum );
     message += sum + Term;
-    Write( message );
+    sock.Write( message.c_str(), message.size() );
     std::string buf;
-    Read( buf );
+    unsigned char c;
+    while( sock.Read( &c, 1 ) > 0 ){
+      buf += c;
+      if( buf.find( Term ) != std::string::npos )
+	break;
+      if( buf.empty() )
+      	return false;
+    }
     unsigned long cplsumpos = buf.size() - sum.size() - Term.size();
     CplSum( buf, cplsumpos, sum );
     if( ( buf[cplsumpos] != sum[0] ) || ( buf[cplsumpos+1] != sum[1] ) ){
@@ -101,24 +87,23 @@ namespace mqv
     }
     receive = buf.substr( header.str().size(),
 			  cplsumpos - header.str().size() - Etx.size() );
+#ifdef DEBUG
+    std::cout << "Receive : " << receive << std::endl;
+#endif
     int ret = std::strtol( receive.substr(1, 2).c_str(), NULL, 10 );
     switch( ret ){
     case 0:
-      break;
+      return true;
     case 21: case 23:
       std::cerr << "#Waring Something is wrong : " << ret << std::endl;
-      break;
+      return false;
     // case 40: case 41: case 43: case 46: case 47: case 48: case 99:
     //   std::cerr << "#ERROR Something is wrong : " << ret << std::endl;
-    //   break;
+    //   return false;
     default:
       std::cerr << "#ERROR Something is wrong : " << ret << std::endl;
-      break;
+      return false;
     }
-#if DEBUG
-    std::cout << "Receive : " << receive << std::endl;
-#endif
-    return true;
   }
 } // namespace mqv
 
@@ -129,20 +114,16 @@ static long read_wf( waveformRecord *rec )
   float* ptr = (float*)rec->bptr;
   ptr[0] = ptr[1] = ptr[2] = -9999;
   rec->nord = 3;
-
-  if( sock )
-    delete sock;
-  sock = new UserSocket( host, 4001 );
-  if( !sock->IsOpen() )
+  UserSocket sock( host, 4001 );
+  if( !sock.IsOpen() )
     return 1;
 
   std::string command;
   std::string receive;
   std::vector<std::string> data;
   std::vector<int>         val;
-
   command = "RS,1201W,8";
-  if( mqv::Apply( command, receive ) ){
+  if( mqv::Apply( sock, command, receive ) ){
     data = utility::split( receive, ',' );
     val.resize( data.size() );
     for(int i=0, n=data.size(); i<n; ++i ){
@@ -154,7 +135,6 @@ static long read_wf( waveformRecord *rec )
   } else {
     return 2;
   }
-
   return 0;
 }
 
