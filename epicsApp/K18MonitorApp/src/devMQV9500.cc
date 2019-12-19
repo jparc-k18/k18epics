@@ -27,7 +27,7 @@
 
 namespace
 {
-  UserSocket *sock;
+  UserSocket *sock = NULL;
   std::string host;
   int         addr;
 
@@ -126,6 +126,13 @@ namespace mqv
 
 static long read_wf( waveformRecord *rec )
 {
+  float* ptr = (float*)rec->bptr;
+  ptr[0] = ptr[1] = ptr[2] = -9999;
+  rec->nord = 3;
+
+  if( sock )
+    delete sock;
+  sock = new UserSocket( host, 4001 );
   if( !sock->IsOpen() )
     return 1;
 
@@ -133,7 +140,6 @@ static long read_wf( waveformRecord *rec )
   std::string receive;
   std::vector<std::string> data;
   std::vector<int>         val;
-  float* ptr = (float*)rec->bptr;
 
   command = "RS,1201W,8";
   if( mqv::Apply( command, receive ) ){
@@ -149,8 +155,6 @@ static long read_wf( waveformRecord *rec )
     return 2;
   }
 
-  rec->nord = 3;
-
   return 0;
 }
 
@@ -164,7 +168,6 @@ static long init_record(waveformRecord *rec, int pass)
   }
   host = chost;
   addr = std::strtol( caddr, NULL, 10 );
-  sock = new UserSocket( host, 4001 );
   return 0;
 }
 
