@@ -1,11 +1,13 @@
 // -*- C++ -*-
 
+#include "UserSocket.hh"
+
 #include <cstring>
 #include <ctime>
 #include <iostream>
+#include <unistd.h>
 #include <arpa/inet.h>
-
-#include "UserSocket.hh"
+#include <sys/socket.h>
 
 int UserSocket::m_n_socket = 0;
 

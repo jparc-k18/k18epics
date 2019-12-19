@@ -3,7 +3,9 @@
 #ifndef USER_SOCKET_HH
 #define USER_SOCKET_HH
 
+#include <string>
 #include <vector>
+#include <sys/types.h>
 
 //______________________________________________________________________________
 class UserSocket
