@@ -112,8 +112,10 @@ namespace mqv
 static long read_wf( waveformRecord *rec )
 {
   float* ptr = (float*)rec->bptr;
-  ptr[0] = ptr[1] = ptr[2] = -9999;
-  rec->nord = 3;
+  for( int i=0; i<5; ++i ){
+    ptr[i] = -9999;
+  }
+  rec->nord = 5;
   UserSocket sock( host, 4001 );
   if( !sock.IsOpen() )
     return 1;
@@ -132,9 +134,25 @@ static long read_wf( waveformRecord *rec )
     ptr[0] = (float)( ( val[3]<<2 ) | val[4] );
     ptr[1] = (float)val[6];
     ptr[2] = (float)val[7];
+    ptr[3] = (float)val[8];
   } else {
     return 2;
   }
+
+  data.clear();
+  val.clear();
+  command = "RS,1601W,4";
+  if( mqv::Apply( sock, command, receive ) ){
+    data = utility::split( receive, ',' );
+    val.resize( data.size() );
+    for(int i=0, n=data.size(); i<n; ++i ){
+      val[i] = std::strtol( data[i].c_str(), NULL, 10 );
+    }
+    ptr[4] = (float)(val[3] + val[4]*1e4);
+  } else {
+    return 3;
+  }
+
   return 0;
 }
 
