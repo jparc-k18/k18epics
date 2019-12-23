@@ -19,7 +19,7 @@
 #include "EpicsManager.hh"
 #include "FuncName.hh"
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 namespace
 {
   Bool_t user_stop = false;
@@ -34,7 +34,7 @@ namespace
   }
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 EpicsManager::EpicsManager( void )
   : m_file_name("channel_list.txt"),
     m_data_list(),
@@ -42,7 +42,7 @@ EpicsManager::EpicsManager( void )
 {
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 EpicsManager::~EpicsManager( void )
 {
   for( Int_t i=0, n=m_data_list.size(); i<n; ++i ){
@@ -52,7 +52,7 @@ EpicsManager::~EpicsManager( void )
   m_data_list.clear();
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 EpicsData*
 EpicsManager::GetEpicsData( const TString& name ) const
 {
@@ -66,7 +66,7 @@ EpicsManager::GetEpicsData( const TString& name ) const
   return nullptr;
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 TGraph*
 EpicsManager::GetGraph( const TString& name ) const
 {
@@ -79,7 +79,7 @@ EpicsManager::GetGraph( const TString& name ) const
   return nullptr;
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 Bool_t
 EpicsManager::Initialize( void )
 {
@@ -109,11 +109,12 @@ EpicsManager::Initialize( void )
   m_canvas_list.push_back( canvas::ESS() );
   m_canvas_list.push_back( canvas::Field() );
   m_canvas_list.push_back( canvas::GAS() );
+  m_canvas_list.push_back( canvas::TPC() );
 
   return true;
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 void
 EpicsManager::Print( const TString& arg ) const
 {
@@ -124,7 +125,7 @@ EpicsManager::Print( const TString& arg ) const
   }
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 void
 EpicsManager::PrintTime( void ) const
 {
@@ -135,7 +136,7 @@ EpicsManager::PrintTime( void ) const
 	    << now.AsString("s") << std::endl;
 }
 
-//______________________________________________________________________________
+//_____________________________________________________________________________
 void
 EpicsManager::Run( void )
 {
