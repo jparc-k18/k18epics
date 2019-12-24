@@ -4,6 +4,7 @@ typedef enum {
 	menuScanPassive,
 	menuScanEvent,
 	menuScanI_O_Intr,
+	menuScan20_second,
 	menuScan10_second,
 	menuScan5_second,
 	menuScan2_second,

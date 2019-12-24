@@ -11,6 +11,7 @@ menu(menuScan) {
 	choice(menuScanEvent,"Event")
 	choice(menuScanI_O_Intr,"I/O Intr")
 	# Periodic scans follow, ordered from slowest to fastest
+	choice(menuScan20_second,"20 second")
 	choice(menuScan10_second,"10 second")
 	choice(menuScan5_second,"5 second")
 	choice(menuScan2_second,"2 second")
