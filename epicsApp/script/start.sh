@@ -24,6 +24,7 @@ cmd_list=(
     gas
     tr72nw
     mqv9500
+    gl840_tpc
 )
 
 for cmd in ${cmd_list[@]}

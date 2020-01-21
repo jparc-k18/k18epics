@@ -59,6 +59,8 @@ DB += MppcBias.substitutions
 DB += GAS.db
 DB += MQV9500.template
 DB += MQV9500.substitutions
+DB += GL840_TPC.template
+DB += GL840_TPC.substitutions
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions

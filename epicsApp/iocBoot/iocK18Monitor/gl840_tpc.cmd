@@ -12,11 +12,7 @@ dbLoadDatabase "dbd/K18Monitor.dbd"
 K18Monitor_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
-#dbLoadDatabase("db/GAS.db")
-dbLoadRecords("db/GAS.db", "det_name=SDC2,data_type=DIFP")
-dbLoadRecords("db/GAS.db", "det_name=SDC3,data_type=DIFP")
-# dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=DIFP")
-dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=AIRP")
+dbLoadTemplate ("db/GL840_TPC.substitutions")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
