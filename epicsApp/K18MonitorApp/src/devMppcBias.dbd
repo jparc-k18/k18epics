@@ -1,2 +1,2 @@
 include "base.dbd"
-device(waveform,INST_IO,devMppcBias,"MppcBiasSup")
+device(ai,INST_IO,devMppcBias,"MppcBiasSup")
