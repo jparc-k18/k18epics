@@ -10,6 +10,7 @@ cmd_list=(
     sksd4
     k18line
     aline
+    bline
     accel
     hadron
     zrrx40
