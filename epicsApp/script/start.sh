@@ -26,6 +26,7 @@ cmd_list=(
     tr72nw
     mqv9500
     gl840_tpc
+    gl840_kurama
 )
 
 for cmd in ${cmd_list[@]}

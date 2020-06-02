@@ -63,6 +63,8 @@ DB += MQV9500.template
 DB += MQV9500.substitutions
 DB += GL840_TPC.template
 DB += GL840_TPC.substitutions
+DB += GL840_KURAMA.template
+DB += GL840_KURAMA.substitutions
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions

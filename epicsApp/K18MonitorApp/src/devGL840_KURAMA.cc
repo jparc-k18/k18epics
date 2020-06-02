@@ -58,7 +58,7 @@ namespace
 		  char* end;
 		  double v = std::strtod( s.c_str(), &end );
 		  if( v != 0. ){
-		    values[values.size()-1] = v*10.;
+		    values[values.size()-1] = v*10000.;
 		  }
 		}
 	      } else if( units[units.size()-1] == "n/a" ){
@@ -79,7 +79,7 @@ static long read_wf(waveformRecord *rec)
   units.clear();
   units.resize( 0 );
 
-  char file[] = "http://gl840_2/digital.cgi?chg=0";
+  char file[] = "http://gl840_1/digital.cgi?chg=0";
   char enc[] = "utf-8";
   htmlDocPtr docptr = htmlReadFile( file, enc, HTML_PARSE_RECOVER );
   if( docptr ){
@@ -117,7 +117,7 @@ struct IOC{
   DEVSUPFUN special_linconv;
 };
 
-struct IOC devGL840_TPC={
+struct IOC devGL840_KURAMA={
   6,
   NULL,
   NULL,
@@ -126,4 +126,4 @@ struct IOC devGL840_TPC={
   (DEVSUPFUN) read_wf,
   NULL
 };
-epicsExportAddress(dset,devGL840_TPC);
+epicsExportAddress(dset,devGL840_KURAMA);
