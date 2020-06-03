@@ -78,7 +78,13 @@ ALine:K18D1:CMON
 ALine:K18D1:CSET
 ALine:K18D1:POL
 
+# BLine Magnet
+BLine:SM1:CMON
+BLine:SM1:CSET
+BLine:SM1:POL
+
 # magnets
+KURAMA:CUR
 KURAMA:Field
 D4:Field
 
