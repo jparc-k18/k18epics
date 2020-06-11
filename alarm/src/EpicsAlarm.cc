@@ -22,6 +22,7 @@ namespace epics
 
 namespace
 {
+  TString g_file_name;
   const UInt_t CheckInterval = 10; // [s]
   const UInt_t NTime         =  6;
   std::vector<TString>  ChannelList;
@@ -123,6 +124,7 @@ CheckEpicsData( void )
 void
 Initialize( const TString& file_name )
 {
+  g_file_name = file_name;
   std::ifstream ifs( file_name );
   if( !ifs.is_open() ){
     std::cerr << "#E No such file " << file_name << std::endl;
@@ -167,7 +169,8 @@ Run( void )
   std::cout << "\033[2J";
   while( true ){
     std::cout << "\033[H"
-	      << "EPICS Alarm is running ...\033[0K" << std::endl;
+	      << "EPICS Alarm is running ... " << g_file_name
+	      << "\033[0K" << std::endl;
     now = std::time(0);
     // ShowThreshold();
     PrintTime();

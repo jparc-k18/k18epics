@@ -1,1 +1,1 @@
-channel_list_20200524.txt
+channel_list_e40_wMPPC.txt
