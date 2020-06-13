@@ -29,15 +29,17 @@ TCanvas*
 canvas::ACC( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide( 4, 2 );
-  c1->cd(1); Draw("ACC:RUN_NUMBER");
-  c1->cd(2); Draw("ACC:HD:INTENSITY");
-  c1->cd(3); Draw("ACC:HD:POWER");
-  c1->cd(4); Draw("ACC:MR:INTENSITY");
-  c1->cd(5); Draw("ACC:MR:POWER");
-  c1->cd(6); Draw("ACC:SX:DUTY");
-  c1->cd(7); Draw("ACC:SX:EXTRACTION_EFFICIENCY");
-  c1->cd(8); Draw("ACC:SX:SPILL_LENGTH");
+  c1->Divide( 4, 3 );
+  c1->cd( 1); Draw("ACC:HD:MODE");
+  c1->cd( 2); Draw("ACC:RUN_NUMBER");
+  c1->cd( 3); Draw("ACC:HD:INTENSITY");
+  c1->cd( 4); Draw("ACC:HD:BINTENSITY");
+  c1->cd( 5); Draw("ACC:HD:POWER");
+  c1->cd( 6); Draw("ACC:MR:INTENSITY");
+  c1->cd( 7); Draw("ACC:MR:POWER");
+  c1->cd( 8); Draw("ACC:SX:DUTY");
+  c1->cd( 9); Draw("ACC:SX:EXTRACTION_EFFICIENCY");
+  c1->cd(10); Draw("ACC:SX:SPILL_LENGTH");
   return c1;
 }
 
