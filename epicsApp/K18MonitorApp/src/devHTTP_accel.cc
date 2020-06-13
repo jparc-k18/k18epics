@@ -59,10 +59,12 @@ static long read_wf(waveformRecord *rec)
     int pos2 = buf.find("</tr>", index1);
     if(pos2 == (int)std::string::npos) break;
 
+    if(tb_content.size() != 0)
+      pos2 += 1;
     index1 = pos2 + 5;
 
     std::string sub1 = buf.substr(pos1+4, pos2-pos1-5);
-    //printf("%s\n",sub1.c_str());
+    //printf("sub1 = %s\n",sub1.c_str());
 
     tb_row row;
     int index2=0;
@@ -76,7 +78,7 @@ static long read_wf(waveformRecord *rec)
 
       std::string sub2 = sub1.substr(pos3+1, pos4-pos3-1);
       row.push_back(sub2);
-      //printf("%s\n",sub2.c_str());
+      //printf("sub2 = %s\n",sub2.c_str());
     }
     tb_content.push_back(row);
   }
@@ -91,11 +93,15 @@ static long read_wf(waveformRecord *rec)
 
     float val2[6]= {};
 
-    int ret;
-    if( i != 4 ){
-      ret = sscanf(tb_content[i][1].c_str(),"%f %s", &val, tmp);
-    } else {
-      // std::cout << tb_content[i][1] << std::endl;
+    int ret = -1;
+    if( i == 2 ){
+      if( tb_content[i][1].size() != 0 )
+	ret = 1;
+      if( tb_content[i][1].find("A-Focus", 0) != std::string::npos )
+	val += 10;
+      if( tb_content[i][1].find("Bon", 0) != std::string::npos )
+	val += 1;
+    } else if( i == 5 ){
       ret = sscanf(tb_content[i][1].c_str(), "%02f/%02f/%02f %02f:%02f:%02f",
 		   &val2[0], &val2[1], &val2[2], &val2[3], &val2[4], &val2[5]);
       struct tm tm;
@@ -110,6 +116,8 @@ static long read_wf(waveformRecord *rec)
       // 	std::cout <<  val2[j] << " ";
       // }
       // std::cout <<  (long)val << std::endl;
+    } else {
+      ret = sscanf(tb_content[i][1].c_str(),"%f %s", &val, tmp);
     }
 
     if(ret==2){
@@ -121,7 +129,6 @@ static long read_wf(waveformRecord *rec)
     }else{
       ptr[ndata++]=(float)-9999;
     }
-
   }
 
   rec->nord = ndata;
