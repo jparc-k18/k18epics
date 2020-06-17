@@ -101,7 +101,7 @@ static long read_wf(waveformRecord *rec)
 	val += 10;
       if( tb_content[i][1].find("Bon", 0) != std::string::npos )
 	val += 1;
-    } else if( i == 5 ){
+    } else if( i == 6 ){
       ret = sscanf(tb_content[i][1].c_str(), "%02f/%02f/%02f %02f:%02f:%02f",
 		   &val2[0], &val2[1], &val2[2], &val2[3], &val2[4], &val2[5]);
       struct tm tm;

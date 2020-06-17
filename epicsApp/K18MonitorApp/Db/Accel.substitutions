@@ -3,15 +3,15 @@
 
 file "db/Accel.template" {
      { name = ACC:HD:MODE,                   ch =  3 }
-     { name = ACC:RUN_NUMBER,                ch =  4 }
-     { name = ACC:SHOT_NUMBER,               ch =  5 }
-     { name = ACC:LAST_SHOT_TIME,            ch =  6 }
-     { name = ACC:MR:POWER,                  ch =  7 }
-     { name = ACC:MR:INTENSITY,              ch =  8 }
-     { name = ACC:SX:DUTY,                   ch =  9 }
-     { name = ACC:SX:SPILL_LENGTH,           ch = 10 }
-     { name = ACC:SX:EXTRACTION_EFFICIENCY,  ch = 11 }
-     { name = ACC:HD:POWER,                  ch = 12 }
-     { name = ACC:HD:INTENSITY,              ch = 13 }
-     { name = ACC:HD:BINTENSITY,             ch = 14 }
+     { name = ACC:RUN_NUMBER,                ch =  5 }
+     { name = ACC:SHOT_NUMBER,               ch =  6 }
+     { name = ACC:LAST_SHOT_TIME,            ch =  7 }
+     { name = ACC:MR:POWER,                  ch =  8 }
+     { name = ACC:MR:INTENSITY,              ch =  9 }
+     { name = ACC:SX:DUTY,                   ch = 10 }
+     { name = ACC:SX:SPILL_LENGTH,           ch = 11 }
+     { name = ACC:SX:EXTRACTION_EFFICIENCY,  ch = 12 }
+     { name = ACC:HD:POWER,                  ch = 13 }
+     { name = ACC:HD:INTENSITY,              ch = 14 }
+     { name = ACC:HD:BINTENSITY,             ch = 15 }
 }
