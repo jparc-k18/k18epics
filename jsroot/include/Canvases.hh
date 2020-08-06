@@ -2,8 +2,8 @@
 
 // Author: Shuhei Hayakawa
 
-#ifndef CANVASEC_HH
-#define CANVASEC_HH
+#ifndef CANVASES_HH
+#define CANVASES_HH
 
 #include <TString.h>
 
@@ -20,10 +20,11 @@ namespace canvas
   TCanvas* MPPC_SFT( void );
   TCanvas* MPPC_CFT( void );
   TCanvas* SLIT( void );
+  TCanvas* SHSCLG( void );
+  TCanvas* SHSLOG( void );
   TCanvas* TPC( void );
   TCanvas* Get( const TString& name );
   void     Update( void );
 }
 
 #endif
-

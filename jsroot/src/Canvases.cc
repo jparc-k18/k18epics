@@ -192,6 +192,41 @@ canvas::SLIT( void )
 
 //_____________________________________________________________________________
 TCanvas*
+canvas::SHSCLG( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide( 2, 2 );
+  c1->cd(1);
+  for( Int_t i=0; i<8; ++i ){
+    Draw( Form("SHS:CLG:TCX%02d", i+1) );
+  }
+  c1->cd(2);
+  for( Int_t i=0; i<4; ++i ){
+    Draw( Form("SHS:CLG:TSD%02d", i+9) );
+  }
+  c1->cd(3);
+  for( Int_t i=0; i<8; ++i ){
+    Draw( Form("SHS:CLG:TCC%02d", i+13) );
+  }
+  c1->cd(4); Draw("SHS:CLG:CI_PS");
+  return c1;
+}
+
+//_____________________________________________________________________________
+TCanvas*
+canvas::SHSLOG( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide( 2, 2 );
+  c1->cd(1); Draw("SHS:CC10:MID");
+  c1->cd(2); Draw("SHS:CC10:MAG");
+  c1->cd(3); Draw("SHS:COIL:TEMP");
+  c1->cd(4); Draw("SHS:ROOM:TEMP");
+  return c1;
+}
+
+//_____________________________________________________________________________
+TCanvas*
 canvas::TPC( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
@@ -217,6 +252,7 @@ canvas::Get( const TString& name )
 void
 canvas::Update( void )
 {
+#if 0
   {
     Double_t min = 0., max = 0.;
     for( Int_t i=0; i<20; ++i ){
@@ -252,5 +288,6 @@ canvas::Update( void )
 	->GetYaxis()->SetRangeUser( min-1., max+1. );
     }
   }
+#endif
   return;
 }

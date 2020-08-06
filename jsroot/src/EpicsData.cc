@@ -66,6 +66,15 @@ EpicsData::EpicsData( TString name )
   if( name.Contains("CAENHV") ){
     m_graph->SetLineColor( kRed+1 );
   }
+  if( name.Contains("SHS:CLG:") ){
+    name.ReplaceAll("SHS:CLG:","");
+    name.ReplaceAll("TCX","");
+    name.ReplaceAll("TSD","");
+    name.ReplaceAll("TCC","");
+    Int_t ch = name.Atoi();
+    Color_t color = (ch%10 == 0 ? 11 : ch%10);
+    m_graph->SetLineColor( color );
+  }
 
   std::time_t now = std::time(0);
   for( Int_t i=0; i<MaxPoints; ++i ){
@@ -97,7 +106,7 @@ Bool_t
 EpicsData::Update( void )
 {
   Double_t val = -9999.;
-  TString cmd("caget -w 10 -t "+m_channel_name);
+  TString cmd("caget -w 2 -t "+m_channel_name);
   FILE *pipe = gSystem->OpenPipe( cmd, "r" );
   if( !pipe ){
     std::cerr << FUNC_NAME << std::endl << " * "
@@ -124,6 +133,9 @@ EpicsData::Update( void )
     val = 0.;
     // return false;
 
+  if( m_channel_name.Contains("CC10") )
+    val = TMath::Power( 10, 2*(val - 6.5) );
+
 #ifdef DEBUG
   std::cout << FUNC_NAME << " " << m_channel_name << " " << val << std::endl;
 #endif
@@ -136,6 +148,20 @@ EpicsData::Update( void )
   m_graph->Set(0);
   for( Int_t i=0; i<MaxPoints; ++i ){
     m_graph->SetPoint( i, m_time.at(i), m_data.at(i) );
+  }
+
+  if( m_channel_name.Contains("TEMP") ){
+    m_graph->GetYaxis()->SetTitle("degC");
+  }
+  if( m_channel_name.Contains("CC10") ){
+    m_graph->GetYaxis()->SetTitle("Pa");
+  }
+  if( m_channel_name.Contains("SHS:CLG") ){
+    if( m_channel_name.Contains("CI_PS") ){
+      m_graph->GetYaxis()->SetTitle("A");
+    } else {
+      m_graph->GetYaxis()->SetTitle("K");
+    }
   }
 
   m_graph->GetXaxis()->SetTimeDisplay(1);
