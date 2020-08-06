@@ -131,7 +131,7 @@ EpicsLogger::GetEpicsData( void )
        !user_stop && i<n;
        ++i ){
     m_branch_data[i] = DefaultValue;
-    TString cmd("caget -w 10 -t "+m_channel_list[i]);
+    TString cmd("caget -w 2 -t "+m_channel_list[i]);
     FILE *pipe = gSystem->OpenPipe( cmd, "r" );
     if( !pipe ){
       std::cerr << "#E TSystem::OpenPipe() failed : "
