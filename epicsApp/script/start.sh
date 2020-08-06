@@ -15,7 +15,7 @@ cmd_list=(
     hadron
     zrrx40
     # zrrx45
-    gl840_bgo
+    # gl840_bgo
     caenhv1
     caenhv2
     caenhv3
@@ -27,6 +27,7 @@ cmd_list=(
     mqv9500
     gl840_tpc
     gl840_kurama
+    shs
 )
 
 for cmd in ${cmd_list[@]}

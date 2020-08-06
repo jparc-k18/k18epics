@@ -58,7 +58,7 @@ namespace
 		  char* end;
 		  double v = std::strtod( s.c_str(), &end );
 		  if( v != 0. ){
-		    values[values.size()-1] = v*10.;
+		    values[values.size()-1] = v*1e5;
 		  }
 		}
 	      } else if( units[units.size()-1] == "n/a" ){

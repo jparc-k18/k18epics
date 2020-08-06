@@ -65,6 +65,7 @@ DB += GL840_TPC.template
 DB += GL840_TPC.substitutions
 DB += GL840_KURAMA.template
 DB += GL840_KURAMA.substitutions
+DB += SHS.db
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions
