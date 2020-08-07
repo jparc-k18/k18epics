@@ -252,6 +252,60 @@ canvas::Get( const TString& name )
 void
 canvas::Update( void )
 {
+  {
+    Double_t min = 0., max = 0.;
+    for( Int_t i=0; i<8; ++i ){
+      TGraph *g = gEpics.GetGraph( Form("SHS:CLG:TCX%02d", i+1) );
+      Int_t n = g->GetN();
+      Double_t* py = g->GetY();
+      for( Int_t j=0; j<n; ++j ){
+	if( py[j] <= 0.1 ) continue;
+	if( py[j] < min ) min = py[j];
+	if( max < py[j] ) max = py[j];
+      }
+    }
+    Double_t margin = (max - min)*0.05;
+    if( margin > 0 )
+      gEpics.GetGraph("SHS:CLG:TCX01")->GetYaxis()
+	->SetRangeUser( min - margin, max + margin );
+  }
+
+  {
+    Double_t min = 0., max = 0.;
+    for( Int_t i=0; i<4; ++i ){
+      TGraph *g = gEpics.GetGraph( Form("SHS:CLG:TSD%02d", i+9) );
+      Int_t n = g->GetN();
+      Double_t* py = g->GetY();
+      for( Int_t j=0; j<n; ++j ){
+	if( py[j] <= 0.1 ) continue;
+	if( py[j] < min ) min = py[j];
+	if( max < py[j] ) max = py[j];
+      }
+    }
+    Double_t margin = (max - min)*0.05;
+    if( margin > 0 )
+      gEpics.GetGraph("SHS:CLG:TSD09")->GetYaxis()
+	->SetRangeUser( min - margin, max + margin );
+  }
+
+  {
+    Double_t min = 0., max = 0.;
+    for( Int_t i=0; i<8; ++i ){
+      TGraph *g = gEpics.GetGraph( Form("SHS:CLG:TCC%02d", i+13) );
+      Int_t n = g->GetN();
+      Double_t* py = g->GetY();
+      for( Int_t j=0; j<n; ++j ){
+	if( py[j] <= 0.1 ) continue;
+	if( py[j] < min ) min = py[j];
+	if( max < py[j] ) max = py[j];
+      }
+    }
+    Double_t margin = (max - min)*0.05;
+    if( margin > 0 )
+      gEpics.GetGraph("SHS:CLG:TCC13")->GetYaxis()
+	->SetRangeUser( min - margin, max + margin );
+  }
+
 #if 0
   {
     Double_t min = 0., max = 0.;

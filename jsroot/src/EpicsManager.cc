@@ -154,7 +154,7 @@ EpicsManager::Run( void )
 	   ++i ){
 	m_data_list.at(i)->Update();
       }
-      // canvas::Update();
+      canvas::Update();
       PrintTime();
       now = std::time(0);
     }
