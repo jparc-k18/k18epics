@@ -35,6 +35,8 @@ dbLoadRecords("db/SHS.db", "det_name=CLG,data_type=TCC19")
 dbLoadRecords("db/SHS.db", "det_name=CLG,data_type=TCC20")
 dbLoadRecords("db/SHS.db", "det_name=CLG,data_type=CI_PS")
 
+dbLoadRecords("db/SHS.db", "det_name=FLD,data_type=HALL")
+
 cd ${TOP}/iocBoot/${IOC}
 iocInit
 

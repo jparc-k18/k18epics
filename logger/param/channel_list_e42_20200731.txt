@@ -1,4 +1,5 @@
 # SHS Magnet
+SHS:FLD:HALL
 SHS:CC10:MID
 SHS:CC10:MAG
 SHS:COIL:TEMP
@@ -91,8 +92,8 @@ AIR:TPC:HUMI
 # BLine:SM1:POL
 
 # magnets
-# KURAMA:CUR
-# KURAMA:Field
+KURAMA:CUR
+KURAMA:Field
 # D4:Field
 
 # K18 Magnet
