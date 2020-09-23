@@ -4,7 +4,7 @@ name=epics_jsroot
 script_dir=$(dirname $(readlink -f $0))
 bin_dir=$script_dir/bin
 param_dir=$script_dir/param
-channel_list=$param_dir/channel_list_e42_20200731.txt
+channel_list=$param_dir/channel_list_e42_20200923.txt
 
 #______________________________________________________________________________
 session=`tmux ls | grep $name`

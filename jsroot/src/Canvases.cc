@@ -230,13 +230,15 @@ TCanvas*
 canvas::TPC( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide( 3, 2 );
+  c1->Divide( 4, 2 );
   c1->cd(1); Draw("AIR:TPC:TEMP");
   c1->cd(2); Draw("AIR:TPC:HUMI");
   c1->cd(3); Draw("GAS:TPC:DIFP");
   c1->cd(4); Draw("GAS:TPC:STAT");
   c1->cd(5); Draw("GAS:TPC:FMON");
   c1->cd(6); Draw("GAS:TPC:FTOT");
+  c1->cd(7); Draw("GAS:TPC:DEW");
+  c1->cd(8); Draw("GAS:TPC:OXY");
   return c1;
 }
 
