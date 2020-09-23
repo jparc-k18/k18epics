@@ -89,6 +89,8 @@ static long read_wf(waveformRecord *rec)
     }
     xmlFreeDoc( docptr );
     docptr = NULL;
+  } else {
+    std::exit(1);
   }
 
   xmlCleanupParser();
