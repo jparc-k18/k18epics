@@ -36,6 +36,7 @@ private:
   double      m_timeout;
   int         m_socket;
   bool        m_is_open;
+  bool        m_verbose;
 
 public:
   bool       IsOpen( void ) const { return m_is_open; }
@@ -52,6 +53,7 @@ public:
   int        Read( void* buf, std::size_t count );
   ssize_t    Recv( void* buf, std::size_t len, int flags );
   int        Write( const void* buf, std::size_t count );
+  void       Verbose( bool verbose=true ){ m_verbose = verbose; }
 };
 
 #endif

@@ -1,0 +1,7 @@
+# HulScaler substitutions file
+# ch   :  form 1 to 20
+
+file "db/HulScaler.template" {
+   { name=HUL:CLOCK,  ch=1, ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=TPC:SPARK,  ch=2, ASLO=1, ESLO=1e-5, EOFF=0 }
+}

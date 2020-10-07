@@ -18,7 +18,8 @@ UserSocket::UserSocket( void )
     m_port(-1),
     m_timeout(-1.),
     m_socket(-1),
-    m_is_open(false)
+    m_is_open(false),
+    m_verbose(false)
 {
   m_n_socket++;
 }
@@ -33,7 +34,8 @@ UserSocket::UserSocket( const std::string& host,
     m_port(port),
     m_timeout(timeout),
     m_socket(-1),
-    m_is_open(false)
+    m_is_open(false),
+    m_verbose(false)
 {
   m_n_socket++;
   Open( host, port, timeout );
@@ -48,7 +50,8 @@ UserSocket::UserSocket( int                port,
     m_port(port),
     m_timeout(timeout),
     m_socket(-1),
-    m_is_open(false)
+    m_is_open(false),
+    m_verbose(false)
 {
   m_n_socket++;
   Open( port, timeout );
@@ -115,6 +118,10 @@ UserSocket::Open( const std::string& host,
     return status;
   }
 
+  if( m_verbose ){
+    std::cout << date << " | " << host
+	      << " connection done" << std::endl;
+  }
   m_is_open     = true;
   m_socket_type = TCP;
   return 0;
@@ -172,7 +179,8 @@ UserSocket::Print( void ) const
 	    << " host        = " << m_host      << std::endl
 	    << " port        = " << m_port      << std::endl
 	    << " timeout     = " << m_timeout   << std::endl
-	    << " socket      = " << m_socket    << std::endl
+	    << " socket      = " << m_socket    << " (" << &m_socket << ")"
+	    << std::endl
 	    << " is open     = " << m_is_open   << std::endl;
 }
 

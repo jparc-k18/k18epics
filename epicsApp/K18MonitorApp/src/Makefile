@@ -42,6 +42,8 @@ K18Monitor_DBD += devAiMQV9500.dbd
 K18Monitor_DBD += devGL840_TPC.dbd
 K18Monitor_DBD += devGL840_KURAMA.dbd
 K18Monitor_DBD += devSHS.dbd
+K18Monitor_DBD += devAiHulScaler.dbd
+K18Monitor_DBD += devHulScaler.dbd
 
 #K18Monitor_DBD += devHBJ.dbd
 #K18Monitor_DBD += devAiHBJ.dbd
@@ -78,6 +80,8 @@ K18Monitor_SRCS += devAiMQV9500.cc
 K18Monitor_SRCS += devGL840_TPC.cc
 K18Monitor_SRCS += devGL840_KURAMA.cc
 K18Monitor_SRCS += devSHS.cc
+K18Monitor_SRCS += devAiHulScaler.cc
+K18Monitor_SRCS += devHulScaler.cc
 
 #K18Monitor_SRCS += devHBJ.cc
 #K18Monitor_SRCS += devAiHBJ.cc
@@ -101,4 +105,3 @@ USR_LDFLAGS += -lcaenhvwrapper -lcurl -lxml2
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-

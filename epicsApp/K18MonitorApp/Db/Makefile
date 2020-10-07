@@ -66,6 +66,9 @@ DB += GL840_TPC.substitutions
 DB += GL840_KURAMA.template
 DB += GL840_KURAMA.substitutions
 DB += SHS.db
+DB += HulScaler.db
+# DB += HulScaler.template
+# DB += HulScaler.substitutions
 
 #DB += HBJ_LABVIEW.template
 #DB += HBJ.substitutions
@@ -77,4 +80,3 @@ DB += SHS.db
 include $(TOP)/configure/RULES
 #----------------------------------------
 #  ADD RULES AFTER THIS LINE
-

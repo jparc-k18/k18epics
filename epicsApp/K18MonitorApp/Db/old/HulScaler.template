@@ -1,0 +1,23 @@
+record(waveform, "HULSCL:DATA")
+{
+	field(DESC, "HulScaler $(host) $(port)")
+	field(FTVL, "FLOAT")
+	field(NELM, "2")
+	field(SCAN, "1 second")
+	field(PHAS, "0")
+	field(DTYP, "HulScalerSup")
+}
+
+record(ai, "$(name)")
+{
+	field(SCAN, "1 second")
+	field(INP,  "HULSCL:DATA")
+	field(DTYP, "AiHulScalerSup")
+	field(PHAS, "1")
+	field(PREC, "1")
+	field(LINR, "LINEAR")
+	field(ASLO, "$(ASLO)")
+	field(ESLO, "$(ESLO)")
+	field(EOFF, "$(EOFF)")
+	field(DESC, "HULSCL@$(ch)")
+}
