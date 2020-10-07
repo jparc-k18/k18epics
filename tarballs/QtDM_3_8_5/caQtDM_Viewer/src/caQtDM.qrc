@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>caQtDM.ico</file>
-        <file>caQtDM.png</file>
-        <file>caQtDM-BGL-2048.png</file>
-    </qresource>
-</RCC>

@@ -2,7 +2,9 @@
 *~
 \#*\#
 *.swp
+base*
 bin/
+html
 lib/
 logger/data
 logger/tmpdata/
