@@ -16,6 +16,9 @@ dnf install libxml2-devel
 
 ## make apps
 
+It is noted that EPICS_BASE is defined `/home/sks/k18epics/base`
+in epicsApp/configure/RELEASE.
+
 ```sh
 make
 ```

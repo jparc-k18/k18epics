@@ -27,9 +27,9 @@ private:
   EpicsLogger operator =( EpicsLogger& );
 
 private:
-  static const Double_t DefaultValue    = -999999.999;
-  static const Int_t    LoggingInterval = 30;    //second
-  static const Int_t    NewFileInterval = 14400; //second
+  static constexpr Double_t DefaultValue    = -999999.999;
+  static constexpr Int_t    LoggingInterval = 30;    //second
+  static constexpr Int_t    NewFileInterval = 14400; //second
 
 private:
   TString               m_param_file;
