@@ -1,7 +1,10 @@
+// -*- C++ -*-
+
 #include <algorithm>
 #include <cstddef>
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -86,11 +89,17 @@ static long read_wf(waveformRecord *rec)
     htmlNodePtr root = xmlDocGetRootElement( docptr );
     if( root ){
       FindInfo( root );
+    } else {
+      ;
     }
     xmlFreeDoc( docptr );
     docptr = NULL;
   } else {
-    std::exit(1);
+    float* ptr = (float*)rec->bptr;
+    for( int i=0, n=rec->nelm; i<n; ++i ){
+      ptr[i] = 0.;
+    }
+    return 0;
   }
 
   xmlCleanupParser();
