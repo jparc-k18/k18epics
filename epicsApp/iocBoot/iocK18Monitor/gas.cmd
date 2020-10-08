@@ -17,7 +17,7 @@ dbLoadRecords("db/GAS.db", "det_name=SDC2,data_type=DIFP")
 dbLoadRecords("db/GAS.db", "det_name=SDC3,data_type=DIFP")
 # dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=DIFP")
 dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=AIRP")
-dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=VVAL")
+dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=VALV")
 dbLoadRecords("db/GAS.db", "det_name=TPC,data_type=HUMI")
 
 cd ${TOP}/iocBoot/${IOC}

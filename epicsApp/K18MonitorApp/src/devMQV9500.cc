@@ -107,7 +107,7 @@ namespace mqv
   }
 } // namespace mqv
 
-} // namespace
+} // namespace mqv
 
 static long read_wf( waveformRecord *rec )
 {

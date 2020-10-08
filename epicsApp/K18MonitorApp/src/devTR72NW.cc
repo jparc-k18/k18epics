@@ -1,3 +1,5 @@
+// -*- C++ -*-
+
 #include <ctime>
 #include <stddef.h>
 #include <stdlib.h>
@@ -103,11 +105,11 @@ static long read_wf( waveformRecord *rec )
     ptr[nch++] = v1*10.;
     ptr[nch++] = v2*10.;
 
-#if 0
+#if 1
     std::time_t unixtime = std::strtoul( obj["unixtime"]
 					 .get<std::string>().c_str(),
 					 NULL, 0 );
-    std::cout << v << std::endl;
+    std::cout << v1 << " " << v2 << std::endl;
     std::cout << std::time(0) << std::endl;
     std::cout << unixtime << std::endl;
     tm* tm = localtime(&unixtime);
@@ -150,7 +152,7 @@ static long init_record(waveformRecord *rec, int pass)
   curl_easy_setopt( curl, CURLOPT_POSTFIELDSIZE, post_data.size() );
   curl_easy_setopt( curl, CURLOPT_WRITEFUNCTION, on_receive );
   curl_easy_setopt( curl, CURLOPT_WRITEDATA, &response_data );
-  curl_easy_setopt( curl, CURLOPT_PROXY, "http://k18server:8080" );
+  curl_easy_setopt( curl, CURLOPT_PROXY, "http://k18server.monitor.k18net:8080" );
 
   return 0;
 }

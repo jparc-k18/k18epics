@@ -6,28 +6,29 @@ script_dir=$(dirname $(readlink -f $0))
 
 cmd_list=(
     tr700
-    separator
+    # separator
     sksd4
-    k18line
-    aline
-    bline
-    accel
-    hadron
-    zrrx40
+    # k18line
+    # aline
+    # bline
+    # accel
+    # hadron
+    # zrrx40
     # zrrx45
     # gl840_bgo
     caenhv1
     caenhv2
     caenhv3
     caenhv4
-    hddaq
+    # hddaq
     mppcbias
     gas
     tr72nw
     mqv9500
-    gl840_tpc
+    # gl840_tpc
     gl840_kurama
     shs
+    hul_scaler
 )
 
 for cmd in ${cmd_list[@]}

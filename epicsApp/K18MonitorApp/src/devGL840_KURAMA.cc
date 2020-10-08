@@ -1,7 +1,10 @@
+// -*- C++ -*-
+
 #include <algorithm>
 #include <cstddef>
 #include <cstdlib>
 #include <cstdio>
+#include <iostream>
 #include <string>
 #include <vector>
 #include <unistd.h>
@@ -37,35 +40,33 @@ namespace
 
   void FindInfo( xmlNode*& element )
   {
-    for( htmlNodePtr node=element; node!=NULL; node=node->next ){
-      if( node->type == XML_ELEMENT_NODE ){
-	if( node->children ){
-	  FindInfo( node->children );
-	  if( node->children->content ){
-	    std::string s( (char*)node->children->content );
-	    Replace( s, " ", "" );
-	    if( s.find("digital") != std::string::npos )
-	      continue;
-	    if( s.find("CH") != std::string::npos ){
-	      values.push_back( -9999. );
-	      units.push_back( "n/a" );
-	    } else {
-	      s.replace( 0, 2, "" );
-	      if( values[values.size()-1] == -9999. ){
-		if( s.empty() ){
-		  values[values.size()-1] = 0.;
-		} else {
-		  char* end;
-		  double v = std::strtod( s.c_str(), &end );
-		  if( v != 0. ){
-		    values[values.size()-1] = v*1e5;
-		  }
-		}
-	      } else if( units[units.size()-1] == "n/a" ){
-		units[units.size()-1] = s;
-	      }
+    for( htmlNodePtr node=element; node!=nullptr; node=node->next ){
+      if( node->type != XML_ELEMENT_NODE || !node->children )
+	continue;
+      FindInfo( node->children );
+      if( !node->children->content )
+	continue;
+      std::string s( (char*)node->children->content );
+      Replace( s, " ", "" );
+      if( s.find("digital") != std::string::npos )
+	continue;
+      if( s.find("CH") != std::string::npos ){
+	values.push_back( -9999. );
+	units.push_back( "n/a" );
+      } else {
+	s.replace( 0, 2, "" );
+	if( !values.empty() && !units.empty() && values.back() == -9999. ){
+	  if( s.empty() ){
+	    values.back() = 0.;
+	  } else {
+	    char* end;
+	    double v = std::strtod( s.c_str(), &end );
+	    if( v != 0. ){
+	      values.back() = v*1e5;
 	    }
 	  }
+	} else if( !units.empty() && units.back() == "n/a" ){
+	  units.back() = s;
 	}
       }
     }
@@ -79,7 +80,7 @@ static long read_wf(waveformRecord *rec)
   units.clear();
   units.resize( 0 );
 
-  char file[] = "http://gl840_1/digital.cgi?chg=0";
+  char file[] = "http://192.168.30.54/digital.cgi?chg=0";
   char enc[] = "utf-8";
   htmlDocPtr docptr = htmlReadFile( file, enc, HTML_PARSE_RECOVER );
   if( docptr ){
@@ -90,7 +91,9 @@ static long read_wf(waveformRecord *rec)
     xmlFreeDoc( docptr );
     docptr = NULL;
   } else {
-    std::exit(1);
+    std::cerr << "## docptr is null" << std::endl;
+    return 1;
+    //std::exit(1);
   }
 
   xmlCleanupParser();
@@ -99,7 +102,7 @@ static long read_wf(waveformRecord *rec)
   float* ptr = (float*)rec->bptr;
   rec->nord = values.size();
   for( int i=0, n=rec->nord; i<n; ++i ){
-    ptr[i] = values[i];
+    ptr[i] = values.at(i);
   }
   return 0;
 }

@@ -30,7 +30,7 @@
 namespace
 {
   const int max_buf_len = 1024;
-  const int nseconds = 10;
+  const int nseconds = 60;
   UserSocket  *g_sock;
   std::string  g_host;
   int          g_port;
