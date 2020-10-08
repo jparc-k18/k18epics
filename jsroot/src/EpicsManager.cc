@@ -110,8 +110,8 @@ EpicsManager::Initialize( void )
   // m_canvas_list.push_back( canvas::Field() );
   // m_canvas_list.push_back( canvas::GAS() );
   m_canvas_list.push_back( canvas::TPC() );
-  m_canvas_list.push_back( canvas::SHSCLG() );
-  m_canvas_list.push_back( canvas::SHSLOG() );
+  // m_canvas_list.push_back( canvas::SHSCLG() );
+  // m_canvas_list.push_back( canvas::SHSLOG() );
 
   return true;
 }
@@ -158,5 +158,6 @@ EpicsManager::Run( void )
       PrintTime();
       now = std::time(0);
     }
+    gSystem->Sleep(1);
   }
 }
