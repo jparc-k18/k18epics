@@ -61,6 +61,8 @@ static long read_wf(waveformRecord *rec)
 
   if(!strcmp(board,"SY1527")) sysType = SY1527;
   else if(!strcmp(board,"SY2527")) sysType = SY2527;
+  else if(!strcmp(board,"SY4527")) sysType = SY4527;
+  else if(!strcmp(board,"SY5527")) sysType = SY5527;
   else{
     printf("CAEN HV: unknown borad type %s\n",board);
     return 0;

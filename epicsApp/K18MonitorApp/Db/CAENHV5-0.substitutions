@@ -1,0 +1,42 @@
+file "db/CAENHV_A.template" {
+   {crate=5, slot=0, BoardType=SY5527, IP=192.168.30.15, ChMax=6}
+}
+file "db/CAENHV_B.template" {
+   { crate=5, slot=0, name=BdStatus,    ch=1   }
+   { crate=5, slot=0, name=CH0:V0Set,   ch=2   }
+   { crate=5, slot=0, name=CH0:I0Set,   ch=3   }
+   { crate=5, slot=0, name=CH0:VMon,    ch=4   }
+   { crate=5, slot=0, name=CH0:IMon,    ch=5   }
+   { crate=5, slot=0, name=CH0:Pw,      ch=6   }
+   { crate=5, slot=0, name=CH0:Status,  ch=7   }
+   { crate=5, slot=0, name=CH1:V0Set,   ch=8   }
+   { crate=5, slot=0, name=CH1:I0Set,   ch=9   }
+   { crate=5, slot=0, name=CH1:VMon,    ch=10  }
+   { crate=5, slot=0, name=CH1:IMon,    ch=11  }
+   { crate=5, slot=0, name=CH1:Pw,      ch=12  }
+   { crate=5, slot=0, name=CH1:Status,  ch=13  }
+   { crate=5, slot=0, name=CH2:V0Set,   ch=14  }
+   { crate=5, slot=0, name=CH2:I0Set,   ch=15  }
+   { crate=5, slot=0, name=CH2:VMon,    ch=16  }
+   { crate=5, slot=0, name=CH2:IMon,    ch=17  }
+   { crate=5, slot=0, name=CH2:Pw,      ch=18  }
+   { crate=5, slot=0, name=CH2:Status,  ch=19  }
+   { crate=5, slot=0, name=CH3:V0Set,   ch=20  }
+   { crate=5, slot=0, name=CH3:I0Set,   ch=21  }
+   { crate=5, slot=0, name=CH3:VMon,    ch=22  }
+   { crate=5, slot=0, name=CH3:IMon,    ch=23  }
+   { crate=5, slot=0, name=CH3:Pw,      ch=24  }
+   { crate=5, slot=0, name=CH3:Status,  ch=25  }
+   { crate=5, slot=0, name=CH4:V0Set,   ch=26  }
+   { crate=5, slot=0, name=CH4:I0Set,   ch=27  }
+   { crate=5, slot=0, name=CH4:VMon,    ch=28  }
+   { crate=5, slot=0, name=CH4:IMon,    ch=29  }
+   { crate=5, slot=0, name=CH4:Pw,      ch=30  }
+   { crate=5, slot=0, name=CH4:Status,  ch=31  }
+   { crate=5, slot=0, name=CH5:V0Set,   ch=32  }
+   { crate=5, slot=0, name=CH5:I0Set,   ch=33  }
+   { crate=5, slot=0, name=CH5:VMon,    ch=34  }
+   { crate=5, slot=0, name=CH5:IMon,    ch=35  }
+   { crate=5, slot=0, name=CH5:Pw,      ch=36  }
+   { crate=5, slot=0, name=CH5:Status,  ch=37  }
+}

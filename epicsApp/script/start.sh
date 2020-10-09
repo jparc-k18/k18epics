@@ -20,6 +20,7 @@ cmd_list=(
     caenhv2
     caenhv3
     caenhv4
+    caenhv5
     # hddaq
     mppcbias
     gas
