@@ -1,12 +1,12 @@
-#include <stddef.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string>
+// -*- C++ -*-
+
+#include <cstddef>
+#include <cstdlib>
+#include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <sstream>
-
-#include "CAENHVWrapper.h"
+#include <string>
 
 #include "alarm.h"
 #include "cvtTable.h"
@@ -18,6 +18,8 @@
 #include "link.h"
 #include "waveformRecord.h"
 #include "epicsExport.h"
+
+#include <CAENHVWrapper.h>
 
 enum E_CAEN_STATUS
   {
@@ -41,16 +43,32 @@ enum E_CAEN_STATUS
 
 static long read_wf(waveformRecord *rec)
 {
+  float* ptr = (float*)rec->bptr;
+  int ndata=0;
+  ptr[ndata++] = -9999.;
+  for( int i=0, n=rec->nelm; i<n; ++i ){
+    ptr[ndata++] = -9999.;
+    ptr[ndata++] = -9999.;
+    ptr[ndata++] = -9999.;
+    ptr[ndata++] = -9999.;
+    ptr[ndata++] = -9999.;
+    ptr[ndata++] = -9999.;
+  }
+
+  rec->nord = ndata;
+
+
   char board[16] = {};
   char host[256] = {};
-  int slot_buf = 0;
-  int ch_max_buf = 0;
-  if( sscanf(rec->desc,"%s %s %d %d",board, host, &slot_buf, &ch_max_buf) != 4 ){
+  unsigned int slot_buf   = 0;
+  unsigned int ch_max_buf = 0;
+  if( sscanf(rec->desc, "%s %s %d %d",
+	     board, host, &slot_buf, &ch_max_buf) != 4 ){
     printf("CAEN HV: DESC format error\n");
     return 0;
   }
 
-  const int slot = slot_buf;
+  const unsigned short slot = slot_buf;
   const int ch_max = ch_max_buf>24 ? 24 : ch_max_buf;
 
   CAENHV_SYSTEM_TYPE_t sysType;
@@ -82,8 +100,8 @@ static long read_wf(waveformRecord *rec)
   };
   float V0Set[24] = {};
   float I0Set[24] = {};
-  float VMon[24] = {};
-  float IMon[24] = {};
+  float VMon[24]  = {};
+  float IMon[24]  = {};
   unsigned int Pw[24] = {};
   unsigned int Status[24] = {};
   unsigned int BdStatus = 0;
@@ -105,9 +123,7 @@ static long read_wf(waveformRecord *rec)
   //   }
   // }
 
-  float* ptr = (float*)rec->bptr;
-  int ndata=0;
-
+  ndata=0;
   ptr[ndata++] = BdStatus;
 
   for(int i=0;i<ch_max;i++){
