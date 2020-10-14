@@ -14,6 +14,17 @@ dnf install libcurl-devel
 dnf install libxml2-devel
 ```
 
+## install CAENHVLIB
+
+```sh
+git clone sks@www-online.kek.jp:8022/~/public_html/git/monitor-tools.git
+cd monitor-tools/CAENHV
+tar zxfv CAENHVWrapper-5.82.tar.gz
+cd CAENHVWrapper-5.82
+su
+./install.sh
+```
+
 ## make apps
 
 It is noted that EPICS_BASE is defined `/home/sks/k18epics/base`
@@ -23,7 +34,7 @@ in epicsApp/configure/RELEASE.
 make
 ```
 
-## to .bashrc
+## set environment variables
 
 ```sh
 export PATH=$HOME/k18epics/base/bin/linux-x86_64:$PATH
