@@ -78,7 +78,6 @@ static long read_wf( waveformRecord *rec )
   }
 
   if( curr_time - prev_time >= nseconds ){
-    rec->nord = rec->nelm;
 #if 0
     std::cout << curr_time <<  " devHulScaler0 " << __func__
 	      << " " << rec->nord << "/" << rec->nelm << std::endl;
@@ -92,14 +91,18 @@ static long read_wf( waveformRecord *rec )
     }
     prev_time = curr_time;
     prev_val = curr_val;
-    return 0;
-  } else {
-#if 0
-    std::cout << curr_time <<  " devHulScaler1 " << __func__
-	      << " " << rec->nord << "/" << rec->nelm << std::endl;
-#endif
-    return 1;
+    if( ptr[0] == 1. ){
+      rec->nord = rec->nelm;
+      return 0;
+    }
   }
+
+#if 0
+  std::cout << curr_time <<  " devHulScaler1 " << __func__
+	    << " " << rec->nord << "/" << rec->nelm << std::endl;
+#endif
+  rec->nord = 0;
+  return 2;
 }
 
 static long init_record(waveformRecord *rec, int pass)

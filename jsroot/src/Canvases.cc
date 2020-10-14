@@ -127,9 +127,11 @@ TCanvas*
 canvas::GAS( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide(1, 2);
-  c1->cd(1); Draw("GAS:SDC2:DIFP");
-  c1->cd(2); Draw("GAS:SDC3:DIFP");
+  c1->Divide(2, 2);
+  c1->cd(1); Draw("GAS:SDC3:DIFP");
+  c1->cd(2); Draw("GAS:SDC4:DIFP");
+  c1->cd(3); Draw("GAS:TPC:DIFP");
+  c1->cd(4); Draw("GAS:TPC:DEW");
   return c1;
 }
 
