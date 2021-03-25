@@ -106,7 +106,7 @@ Bool_t
 EpicsData::Update( void )
 {
   Double_t val = -9999.;
-  TString cmd("caget -w 2 -t "+m_channel_name);
+  TString cmd("caget -w 5 -t "+m_channel_name);
   FILE *pipe = gSystem->OpenPipe( cmd, "r" );
   if( !pipe ){
     std::cerr << FUNC_NAME << std::endl << " * "

@@ -53,9 +53,11 @@ CheckEpicsData( void )
     gSystem->ClosePipe(pipe);
 
     Double_t data = ret.Atof();
-    // if( std::sscanf( ret.Data(), "%lf", &data) != 1 ){
-    //   continue;
-    // }
+    Double_t buf[3];
+    if( std::sscanf( ret.Data(), "%lf %lf %lf",
+                     &buf[0], &buf[1], &buf[2] ) == 3 ){
+      data = buf[1];
+    }
 
     for( Int_t j=0, m=NTime-1; j<m; ++j ){
       value[i][j] = value[i][j+1];

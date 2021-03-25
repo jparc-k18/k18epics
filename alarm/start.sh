@@ -14,8 +14,7 @@ fi
 session=`tmux ls | grep $name`
 if [ -z "$session" ]; then
     echo "create new session $name"
-    tmux new-session -d -s $name \
-	"$bin_dir/EpicsAlarm $param_file"
+    tmux new-session -d -s $name "$bin_dir/EpicsAlarm $param_file"
 else
     echo "reattach session $name"
     tmux a -t $name
