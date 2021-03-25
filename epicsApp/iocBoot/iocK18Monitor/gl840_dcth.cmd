@@ -12,7 +12,7 @@ dbLoadDatabase "dbd/K18Monitor.dbd"
 K18Monitor_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
-dbLoadTemplate("db/CAENHV4-0.substitutions")
+dbLoadTemplate ("db/GL840_DCVth.substitutions")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit
