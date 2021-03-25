@@ -35,7 +35,7 @@ static long read_wf(waveformRecord *rec)
     return -1;
 
   // send HTTP request
-  char cmdline[] = "GET http://www-cont.j-parc.jp/HD/magnet/primaryb HTTP/1.0\n\n";
+  char cmdline[] = "GET http://www-cont.j-parc.jp/HD/magnet/primaryB HTTP/1.0\n\n";
   sock.Write( cmdline, strlen(cmdline) );
 
   // receive

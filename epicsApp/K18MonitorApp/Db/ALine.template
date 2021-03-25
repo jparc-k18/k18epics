@@ -3,7 +3,7 @@ record(waveform, "HTTP:ALine:DATA")
         field(DESC, "ALine Magnet Status")
 	field(FTVL, "FLOAT")
         field(NELM, "200")
-	field(SCAN, "5 second")
+	field(SCAN, "10 second")
 	field(PHAS, "0")
 	field(DTYP, "HTTP_aline_Sup")
 }

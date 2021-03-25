@@ -44,6 +44,7 @@ K18Monitor_DBD += devGL840_KURAMA.dbd
 K18Monitor_DBD += devSHS.dbd
 K18Monitor_DBD += devAiHulScaler.dbd
 K18Monitor_DBD += devHulScaler.dbd
+K18Monitor_DBD += devGL840_DCVth.dbd
 
 #K18Monitor_DBD += devHBJ.dbd
 #K18Monitor_DBD += devAiHBJ.dbd
@@ -82,6 +83,7 @@ K18Monitor_SRCS += devGL840_KURAMA.cc
 K18Monitor_SRCS += devSHS.cc
 K18Monitor_SRCS += devAiHulScaler.cc
 K18Monitor_SRCS += devHulScaler.cc
+K18Monitor_SRCS += devGL840_DCVth.cc
 
 #K18Monitor_SRCS += devHBJ.cc
 #K18Monitor_SRCS += devAiHBJ.cc

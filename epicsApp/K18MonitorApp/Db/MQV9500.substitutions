@@ -3,8 +3,8 @@
 
 file "db/MQV9500.template" {
    { ch=1, name=GAS:TPC:STAT, ESLO=1, EOFF=0 }
-   { ch=2, name=GAS:TPC:FSET, ESLO=1, EOFF=0 }
-   { ch=3, name=GAS:TPC:FMON, ESLO=1, EOFF=0 }
+   { ch=2, name=GAS:TPC:FSET, ESLO=10, EOFF=0 }
+   { ch=3, name=GAS:TPC:FMON, ESLO=10, EOFF=0 }
    { ch=4, name=GAS:TPC:VCUR, ESLO=0.1, EOFF=0 }
-   { ch=5, name=GAS:TPC:FTOT, ESLO=0.01, EOFF=0 }
+   { ch=5, name=GAS:TPC:FTOT, ESLO=0.1, EOFF=0 }
 }

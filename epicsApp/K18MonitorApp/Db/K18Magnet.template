@@ -3,7 +3,7 @@ record(waveform, "HTTP:K18Magnet:DATA")
         field(DESC, "K18 Magnet Status")
 	field(FTVL, "FLOAT")
         field(NELM, "200")
-	field(SCAN, "5 second")
+	field(SCAN, "10 second")
 	field(PHAS, "0")
 	field(DTYP, "HTTP_k18magnet_Sup")
 }

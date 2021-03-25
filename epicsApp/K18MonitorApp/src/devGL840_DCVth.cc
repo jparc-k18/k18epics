@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cstdio>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -61,7 +62,7 @@ namespace
 	  } else {
 	    char* end;
 	    double v = std::strtod( s.c_str(), &end );
-	    // if( v != 0. ){
+	    //if( v != 0. )
 	    values.back() = v*1e5;
 	  }
 	} else if( !units.empty() && units.back() == "n/a" ){
@@ -79,7 +80,7 @@ static long read_wf(waveformRecord *rec)
   units.clear();
   units.resize( 0 );
 
-  char file[] = "http://192.168.30.54/digital.cgi?chg=0";
+  char file[] = "http://192.168.30.66/digital.cgi?chg=0";
   char enc[] = "utf-8";
   htmlDocPtr docptr = htmlReadFile( file, enc, HTML_PARSE_RECOVER );
   if( docptr ){
@@ -91,7 +92,7 @@ static long read_wf(waveformRecord *rec)
     docptr = NULL;
   } else {
     std::cerr << "## docptr is null" << std::endl;
-    return 1;
+    return 2;
     //std::exit(1);
   }
 
@@ -121,7 +122,7 @@ struct IOC{
   DEVSUPFUN special_linconv;
 };
 
-struct IOC devGL840_KURAMA={
+struct IOC devGL840_DCVth={
   6,
   NULL,
   NULL,
@@ -130,4 +131,4 @@ struct IOC devGL840_KURAMA={
   (DEVSUPFUN) read_wf,
   NULL
 };
-epicsExportAddress(dset,devGL840_KURAMA);
+epicsExportAddress(dset,devGL840_DCVth);

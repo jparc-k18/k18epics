@@ -45,18 +45,17 @@ static long read_wf(waveformRecord *rec)
 {
   float* ptr = (float*)rec->bptr;
   int ndata=0;
-  ptr[ndata++] = -9999.;
-  for( int i=0, n=rec->nelm; i<n; ++i ){
-    ptr[ndata++] = -9999.;
-    ptr[ndata++] = -9999.;
-    ptr[ndata++] = -9999.;
-    ptr[ndata++] = -9999.;
-    ptr[ndata++] = -9999.;
-    ptr[ndata++] = -9999.;
-  }
+  // ptr[ndata++] = -9999.;
+  // for( int i=0, n=rec->nelm-1; i<n; ++i ){
+  //   ptr[ndata++] = -9999.;
+  //   ptr[ndata++] = -9999.;
+  //   ptr[ndata++] = -9999.;
+  //   ptr[ndata++] = -9999.;
+  //   ptr[ndata++] = -9999.;
+  //   ptr[ndata++] = -9999.;
+  // }
 
-  rec->nord = ndata;
-
+  // rec->nord = ndata;
 
   char board[16] = {};
   char host[256] = {};
@@ -114,7 +113,7 @@ static long read_wf(waveformRecord *rec)
   CAENHV_GetChParam(sysHndl, slot, "Pw", ch_max, ChList, Pw);
   CAENHV_GetChParam(sysHndl, slot, "Status", ch_max, ChList, Status);
 
-  // {
+  // if (sysType == SY5527) {
   //   int ret = CAENHV_DeinitSystem(sysHndl);
   //   if( ret != CAENHV_OK ){
   //     printf("CAENHV_DeinitSystem: %s (num. %d)\n\n",
@@ -126,15 +125,20 @@ static long read_wf(waveformRecord *rec)
   ndata=0;
   ptr[ndata++] = BdStatus;
 
+  double val = 0.;
   for(int i=0;i<ch_max;i++){
-    // printf("CH:%d  V0Set:%f  I0Set:%f  VMon:%f  IMon:%f  Pw:%s\n",
-    // 	   i, V0Set[i], I0Set[i], VMon[i], IMon[i], Pw[i]? "ON":"OFF");
+    printf("CH:%3d  V0Set:%7.1f  I0Set:%6.1f  VMon:%7.1f  IMon:%6.1f  Pw:%s\n",
+    	   i, V0Set[i], I0Set[i], VMon[i], IMon[i], Pw[i]? "ON":"OFF");
     ptr[ndata++] = V0Set[i];
     ptr[ndata++] = I0Set[i];
     ptr[ndata++] = VMon[i];
     ptr[ndata++] = IMon[i];
     ptr[ndata++] = (float)Pw[i];
     ptr[ndata++] = (float)Status[i];
+    val += V0Set[i] + I0Set[i] + VMon[i] + IMon[i];
+  }
+  if (sysType == SY5527 && val == 0.) {
+    std::exit(1);
   }
 
   rec->nord = ndata;

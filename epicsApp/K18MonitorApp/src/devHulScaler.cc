@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <ctime>
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -52,6 +53,10 @@ static long read_wf( waveformRecord *rec )
   const  auto nelm = rec->nelm;
   static auto prev_time = std::time(0);
   auto        curr_time = std::time(0);
+  tm t;
+  localtime_r(&curr_time, &t);
+  char tbuf[32];
+  strftime(tbuf, 32, "%Y/%m/%d %H:%M:%S", &t);
   static std::vector<double> prev_val(nelm);
   std::vector<double>        curr_val(nelm);
   auto ptr = (float*)rec->bptr;
@@ -78,23 +83,33 @@ static long read_wf( waveformRecord *rec )
   }
 
   if( curr_time - prev_time >= nseconds ){
+    // std::ofstream ofs("/data3/E42SubData/tmp/spark.txt");
 #if 0
-    std::cout << curr_time <<  " devHulScaler0 " << __func__
+    std::cout << curr_time <<  " devHulScaler " << __func__
 	      << " " << rec->nord << "/" << rec->nelm << std::endl;
 #endif
     for( int i=0, n=nelm; i<n; ++i ){
-      ptr[i] = (curr_val[i] - prev_val[i])/nseconds;
+      ptr[i] = (curr_val[i] - prev_val[i]); // /nseconds;
+#if 1
+      std::ostringstream oss;
+      oss << tbuf << " ch" << i << "  " << ptr[i] << std::endl;
+      std::cout << oss.str();
+      // ofs << oss.str();
+#endif
       if( ptr[i] < 0 ) ptr[i] = 0;
-      if( i > 0 && ptr[0] != 1. ){
-	ptr[i] = -9999.;
-      }
+      // if( i == 0 && std::abs(ptr[i] - nseconds) > 20 )
+      if( i == 0 && ptr[i] == 0 )
+        exit(1);
+      // if( i > 0 && ptr[0] != nseconds ){
+      //   ptr[i] = -9999.;
+      // }
     }
     prev_time = curr_time;
     prev_val = curr_val;
-    if( ptr[0] == 1. ){
+    // if( std::abs(ptr[0] - nseconds) <= 20 ){
       rec->nord = rec->nelm;
       return 0;
-    }
+    // }
   }
 
 #if 0

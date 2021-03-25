@@ -1,6 +1,6 @@
 record(waveform, "MQV9500:DATA")
 {
-        field(DESC, "MQV9500 192.168.30.61 1")
+        field(DESC, "MQV9500 192.168.30.65 1")
 	field(FTVL, "FLOAT")
         field(NELM, "5")
 	field(SCAN, "10 second")

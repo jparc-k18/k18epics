@@ -54,18 +54,17 @@ namespace
 	      units.push_back( "n/a" );
 	    } else {
 	      s.replace( 0, 2, "" );
-	      if( values[values.size()-1] == -9999. ){
+	      if( !values.empty() && !units.empty() && values.back() == -9999. ){
 		if( s.empty() ){
-		  values[values.size()-1] = 0.;
+		  values.back() = 0.;
 		} else {
 		  char* end;
 		  double v = std::strtod( s.c_str(), &end );
-		  if( v != 0. ){
-		    values[values.size()-1] = v*1e5;
-		  }
+		  // if( v != 0. ){
+                  values.back() = v*1e5;
 		}
-	      } else if( units[units.size()-1] == "n/a" ){
-		units[units.size()-1] = s;
+	      } else if( !units.empty() && units.back() == "n/a" ){
+		units.back() = s;
 	      }
 	    }
 	  }
@@ -82,7 +81,7 @@ static long read_wf(waveformRecord *rec)
   units.clear();
   units.resize( 0 );
 
-  char file[] = "http://gl840_2/digital.cgi?chg=0";
+  char file[] = "http://192.168.30.71/digital.cgi?chg=0";
   char enc[] = "utf-8";
   htmlDocPtr docptr = htmlReadFile( file, enc, HTML_PARSE_RECOVER );
   if( docptr ){

@@ -46,6 +46,8 @@ DB += CAENHV3-8.substitutions
 DB += CAENHV3-9.substitutions
 DB += CAENHV3-11.substitutions
 DB += CAENHV3-12.substitutions
+DB += CAENHV3-13.substitutions
+DB += CAENHV4-0.substitutions
 DB += CAENHV4-4.substitutions
 DB += CAENHV5-0.substitutions
 DB += ZRRX40.template
@@ -68,6 +70,8 @@ DB += GL840_KURAMA.template
 DB += GL840_KURAMA.substitutions
 DB += SHS.db
 DB += HulScaler.db
+DB += GL840_DCVth.template
+DB += GL840_DCVth.substitutions
 # DB += HulScaler.template
 # DB += HulScaler.substitutions
 

@@ -2,7 +2,7 @@
 # ch   :  form 1 to 20
 
 file "db/GL840_KURAMA.template" {
-   { name=KURAMA:CUR,  ch=1,  ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=KURAMA:CH1,  ch=1,  ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=GAS:TPC:OXY,  ch=2,  ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=GAS:TPC:DEW,  ch=3,  ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=GAS:TPC:DIFP,  ch=4,  ASLO=1, ESLO=1e-5, EOFF=0 }
