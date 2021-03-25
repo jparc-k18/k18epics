@@ -99,8 +99,14 @@ static long read_wf(waveformRecord *rec)
 	ret = 1;
       if( tb_content[i][1].find("A-Focus", 0) != std::string::npos )
 	val += 10;
+      else if( tb_content[i][1].find("A-Defocus", 0) != std::string::npos )
+	val += 20;
       if( tb_content[i][1].find("Bon", 0) != std::string::npos )
 	val += 1;
+      else if( tb_content[i][1].find("Boff", 0) != std::string::npos )
+	val += 2;
+      if( tb_content[i][1].find("Other", 0) != std::string::npos )
+	val += 100;
     } else if( i == 6 ){
       ret = sscanf(tb_content[i][1].c_str(), "%02f/%02f/%02f %02f:%02f:%02f",
 		   &val2[0], &val2[1], &val2[2], &val2[3], &val2[4], &val2[5]);
