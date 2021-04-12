@@ -106,7 +106,7 @@ Bool_t
 EpicsData::Update( void )
 {
   Double_t val = -9999.;
-  TString cmd("caget -w 5 -t "+m_channel_name);
+  TString cmd("caget -w 1 -t "+m_channel_name);
   FILE *pipe = gSystem->OpenPipe( cmd, "r" );
   if( !pipe ){
     std::cerr << FUNC_NAME << std::endl << " * "
@@ -150,8 +150,15 @@ EpicsData::Update( void )
     m_graph->SetPoint( i, m_time.at(i), m_data.at(i) );
   }
 
-  if( m_channel_name.Contains("TEMP") ){
+  if( m_channel_name.Contains("TEMP") ||
+      m_channel_name.Contains("DEW") ){
     m_graph->GetYaxis()->SetTitle("degC");
+  }
+  if( m_channel_name.Contains("MOI") ){
+    m_graph->GetYaxis()->SetTitle("ppm");
+  }
+  if( m_channel_name.Contains("SPARK") ){
+    m_graph->GetYaxis()->SetTitle("/min");
   }
   if( m_channel_name.Contains("CC10") ){
     m_graph->GetYaxis()->SetTitle("Pa");

@@ -18,6 +18,7 @@
 #include "EpicsData.hh"
 #include "EpicsManager.hh"
 #include "FuncName.hh"
+#include "PrintHelper.hh"
 
 //_____________________________________________________________________________
 namespace
@@ -129,6 +130,22 @@ EpicsManager::Print( const TString& arg ) const
 
 //_____________________________________________________________________________
 void
+EpicsManager::PrintProcInfo( void ) const
+{
+  static ProcInfo_t proc;
+  PrintHelper helper( 1, std::ios::fixed );
+  gSystem->GetProcInfo(&proc);
+  std::cout << " CPU "
+            << " user:" << std::setw(5) << proc.fCpuUser
+            << " sys:" << std::setw(5) << proc.fCpuSys
+            << "  MEM "
+            << " res:" << std::setw(8) << proc.fMemResident/1e3 << "MB,"
+            << " virt:" << std::setw(8) << proc.fMemVirtual/1e3 << "MB"
+            << std::endl;
+}
+
+//_____________________________________________________________________________
+void
 EpicsManager::PrintTime( void ) const
 {
   TTimeStamp now;
@@ -149,15 +166,19 @@ EpicsManager::Run( void )
   std::time_t now = 0;
   while( !user_stop && !gSystem->ProcessEvents() ){
     if( std::time(0) - now >= LoggingInterval ){
+      now = std::time(0);
+      PrintTime();
       for( Int_t i=0, n=m_data_list.size();
 	   !user_stop && !gSystem->ProcessEvents() && i<n;
 	   ++i ){
 	m_data_list.at(i)->Update();
       }
       canvas::Update();
-      PrintTime();
-      now = std::time(0);
+      PrintProcInfo();
+    } else {
+      gSystem->Sleep(100);
     }
-    gSystem->Sleep(1);
   }
+
+  std::cout << FUNC_NAME << " exitting..." << std::endl;
 }

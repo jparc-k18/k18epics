@@ -240,7 +240,8 @@ canvas::TPC( void )
   c1->cd(4); Draw("GAS:TPC:VALV");
   c1->cd(5); Draw("GAS:TPC:FMON");
   c1->cd(6); Draw("GAS:TPC:FTOT");
-  c1->cd(7); Draw("GAS:TPC:DEW");
+  // c1->cd(7); Draw("GAS:TPC:DEW");
+  c1->cd(7); Draw("GAS:TPC:MOI");
   // c1->cd(8); Draw("GAS:TPC:OXY");
   c1->cd(8); Draw("TPC:SPARK");
   return c1;

@@ -22,10 +22,10 @@ main( Int_t argc, Char_t* argv[] )
   }
 
   HttpServer& gHttp = HttpServer::GetInstance();
-  gHttp.SetPort( 9090 );
+  gHttp.SetPort(9090);
 
   EpicsManager& gEpics = EpicsManager::GetInstance();
-  gEpics.SetFileName( argv[kChannelList] );
+  gEpics.SetFileName(argv[kChannelList]);
 
   if( !gHttp.Initialize() )
     return EXIT_FAILURE;

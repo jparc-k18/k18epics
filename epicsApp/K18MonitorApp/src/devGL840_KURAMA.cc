@@ -1,6 +1,7 @@
 // -*- C++ -*-
 
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <cstdio>
@@ -103,6 +104,14 @@ static long read_wf(waveformRecord *rec)
   for( int i=0, n=rec->nord; i<n; ++i ){
     ptr[i] = values.at(i);
   }
+
+  // moisture
+  if( rec->nord > 5 ){
+    ptr[4] = (3.425e13)*std::exp(-6137/(ptr[2]*1e-5+273.15))*1e2;
+    // std::cout << "Td=" << ptr[2] << " -> "
+    //           << ptr[4] << "ppm" << std::endl;
+  }
+
   return 0;
 }
 

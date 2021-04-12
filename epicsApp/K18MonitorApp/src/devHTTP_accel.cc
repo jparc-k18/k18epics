@@ -94,7 +94,7 @@ static long read_wf(waveformRecord *rec)
     float val2[6]= {};
 
     int ret = -1;
-    if( i == 2 ){
+    if( tb_content[i][0] == "HD mode" ){
       if( tb_content[i][1].size() != 0 )
 	ret = 1;
       if( tb_content[i][1].find("A-Focus", 0) != std::string::npos )
@@ -107,7 +107,7 @@ static long read_wf(waveformRecord *rec)
 	val += 2;
       if( tb_content[i][1].find("Other", 0) != std::string::npos )
 	val += 100;
-    } else if( i == 6 ){
+    } else if( tb_content[i][0] == "Last shot time" ){
       ret = sscanf(tb_content[i][1].c_str(), "%02f/%02f/%02f %02f:%02f:%02f",
 		   &val2[0], &val2[1], &val2[2], &val2[3], &val2[4], &val2[5]);
       struct tm tm;

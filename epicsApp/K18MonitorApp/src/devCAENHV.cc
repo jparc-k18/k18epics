@@ -137,7 +137,8 @@ static long read_wf(waveformRecord *rec)
     ptr[ndata++] = (float)Status[i];
     val += V0Set[i] + I0Set[i] + VMon[i] + IMon[i];
   }
-  if (sysType == SY5527 && val == 0.) {
+  if (// sysType == SY5527 &&
+      val == 0.) {
     std::exit(1);
   }
 

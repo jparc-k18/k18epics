@@ -41,6 +41,7 @@ public:
   Int_t      GetMaxPoints( void ) const { return MaxPoints; }
   Bool_t     Initialize( void );
   void       Print( const TString& arg="" ) const;
+  void       PrintProcInfo( void ) const;
   void       PrintTime( void ) const;
   void       Run( void );
   void       SetFileName( const TString& file_name ){ m_file_name = file_name; }
