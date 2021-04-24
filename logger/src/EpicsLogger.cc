@@ -127,11 +127,25 @@ EpicsLogger::Initialize( void )
 void
 EpicsLogger::GetEpicsData( void )
 {
+  static const TString addr_list = "EPICS_CA_ADDR_LIST=192.153.109.232";
   for( Int_t i=0, n=m_channel_list.size();
        !user_stop && i<n;
        ++i ){
     m_branch_data[i] = DefaultValue;
-    TString cmd("caget -w 5 -t "+m_channel_list[i]);
+    auto channel = m_channel_list[i];
+    TString cmd("caget -w 1 -t "+channel);
+    if( channel.Contains("ALH:") ||
+        channel.Contains("HDSYS:") ||
+        channel.Contains("HDMON:") ||
+        channel.Contains("MRSLW:") ||
+        channel.Contains("HDRGPM:") ||
+        channel.Contains("HDPPS:") ||
+        channel.Contains("RADHD:") ||
+        channel.Contains("HDESS:") ||
+        channel.Contains("HDPS:") ){
+      cmd = addr_list + " " + cmd;
+    }
+
     FILE *pipe = gSystem->OpenPipe( cmd, "r" );
     if( !pipe ){
       std::cerr << "#E TSystem::OpenPipe() failed : "

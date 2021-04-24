@@ -7,6 +7,7 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -49,6 +50,29 @@ namespace
 
 static long read_wf( waveformRecord *rec )
 {
+#if 0
+  static const std::string spark_txt("/data3/E42SubData/spark/spark.txt");
+  static uint32_t last_time = 0;
+  std::ifstream ifs(spark_txt);
+  std::string line;
+  while (ifs.good() &&
+         std::getline(ifs, line) &&
+         !line.empty() &&
+         line[0] != '#') {
+    std::istringstream iss(line);
+    std::istream_iterator<std::string> begin(iss);
+    std::istream_iterator<std::string> end;
+    std::vector<std::string> v(begin, end);
+    if (v.size() < 2) continue;
+    auto unix_time = std::stoull(v.at(0));
+    auto spark_count = std::stoull(v.at(1));
+    if (unix_time > last_time) {
+    }
+    std::cout << unix_time << " " << spark_count << std::endl;
+  }
+#endif
+
+#if 1
   static auto buf = new unsigned int[max_buf_len];
   const  auto nelm = rec->nelm;
   static auto prev_time = std::time(0);
@@ -118,6 +142,7 @@ static long read_wf( waveformRecord *rec )
 #endif
   rec->nord = 0;
   return 2;
+#endif
 }
 
 static long init_record(waveformRecord *rec, int pass)

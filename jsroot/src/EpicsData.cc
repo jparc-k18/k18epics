@@ -105,10 +105,23 @@ EpicsData::Print( const TString& arg ) const
 Bool_t
 EpicsData::Update( void )
 {
+  static const TString addr_list = "EPICS_CA_ADDR_LIST=192.153.109.232";
+  auto channel = m_channel_name;
   Double_t val = -9999.;
-  TString cmd("caget -w 1 -t "+m_channel_name);
+  TString cmd("caget -w 1 -t "+channel);
+  if( channel.Contains("ALH:") ||
+      channel.Contains("HDSYS:") ||
+      channel.Contains("HDMON:") ||
+      channel.Contains("MRSLW:") ||
+      channel.Contains("HDRGPM:") ||
+      channel.Contains("HDPPS:") ||
+      channel.Contains("RADHD:") ||
+      channel.Contains("HDESS:") ||
+      channel.Contains("HDPS:") ){
+    cmd = addr_list + " " + cmd;
+  }
   FILE *pipe = gSystem->OpenPipe( cmd, "r" );
-  if( !pipe ){
+  if(!pipe){
     std::cerr << FUNC_NAME << std::endl << " * "
 	      << "TSystem::OpenPipe() failed : "
 	      << cmd << std::endl;
@@ -129,7 +142,7 @@ EpicsData::Update( void )
   if( ret == 0 || val == -9999. )
     return false;
 
-  if( TMath::Abs( val ) < 1.e-3  || TMath::IsNaN( val ) )
+  if( TMath::Abs( val ) < 1.e-10  || TMath::IsNaN( val ) )
     val = 0.;
     // return false;
 

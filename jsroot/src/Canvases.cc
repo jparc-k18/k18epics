@@ -30,16 +30,17 @@ canvas::ACC( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
   c1->Divide( 4, 3 );
-  c1->cd( 1); Draw("ACC:HD:MODE");
-  c1->cd( 2); Draw("ACC:RUN_NUMBER");
-  c1->cd( 3); Draw("ACC:HD:INTENSITY");
-  c1->cd( 4); Draw("ACC:HD:BINTENSITY");
-  c1->cd( 5); Draw("ACC:HD:POWER");
-  c1->cd( 6); Draw("ACC:MR:INTENSITY");
-  c1->cd( 7); Draw("ACC:MR:POWER");
-  c1->cd( 8); Draw("ACC:SX:DUTY");
-  c1->cd( 9); Draw("ACC:SX:EXTRACTION_EFFICIENCY");
-  c1->cd(10); Draw("ACC:SX:SPILL_LENGTH");
+  c1->cd( 1); Draw("HDSYS:RUN_NO");
+  c1->cd( 2); Draw("HDSYS:SHOT_NO");
+  c1->cd( 3); Draw("HDSYS:MR_CYCLE");
+  c1->cd( 4); Draw("HDSYS:MR_POWER");
+  c1->cd( 5); Draw("HDMON:MR_P3:INTENSITY");
+  c1->cd( 6); Draw("HDMON:SYIM:POWER");
+  c1->cd( 7); Draw("HDMON:SYIM:INTENSITY");
+  c1->cd( 8); Draw("HDMON:BDMPIM:INTENSITY");
+  c1->cd( 9); Draw("MRSLW:SXOPR_D2:VAL:DUTY");
+  c1->cd(10); Draw("MRSLW:SXOPR_D2:VAL:ExtEffi");
+  c1->cd(11); Draw("MRSLW:SXOPR_D2:VAL:SpLen");
   return c1;
 }
 
@@ -49,10 +50,10 @@ canvas::T1( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
   c1->Divide( 2, 2 );
-  c1->cd(1); Draw("ACC:HD:T1_MEAN_X");
-  c1->cd(2); Draw("ACC:HD:T1_MEAN_Y");
-  c1->cd(3); Draw("ACC:HD:T1_SIGMA_X");
-  c1->cd(4); Draw("ACC:HD:T1_SIGMA_Y");
+  c1->cd(1); Draw("HDRGPM:T1IN:MEAN_X");
+  c1->cd(2); Draw("HDRGPM:T1IN:MEAN_Y");
+  c1->cd(3); Draw("HDRGPM:T1IN:SIGMA_X");
+  c1->cd(4); Draw("HDRGPM:T1IN:SIGMA_Y");
   return c1;
 }
 
@@ -98,16 +99,16 @@ canvas::ESS( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
   c1->Divide( 5, 2 );
-  c1->cd( 1); Draw("ESS1:POS:VMON");
-  c1->cd( 2); Draw("ESS1:NEG:VMON");
-  c1->cd( 3); Draw("ESS2:POS:VMON");
-  c1->cd( 4); Draw("ESS2:NEG:VMON");
-  c1->cd( 5); Draw("ESS1:CCG");
-  c1->cd( 6); Draw("ESS1:POS:IMON");
-  c1->cd( 7); Draw("ESS1:NEG:IMON");
-  c1->cd( 8); Draw("ESS2:POS:IMON");
-  c1->cd( 9); Draw("ESS2:NEG:IMON");
-  c1->cd(10); Draw("ESS2:CCG");
+  c1->cd( 1); Draw("HDESS:K18_ESS1:POS_VMON");
+  c1->cd( 2); Draw("HDESS:K18_ESS1:NEG_VMON");
+  c1->cd( 3); Draw("HDESS:K18_ESS1:POS_IMON");
+  c1->cd( 4); Draw("HDESS:K18_ESS1:NEG_IMON");
+  c1->cd( 5); Draw("HDESS:K18_ESS1:CCG_PMON");
+  c1->cd( 6); Draw("HDESS:K18_ESS2:POS_VMON");
+  c1->cd( 7); Draw("HDESS:K18_ESS2:NEG_VMON");
+  c1->cd( 8); Draw("HDESS:K18_ESS2:POS_IMON");
+  c1->cd( 9); Draw("HDESS:K18_ESS2:NEG_IMON");
+  c1->cd(10); Draw("HDESS:K18_ESS2:CCG_PMON");
   return c1;
 }
 
@@ -116,9 +117,10 @@ TCanvas*
 canvas::Field( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide(1, 2);
+  c1->Divide(1, 3);
   c1->cd(1); Draw("D4:Field");
-  c1->cd(2); Draw("KURAMA:Field");
+  c1->cd(2); Draw("SHS:FLD:HALL");
+  c1->cd(3); Draw("KURAMA:Field");
   return c1;
 }
 
@@ -168,6 +170,23 @@ canvas::MPPC_CFT( void )
       Draw( Form("MPPC:CFT:CH%d:%s", i, mon[m].Data()) );
     }
   }
+  return c1;
+}
+
+//_____________________________________________________________________________
+TCanvas*
+canvas::PPS( void )
+{
+  TCanvas *c1 = new TCanvas(__func__, __func__);
+  c1->Divide( 4, 2 );
+  c1->cd( 1); Draw("HDPPS:K18:CNTR1_1S");
+  c1->cd( 2); Draw("HDPPS:K18:CNTR1_INTG_HR");
+  c1->cd( 3); Draw("HDPPS:K18BR:CNTR1_1S");
+  c1->cd( 4); Draw("HDPPS:K18BR:CNTR1_INTG_HR");
+  c1->cd( 5); Draw("RADHD:ORG0201G:VAL:LEVEL");
+  c1->cd( 6); Draw("RADHD:ORG0201N:VAL:LEVEL");
+  c1->cd( 7); Draw("RADHD:ORG0202G:VAL:LEVEL");
+  c1->cd( 8); Draw("RADHD:ORG0202N:VAL:LEVEL");
   return c1;
 }
 

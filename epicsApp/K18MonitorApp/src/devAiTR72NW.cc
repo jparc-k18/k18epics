@@ -31,7 +31,10 @@ static long read_ai(aiRecord *rec)
   device_private *pdev = (device_private *)rec->dpvt;
 
   int ch = pdev->channel;
-  long nelem = pdev->nelem;
+  long nelem;
+  dbGetNelements(&rec->inp, &nelem);
+  pdev->nelem = nelem;
+
   if( 1<= ch && ch <= nelem ){
     float buf[200];
     long status = dbGetLink(&rec->inp, dbGetLinkDBFtype(&rec->inp),

@@ -44,10 +44,24 @@ AlarmSound( void )
 void
 CheckEpicsData( void )
 {
-  static const TString caget = "caget -w 3 -t ";
+  static const TString addr_list = "EPICS_CA_ADDR_LIST=192.153.109.232";
+  static const TString caget = "caget -w 1 -t ";
 
   for( Int_t i=0, n=ChannelList.size(); i<n; ++i ){
-    FILE* pipe = gSystem->OpenPipe(caget+ChannelList[i], "r");
+    TString channel = ChannelList[i];
+    TString command = caget + channel;
+    if( channel.Contains("ALH:") ||
+        channel.Contains("HDSYS:") ||
+        channel.Contains("HDMON:") ||
+        channel.Contains("MRSLW:") ||
+        channel.Contains("HDRGPM:") ||
+        channel.Contains("HDPPS:") ||
+        channel.Contains("RADHD:") ||
+        channel.Contains("HDESS:") ||
+        channel.Contains("HDPS:") ){
+      command = addr_list + " " + command;
+    }
+    FILE* pipe = gSystem->OpenPipe(command, "r");
     TString ret;
     ret.Gets(pipe);
     gSystem->ClosePipe(pipe);

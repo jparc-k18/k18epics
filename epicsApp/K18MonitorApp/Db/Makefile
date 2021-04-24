@@ -62,6 +62,7 @@ DB += MppcBias.db
 # DB += MppcBias.template
 # DB += MppcBias.substitutions
 DB += GAS.db
+DB += Misc.db
 DB += MQV9500.template
 DB += MQV9500.substitutions
 DB += GL840_TPC.template

@@ -112,9 +112,9 @@ namespace mqv
 static long read_wf( waveformRecord *rec )
 {
   float* ptr = (float*)rec->bptr;
-  for( int i=0; i<5; ++i ){
-    ptr[i] = -9999;
-  }
+  // for( int i=0; i<5; ++i ){
+  //   ptr[i] = -9999;
+  // }
   rec->nord = 5;
   UserSocket sock( host, 4001 );
   if( !sock.IsOpen() )

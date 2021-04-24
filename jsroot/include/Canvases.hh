@@ -19,6 +19,7 @@ namespace canvas
   TCanvas* GAS( void );
   TCanvas* MPPC_SFT( void );
   TCanvas* MPPC_CFT( void );
+  TCanvas* PPS( void );
   TCanvas* SLIT( void );
   TCanvas* SHSCLG( void );
   TCanvas* SHSLOG( void );
