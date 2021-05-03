@@ -62,7 +62,7 @@ TCanvas*
 canvas::AIR( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide( 4, 2 );
+  c1->Divide( 4, 3 );
   c1->cd(1); Draw("AIR:BFT_TENT:HUMI");
   c1->cd(2); Draw("AIR:BH2_TENT:HUMI");
   c1->cd(3); Draw("AIR:KURAMA_TENT:HUMI");
@@ -71,6 +71,10 @@ canvas::AIR( void )
   c1->cd(6); Draw("AIR:BH2_TENT:TEMP");
   c1->cd(7); Draw("AIR:KURAMA_TENT:TEMP");
   c1->cd(8); Draw("AIR:SCH:TEMP");
+  c1->cd(9); Draw("BH2:8D:TEMP");
+  c1->cd(10); Draw("BH2:8U:TEMP");
+  c1->cd(11); Draw("BH2:1D:TEMP");
+  c1->cd(12); Draw("BH2:1U:TEMP");
   return c1;
 }
 
@@ -117,10 +121,11 @@ TCanvas*
 canvas::Field( void )
 {
   TCanvas *c1 = new TCanvas(__func__, __func__);
-  c1->Divide(1, 3);
+  c1->Divide(2, 2);
   c1->cd(1); Draw("D4:Field");
   c1->cd(2); Draw("SHS:FLD:HALL");
   c1->cd(3); Draw("KURAMA:Field");
+  c1->cd(4); Draw("KURAMA:CUR");
   return c1;
 }
 

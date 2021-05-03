@@ -8,10 +8,10 @@ file "db/GL840_KURAMA.template" {
    { name=GAS:TPC:DIFP,  ch=4,  ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=GAS:TPC:MOI,  ch=5,  ASLO=1, ESLO=1e-2, EOFF=0 }
    { name=KURAMA:CH6,  ch=6,  ASLO=1, ESLO=1e-5, EOFF=0 }
-   { name=KURAMA:CH7,  ch=7,  ASLO=1, ESLO=1e-5, EOFF=0 }
-   { name=KURAMA:CH8,  ch=8,  ASLO=1, ESLO=1e-5, EOFF=0 }
-   { name=KURAMA:CH9,  ch=9,  ASLO=1, ESLO=1e-5, EOFF=0 }
-   { name=KURAMA:CH10, ch=10, ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=BH2:8D:TEMP,  ch=7,  ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=BH2:8U:TEMP,  ch=8,  ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=BH2:1D:TEMP,  ch=9,  ASLO=1, ESLO=1e-5, EOFF=0 }
+   { name=BH2:1U:TEMP, ch=10, ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=KURAMA:CH11, ch=11, ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=KURAMA:CH12, ch=12, ASLO=1, ESLO=1e-5, EOFF=0 }
    { name=KURAMA:CH13, ch=13, ASLO=1, ESLO=1e-5, EOFF=0 }

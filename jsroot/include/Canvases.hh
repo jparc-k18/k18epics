@@ -11,6 +11,7 @@
 namespace canvas
 {
   TCanvas* ACC( void );
+  TCanvas* BH2( void );
   TCanvas* T1( void );
   TCanvas* AIR( void );
   TCanvas* BGO( void );
