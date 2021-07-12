@@ -7,6 +7,7 @@ pyioc_dir=$script_dir/../pyioc
 
 cmd_list=(
   tr700
+  tr72nw_socket
   # separator
   sksd4
   # k18line
@@ -41,7 +42,7 @@ pyioc_list=(
 
 for cmd in ${cmd_list[@]}
 do
-  tmux ls | grep $cmd >/dev/null 2>&1 && continue
+  tmux ls | grep -x $cmd >/dev/null 2>&1 && continue
   tmux new-session -d -s ioc_$cmd \
        "$script_dir/K18Monitor.sh $cmd.cmd" && \
     echo "create session ioc_$cmd"

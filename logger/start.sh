@@ -3,7 +3,7 @@
 top_dir=$(dirname $(readlink -f $0))
 
 name=epics_logger
-channel_list=channel_list_e42_20210424.txt
+channel_list=channel_list_e42_20210701.txt
 
 session=`tmux ls | grep $name 2>/dev/null`
 

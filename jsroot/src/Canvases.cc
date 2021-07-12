@@ -33,7 +33,7 @@ canvas::ACC( void )
   c1->cd( 1); Draw("HDSYS:RUN_NO");
   c1->cd( 2); Draw("HDSYS:SHOT_NO");
   c1->cd( 3); Draw("HDSYS:MR_CYCLE");
-  c1->cd( 4); Draw("HDSYS:MR_POWER");
+  c1->cd( 4); Draw("MRMON:DCCT_073_1:VAL:MRPWR"); // Draw("HDSYS:MR_POWER");
   c1->cd( 5); Draw("HDMON:MR_P3:INTENSITY");
   c1->cd( 6); Draw("HDMON:SYIM:POWER");
   c1->cd( 7); Draw("HDMON:SYIM:INTENSITY");
@@ -263,7 +263,8 @@ canvas::TPC( void )
   // c1->cd(4); Draw("GAS:TPC:STAT");
   c1->cd(4); Draw("GAS:TPC:VALV");
   c1->cd(5); Draw("GAS:TPC:FMON");
-  c1->cd(6); Draw("GAS:TPC:FTOT");
+  c1->cd(6); Draw("GAS:TPC:OXY");
+  // c1->cd(6); Draw("GAS:TPC:FTOT");
   // c1->cd(7); Draw("GAS:TPC:DEW");
   c1->cd(7); Draw("GAS:TPC:MOI");
   // c1->cd(8); Draw("GAS:TPC:OXY");

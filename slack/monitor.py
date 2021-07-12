@@ -19,10 +19,10 @@ logger.setLevel(logging.INFO)
 
 state = 'IDLE'
 monitor_channel = {
-  'GAS:TPC:DIFP': {'value': None, 'threshold': [0, 120]},
+  'GAS:TPC:DIFP': {'value': None, 'threshold': [5, 120]},
   'GAS:TPC:STAT': {'value': None, 'threshold': [36.9, 37.1]},
   'GAS:TPC:VALV': {'value': None, 'threshold': [0, 10]},
-  'TPC:SPARK': {'value': None, 'threshold': [-1, 10]},
+  # 'TPC:SPARK': {'value': None, 'threshold': [-1, 3]},
   'CAENHV:CRATE5:SLOT0:CH1:IMon': {'value': None, 'threshold': [-1.0, 325.0]},
   }
 monitor_interval = 2 # [s]
