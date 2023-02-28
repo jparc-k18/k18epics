@@ -6,8 +6,8 @@ script_dir=$(dirname $(readlink -f $0))
 pyioc_dir=$script_dir/../pyioc
 
 cmd_list=(
-  tr700
-  tr72nw_socket
+  # tr700
+  # tr72nw_socket
   # separator
   sksd4
   # k18line
@@ -15,29 +15,29 @@ cmd_list=(
   # bline
   # accel
   # hadron
-  zrrx40
+  # zrrx40
   # zrrx45
   # gl840_bgo
   caenhv1
   caenhv2
   caenhv3
   caenhv4
-  caenhv5
-  hddaq
-  mppcbias
-  gas
-  tr72nw
-  mqv9500
-  gl840_tpc
-  gl840_kurama
-  gl840_dcth
-  shs
-  misc
+  # caenhv5
+  # hddaq
+  # mppcbias
+  # gas
+  # tr72nw
+  # mqv9500
+  # gl840_tpc
+  # gl840_kurama
+  # gl840_dcth
+  # shs
+  # misc
   # hul_scaler
 )
 
 pyioc_list=(
-  tpc-spark
+  # tpc-spark
 )
 
 for cmd in ${cmd_list[@]}
