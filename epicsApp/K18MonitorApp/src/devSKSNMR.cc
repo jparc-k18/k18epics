@@ -33,7 +33,7 @@ static long read_ai(aiRecord *rec)
 
   char buf[64];
   sock.Read(buf,64);
-  //printf("SKS Field: %f [T]\n",atof(buf)*1E-6);
+  printf("SKS Field: %f [T]\n",atof(buf)*1E-6);
 
   rec->val = atof(buf)*1E-6;
   rec->udf = FALSE;

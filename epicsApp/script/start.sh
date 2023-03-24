@@ -6,7 +6,7 @@ script_dir=$(dirname $(readlink -f $0))
 pyioc_dir=$script_dir/../pyioc
 
 cmd_list=(
-  # tr700
+  tr700
   # tr72nw_socket
   # separator
   sksd4

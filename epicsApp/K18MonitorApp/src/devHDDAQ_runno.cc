@@ -27,7 +27,7 @@ static long read_ai(aiRecord *rec)
   char buf[256];
 
   // std::string cat("ssh axis@geb1");
-  std::string cat("ssh axis@geteb1");
+  std::string cat("ssh axis@eb1");
   // cat += std::getenv("HDDAQ_EBHOST");
   cat += " cat ";
 
