@@ -56,7 +56,7 @@ static long read_wf(waveformRecord *rec)
 	gUnpacker.get_entries(id, 0, 0, 0, 1) > 0) {
       auto lo = gUnpacker.get(id, 0, 0, 0, 0);
       auto hi = gUnpacker.get(id, 0, 0, 0, 1);
-      ptr[2] = lo | (hi << 28);
+      ptr[2] = (lo | (hi << 28));
     }
   }
   {

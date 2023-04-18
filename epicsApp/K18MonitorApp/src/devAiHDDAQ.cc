@@ -40,13 +40,13 @@ static long read_ai(aiRecord *rec)
     uint64_t buf[200];
     long status = dbGetLink(&rec->inp, dbGetLinkDBFtype(&rec->inp),
 			    buf, nullptr, &pdev->nelem);
-    rec->rval = buf[ch-1];
+    rec->val = buf[ch-1];
   }else{
-    rec->rval = -1;
+    rec->val = -1;
   }
 
   rec->udf = FALSE;
-  return 0;
+  return 2;
 }
 
 static long init_record(aiRecord *rec, int pass)
