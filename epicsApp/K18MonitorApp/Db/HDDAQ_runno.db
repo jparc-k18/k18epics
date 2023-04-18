@@ -1,4 +1,4 @@
-record(ai, "HDDAQ:RUNNUMBER")
+record(ai, "HDDAQ:RUN_NUMBER")
 {
         field(DESC, "HDDAQ Run Number")
 	field(SCAN, "10 second")

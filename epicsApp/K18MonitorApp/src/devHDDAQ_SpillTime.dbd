@@ -1,0 +1,2 @@
+include "base.dbd"
+device(ai,INST_IO,devHDDAQ_SpillTime,"HDDAQ_SpillTime_Sup")

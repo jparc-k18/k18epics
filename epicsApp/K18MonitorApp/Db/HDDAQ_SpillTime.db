@@ -1,0 +1,8 @@
+record(ai, "HDDAQ:SPILL_TIME")
+{
+        field(DESC, "HDDAQ Spill Time")
+	field(SCAN, ".1 second")
+	field(PHAS, "0")
+	field(PREC, "6")
+	field(DTYP, "HDDAQ_SpillTime_Sup")
+}

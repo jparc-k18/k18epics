@@ -59,6 +59,7 @@ DB += ZRRX45.substitutions
 DB += GL840_BGO.template
 DB += GL840_BGO.substitutions
 DB += HDDAQ_runno.db
+DB += HDDAQ_SpillTime.db
 DB += MppcBias.db
 # DB += MppcBias.template
 # DB += MppcBias.substitutions

@@ -35,6 +35,7 @@ K18Monitor_DBD += devAiZRRX40.dbd
 K18Monitor_DBD += devZRRX45.dbd
 K18Monitor_DBD += devGL840_BGO.dbd
 K18Monitor_DBD += devHDDAQ_runno.dbd
+K18Monitor_DBD += devHDDAQ_SpillTime.dbd
 #K18Monitor_DBD += devAiMppcBias.dbd
 K18Monitor_DBD += devMppcBias.dbd
 K18Monitor_DBD += devGAS.dbd
@@ -76,6 +77,7 @@ K18Monitor_SRCS += devZRRX40.cc
 K18Monitor_SRCS += devZRRX45.cc
 K18Monitor_SRCS += devGL840_BGO.cc
 K18Monitor_SRCS += devHDDAQ_runno.cc
+K18Monitor_SRCS += devHDDAQ_SpillTime.cc
 #K18Monitor_SRCS += devAiMppcBias.cc
 K18Monitor_SRCS += devMppcBias.cc
 K18Monitor_SRCS += devGAS.cc
@@ -103,8 +105,8 @@ K18Monitor_SRCS_vxWorks += -nil-
 K18Monitor_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 # User Link
-USR_CXXFLAGS += -I/usr/include/libxml2
-USR_LDFLAGS += -lcaenhvwrapper -lcurl -lxml2
+USR_CXXFLAGS += -I/usr/include/libxml2 $(shell unpacker-config --include)
+USR_LDFLAGS += -lcaenhvwrapper -lcurl -lxml2 $(shell unpacker-config --libs)
 
 #===========================
 

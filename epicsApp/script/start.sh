@@ -23,7 +23,7 @@ cmd_list=(
   caenhv3
   caenhv4
   # caenhv5
-  # hddaq
+  hddaq
   # mppcbias
   # gas
   # tr72nw
