@@ -12,8 +12,7 @@ dbLoadDatabase "dbd/K18Monitor.dbd"
 K18Monitor_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
-dbLoadRecords ("db/HDDAQ_runno.db")
-dbLoadRecords ("db/HDDAQ_SpillTime.db")
+dbLoadTemplate ("db/HDDAQ.substitutions")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

@@ -56,7 +56,6 @@ static long read_ai(aiRecord *rec)
 
 static long init_record(aiRecord *rec)
 {
-  std::cout << "init_record" << std::endl;
   std::string conf_file = "/misc/software/param/conf/analyzer.conf";
   std::string conf_dir = hddaq::dirname(conf_file);
   std::ifstream conf(conf_file);
@@ -78,7 +77,7 @@ static long init_record(aiRecord *rec)
       hddaq::replace_all(key, " ","");
       try {
 	std::stof(value);
-      } catch(const std::exception& what) {
+      } catch (const std::exception& what) {
 	if (value[0] != '/'){
 	  value = hddaq::realpath(std::string(conf_dir+"/"+value));
 	}
@@ -88,11 +87,18 @@ static long init_record(aiRecord *rec)
       key_map[key] = value;
     }
   }
-
   gUnpacker.set_config_file(key_map["UNPACK"],
 			    key_map["DIGIT"],
 			    key_map["CMAP"]);
-  gUnpacker.set_istream("eb1:8901");
+
+  {
+    std::istringstream iss(rec->desc);
+    std::istream_iterator<std::string> iss_begin(iss);
+    std::istream_iterator<std::string> iss_end;
+    std::vector<std::string> desc(iss_begin, iss_end);
+    gUnpacker.set_istream(desc.back());
+  }
+
   gUnpacker.initialize();
   return 0;
 }
