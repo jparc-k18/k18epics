@@ -2,7 +2,6 @@
 
 import datetime
 import numpy
-import threading
 import time
 import logging
 
