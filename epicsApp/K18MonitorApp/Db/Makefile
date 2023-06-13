@@ -11,6 +11,8 @@ include $(TOP)/configure/CONFIG
 # Create and install (or just install) into <top>/db
 # databases, templates, substitutions like this
 DB += SKSD4.db
+# DB += KURAMA.db
+DB += S2SD1.db
 DB += TR700W.db
 DB += TR72NW_socket.db
 DB += TR72NW.template
@@ -51,6 +53,11 @@ DB += CAENHV3-13.substitutions
 DB += CAENHV4-0.substitutions
 DB += CAENHV4-4.substitutions
 DB += CAENHV5-0.substitutions
+DB += CAENHV5-3.substitutions
+DB += CAENV895.template
+DB += CAENV895-vme05.substitutions
+DB += CAENV895-vme08.substitutions
+DB += CAENV895-ctrl2.substitutions
 DB += ZRRX40.template
 DB += ZRRX40.substitutions
 DB += ZRRX45.template
@@ -58,6 +65,9 @@ DB += ZRRX45.substitutions
 # DB += GL840_BGO.db
 DB += GL840_BGO.template
 DB += GL840_BGO.substitutions
+DB += GL840_AFT.db
+DB += GL840_AFT.template
+DB += GL840_AFT.substitutions
 DB += HDDAQ.template
 DB += HDDAQ.substitutions
 DB += MppcBias.db
@@ -75,6 +85,7 @@ DB += SHS.db
 DB += HulScaler.db
 DB += GL840_DCVth.template
 DB += GL840_DCVth.substitutions
+DB += PMX18.db
 # DB += HulScaler.template
 # DB += HulScaler.substitutions
 
