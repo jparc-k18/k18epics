@@ -4,6 +4,7 @@ import datetime
 import numpy
 import time
 import logging
+import os
 
 import epics
 import ROOT
@@ -30,6 +31,8 @@ def update_connection(pvname=None, conn=None, **kws):
 #______________________________________________________________________________
 def update_value(pvname=None, value=None, timestamp=None, **kws):
   logger.debug(f'update value {pvname:20} {value}')
+  if pvname is None or value is None or timestamp is None:
+    return
   if pvname in graph_dict:
     graph_dict[pvname].AddPoint(timestamp, value)
 
@@ -98,4 +101,5 @@ def write():
 
 #______________________________________________________________________________
 if __name__ == '__main__':
+  os.environ['EPICS_CA_ADDR_LIST'] = '192.168.30.255 192.153.109.232'
   run()
