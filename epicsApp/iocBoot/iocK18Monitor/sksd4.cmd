@@ -13,6 +13,8 @@ K18Monitor_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
 dbLoadRecords("db/SKSD4.db")
+## dbLoadRecords("db/KURAMA.db")
+dbLoadRecords("db/S2SD1.db")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

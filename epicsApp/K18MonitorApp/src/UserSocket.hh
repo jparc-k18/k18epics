@@ -14,19 +14,19 @@ public:
   enum SocketType { NONE, TCP, UDP, NSocketType };
 
 public:
-  UserSocket( void );
+  UserSocket();
   // TCP Socket
-  UserSocket( const std::string& host,
+  UserSocket(const std::string& host,
 	      int                port,
-	      double             timeout = 2. /* second */ );
+	      double             timeout = 2. /* second */);
   // UDP Socket
-  UserSocket( int                port,
-	      double             timeout = 2. /* second */ );
-  ~UserSocket( void );
+  UserSocket(int                port,
+	      double             timeout = 2. /* second */);
+  ~UserSocket();
 
 private:
-  UserSocket( const UserSocket& );
-  UserSocket& operator =( const UserSocket& );
+  UserSocket(const UserSocket&);
+  UserSocket& operator =(const UserSocket&);
 
 private:
   static int  m_n_socket;
@@ -39,21 +39,21 @@ private:
   bool        m_verbose;
 
 public:
-  bool       IsOpen( void ) const { return m_is_open; }
-  int        Close( void );
-  SocketType GetSocketType( void ) const { return m_socket_type; }
+  bool       IsOpen() const { return m_is_open; }
+  int        Close();
+  SocketType GetSocketType() const { return m_socket_type; }
   // TCP Open
-  int        Open( const std::string& host,
+  int        Open(const std::string& host,
 		   int                port,
-		   double             timeout = 2. /* second */ );
+		   double             timeout = 2. /* second */);
   // UDP Open
-  int        Open( int                port,
-		   double             timeout = 0.5 /* second */ );
-  void       Print( void ) const;
-  int        Read( void* buf, std::size_t count );
-  ssize_t    Recv( void* buf, std::size_t len, int flags );
-  int        Write( const void* buf, std::size_t count );
-  void       Verbose( bool verbose=true ){ m_verbose = verbose; }
+  int        Open(int                port,
+		   double             timeout = 0.5 /* second */);
+  void       Print() const;
+  int        Read(void* buf, std::size_t count);
+  ssize_t    Recv(void* buf, std::size_t len, int flags);
+  int        Write(const void* buf, std::size_t count);
+  void       Verbose(bool verbose=true){ m_verbose = verbose; }
 };
 
 #endif

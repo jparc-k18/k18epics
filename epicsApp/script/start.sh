@@ -7,7 +7,7 @@ pyioc_dir=$script_dir/../pyioc
 
 cmd_list=(
   tr700
-  # tr72nw_socket
+  tr72nw_socket
   # separator
   sksd4
   # k18line
@@ -15,16 +15,18 @@ cmd_list=(
   # bline
   # accel
   # hadron
-  # zrrx40
+  zrrx40 # slit
   # zrrx45
   # gl840_bgo
+  gl840_aft
   caenhv1
   caenhv2
   caenhv3
   caenhv4
-  # caenhv5
+  caenhv5
+  caenv895
   hddaq
-  # mppcbias
+  mppcbias
   # gas
   # tr72nw
   # mqv9500
@@ -34,10 +36,13 @@ cmd_list=(
   # shs
   # misc
   # hul_scaler
+  pmx18
+  pressdc
 )
 
 pyioc_list=(
-  # tpc-spark
+#    tpc-spark
+    mppc_hv
 )
 
 for cmd in ${cmd_list[@]}
@@ -51,7 +56,8 @@ done
 for pyioc in ${pyioc_list[@]}
 do
   tmux ls | grep $pyioc >/dev/null 2>&1 && continue
-  tmux new-session -d -s pyioc-$pyioc \
+#  tmux new-session -d -s pyioc-$pyioc \
+  tmux new-session -d -s pyioc_$pyioc \
        "$pyioc_dir/$pyioc.py" && \
     echo "create session pyioc_$pyioc"
 done

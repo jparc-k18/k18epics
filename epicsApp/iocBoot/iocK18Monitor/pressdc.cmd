@@ -12,8 +12,10 @@ dbLoadDatabase "dbd/K18Monitor.dbd"
 K18Monitor_registerRecordDeviceDriver pdbbase
 
 ## Load record instances
-dbLoadTemplate("db/CAENHV5-0.substitutions")
-dbLoadTemplate("db/CAENHV5-3.substitutions")
+#dbLoadRecords("db/PresSDC.db", "det_name=SDC3,data_type=DIFP")
+dbLoadRecords("db/PresSDC.db")
+
+
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

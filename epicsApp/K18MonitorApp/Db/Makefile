@@ -86,6 +86,7 @@ DB += HulScaler.db
 DB += GL840_DCVth.template
 DB += GL840_DCVth.substitutions
 DB += PMX18.db
+DB += PresSDC.db
 # DB += HulScaler.template
 # DB += HulScaler.substitutions
 

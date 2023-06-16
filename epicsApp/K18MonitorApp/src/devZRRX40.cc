@@ -18,13 +18,15 @@
 #include "waveformRecord.h"
 #include "epicsExport.h"
 
+#include <libxml/HTMLparser.h>
+
 #include "UserSocket.hh"
 
 static long read_wf(waveformRecord *rec)
 {
   //connect socket
-  UserSocket sock( "192.168.30.30", 1111 );
-  if( !sock.IsOpen() )
+  UserSocket sock("192.168.30.30", 1111);
+  if(!sock.IsOpen())
     return -1;
 
   //get channel number
@@ -47,15 +49,17 @@ static long read_wf(waveformRecord *rec)
   char header[8];
   sock.Read(header,8);  //skip header
 
-  float* ptr = (float*)rec->bptr;
+  float* ptr = (float*)(rec->bptr);
 
   short data;
   for(int i=0;i<ch;i++){
     sock.Read(&data,2);
     data = __bswap_16(data);
-
-    if(data==0x7ffd) ptr[i]=(float)-9999;
-    else ptr[i]=(float)data;
+    // std::cout << "read_wf " << i << " " << data << std::endl;
+    if(data==0x7ffd)
+      ptr[i]=(float)-9999.;
+    else
+      ptr[i]=(float)data;
   }
 
   return 0;

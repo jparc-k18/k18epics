@@ -6,9 +6,9 @@ record(waveform, "PMX:SDC$(id_num):DATA")
 	field(SCAN, "10 second")
 	field(PHAS, "0")
 	field(DTYP, "PMX18Sup")
-	field(FLNK, "PMX:SDC$(id_num):VTH")
+	field(FLNK, "PMX:SDC$(id_num):VMON")
 }
-record(subArray, "PMX:SDC$(id_num):VTH")
+record(subArray, "PMX:SDC$(id_num):VMON")
 {
 	field(SCAN, "Passive")
 	field(INP,  "PMX:SDC$(id_num):DATA")
@@ -17,9 +17,9 @@ record(subArray, "PMX:SDC$(id_num):VTH")
 	field(NELM, "1")
 	field(PREC, "1")
 	field(INDX, "0")
-	field(FLNK, "PMX:SDC$(id_num):CUR")
+	field(FLNK, "PMX:SDC$(id_num):IMON")
 }
-record(subArray, "PMX:SDC$(id_num):CUR")
+record(subArray, "PMX:SDC$(id_num):IMON")
 {
 	field(SCAN, "Passive")
 	field(INP,  "PMX:SDC$(id_num):DATA")

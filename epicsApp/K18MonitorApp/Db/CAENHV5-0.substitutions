@@ -1,5 +1,5 @@
 file "db/CAENHV_A.template" {
-   {crate=5, slot=0, BoardType=SY5527, IP=192.168.30.15, ChMax=6}
+   {crate=5, slot=0, BoardType=SY5527, IP=192.168.30.15, ChMax=12}
 }
 file "db/CAENHV_B.template" {
    { crate=5, slot=0, name=BdStatus,    ch=1   }
@@ -39,4 +39,40 @@ file "db/CAENHV_B.template" {
    { crate=5, slot=0, name=CH5:IMon,    ch=35  }
    { crate=5, slot=0, name=CH5:Pw,      ch=36  }
    { crate=5, slot=0, name=CH5:Status,  ch=37  }
+   { crate=5, slot=0, name=CH6:V0Set,   ch=38  }
+   { crate=5, slot=0, name=CH6:I0Set,   ch=39  }
+   { crate=5, slot=0, name=CH6:VMon,    ch=40  }
+   { crate=5, slot=0, name=CH6:IMon,    ch=41  }
+   { crate=5, slot=0, name=CH6:Pw,      ch=42  }
+   { crate=5, slot=0, name=CH6:Status,  ch=43  }
+   { crate=5, slot=0, name=CH7:V0Set,   ch=44  }
+   { crate=5, slot=0, name=CH7:I0Set,   ch=45  }
+   { crate=5, slot=0, name=CH7:VMon,    ch=46  }
+   { crate=5, slot=0, name=CH7:IMon,    ch=47  }
+   { crate=5, slot=0, name=CH7:Pw,      ch=48  }
+   { crate=5, slot=0, name=CH7:Status,  ch=49  }
+   { crate=5, slot=0, name=CH8:V0Set,   ch=50  }
+   { crate=5, slot=0, name=CH8:I0Set,   ch=51  }
+   { crate=5, slot=0, name=CH8:VMon,    ch=52  }
+   { crate=5, slot=0, name=CH8:IMon,    ch=53  }
+   { crate=5, slot=0, name=CH8:Pw,      ch=54  }
+   { crate=5, slot=0, name=CH8:Status,  ch=55  }
+   { crate=5, slot=0, name=CH9:V0Set,   ch=56  }
+   { crate=5, slot=0, name=CH9:I0Set,   ch=57  }
+   { crate=5, slot=0, name=CH9:VMon,    ch=58  }
+   { crate=5, slot=0, name=CH9:IMon,    ch=59  }
+   { crate=5, slot=0, name=CH9:Pw,      ch=60  }
+   { crate=5, slot=0, name=CH9:Status,  ch=61  }
+   { crate=5, slot=0, name=CH10:V0Set,  ch=62  }
+   { crate=5, slot=0, name=CH10:I0Set,  ch=63  }
+   { crate=5, slot=0, name=CH10:VMon,   ch=64  }
+   { crate=5, slot=0, name=CH10:IMon,   ch=65  }
+   { crate=5, slot=0, name=CH10:Pw,     ch=66  }
+   { crate=5, slot=0, name=CH10:Status, ch=67  }
+   { crate=5, slot=0, name=CH11:V0Set,  ch=68  }
+   { crate=5, slot=0, name=CH11:I0Set,  ch=69  }
+   { crate=5, slot=0, name=CH11:VMon,   ch=70  }
+   { crate=5, slot=0, name=CH11:IMon,   ch=71  }
+   { crate=5, slot=0, name=CH11:Pw,     ch=72  }
+   { crate=5, slot=0, name=CH11:Status, ch=73  }
 }

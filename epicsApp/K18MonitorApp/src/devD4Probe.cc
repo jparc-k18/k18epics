@@ -19,19 +19,23 @@
 
 #include "UserSocket.hh"
 
+namespace
+{
+  UserSocket* sock = nullptr;
+}
+
 static long read_ai(aiRecord *rec)
 {
-  //connect socket
-  UserSocket sock( "192.168.30.21", 1111 );
-  if( !sock.IsOpen() )
-    return -1;
+  if (!sock->IsOpen())
+    std::exit(1);
 
   //get value
-  sock.Write("f",1);
+  if(sock->Write("f",1) < 0)
+    std::exit(1);
 
   char buf[12];
-  sock.Read(buf,12);
-  //printf("D4 Field: %f [T]\n",atof(buf));
+  sock->Read(buf,12);
+  printf("D4 Field: %f [T]\n",atof(buf));
 
   rec->val = atof(buf);
   rec->udf = FALSE;
@@ -41,6 +45,9 @@ static long read_ai(aiRecord *rec)
 
 static long init_record(aiRecord *rec)
 {
+  sock = new UserSocket("192.168.30.21", 1111);
+  if (!sock || !sock->IsOpen())
+    std::exit(1);
   return 0;
 }
 
