@@ -15,48 +15,105 @@ K18Monitor_registerRecordDeviceDriver pdbbase
 #dbLoadTemplate("db/MppcBias.substitutions")
 
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=BOARD")
+
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH0:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH0:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH0:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH0:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH0:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH1:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH1:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH1:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH1:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH1:TEMP")
 
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH2:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH2:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH2:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH2:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH2:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH3:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH3:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH3:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH3:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH3:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH4:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH4:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH4:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH4:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH4:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH5:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH5:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH5:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH5:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH5:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH6:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH6:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH6:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH6:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH6:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH7:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH7:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH7:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH7:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=BFT,data_type=CH7:TEMP")
+
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=BOARD")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH0:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH0:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH0:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH0:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH0:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH1:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH1:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH1:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH1:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH1:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH2:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH2:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH2:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH2:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH2:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH3:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH3:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH3:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH3:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH3:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH4:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH4:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH4:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH4:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH4:TEMP")
+
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH5:STAT")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH5:VSET")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH5:VMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH5:IMON")
 dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH5:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH6:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH6:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH6:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH6:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH6:TEMP")
+
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH7:STAT")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH7:VSET")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH7:VMON")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH7:IMON")
+dbLoadRecords("db/MppcBias.db", "det_name=AFT,data_type=CH7:TEMP")
 
 cd ${TOP}/iocBoot/${IOC}
 iocInit

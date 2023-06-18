@@ -1,0 +1,2 @@
+include "base.dbd"
+device(waveform,INST_IO,devHUL_Trigger,"HUL_Trigger_Sup")

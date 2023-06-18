@@ -52,7 +52,7 @@ def run():
                     connection_callback=update_connection,
                     connection_timeout=0.1)
       pv_list.append(pv)
-      branch_name = pvname.replace(':', '_')
+      branch_name = pvname.replace('::', '_').replace(':', '_')
       g = ROOT.TGraph()
       graph_dict[pvname] = g
       g.SetNameTitle(branch_name, f'{branch_name}; ; {pv.units}')

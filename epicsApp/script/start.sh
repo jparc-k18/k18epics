@@ -26,6 +26,7 @@ cmd_list=(
   caenhv5
   caenv895
   hddaq
+  hultrigger
   mppcbias
   # gas
   # tr72nw
