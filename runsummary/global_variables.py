@@ -2,16 +2,26 @@
 
 import os
 
+# data_path = '/group/had/sks/E70/JPARC2023May/e70_2023may'
+# subdata_path = '/group/had/sks/E70/JPARC2023May/subdata'
+
+data_path = '/misc/hdd1/e70_2024may'
+# subdata_path = '/misc/hdd4/old/E70SubData2023May'
+subdata_path = '/misc/subdata'
+
+# run_summary = 'tmp.csv'
+run_summary = os.path.join(subdata_path, 'E70RunSummary2024May.csv')
+
 labels = [
+  'RunNumber',
   'StartTime',
   'StopTime',
-  'RunNumber',
+  'RunTime',
   'RunTitle',
   'EventNumber',
   'Recorder',
   'Bytes',
-  'TrigParam',
-  'BeamMom',
+  # 'TrigParam',
   'Beam/Spill',
   'K-Beam/Spill',
   'Pi-Beam/Spill',
@@ -22,6 +32,7 @@ labels = [
   'DAQ-Eff',
   'BeamxDAQEff',
   'DAQ-Duty',
+  'BeamMom',
   'MR-Power',
   'SX-Duty',
   'K1.8D1',
@@ -35,33 +46,31 @@ labels = [
   'ESS1_NEG',
   'ESS2_POS',
   'ESS2_NEG',
+  'K18D4_Field',
+  'S2SD1_Field',
   'TOFSelector',
-  'TrigA-ON',
+  # 'TrigA-ON',
+  'TrigA',
   'TrigA-PS',
   'TrigA-Gate',
-  'TrigA',
-  'TrigB-ON',
+  # 'TrigB-ON',
+  'TrigB',
   'TrigB-PS',
   'TrigB-Gate',
-  'TrigB',
-  'TrigC-ON',
+  # 'TrigC-ON',
+  'TrigC',
   'TrigC-PS',
   'TrigC-Gate',
-  'TrigC',
-  'TrigD-ON',
+  # 'TrigD-ON',
+  'TrigD',
   'TrigD-PS',
   'TrigD-Gate',
-  'TrigD',
-  'TrigE-ON',
+  # 'TrigE-ON',
+  'TrigE',
   'TrigE-PS',
   'TrigE-Gate',
-  'TrigE',
-  'TrigF-ON',
+  # 'TrigF-ON',
+  'TrigF',
   'TrigF-PS',
   'TrigF-Gate',
-  'TrigF',
 ]
-
-data_path = '/misc/hdd1/e70_2023may'
-subdata_path = '/misc/subdata'
-run_summary = 'tmp.csv' # os.path.join(subdata_path, 'E70RunSummary2023May.csv')

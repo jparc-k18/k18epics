@@ -100,20 +100,20 @@ EpicsManager::Initialize( void )
   }
 
   // Canvases
-  m_canvas_list.push_back( canvas::ACC() );
-  m_canvas_list.push_back( canvas::T1() );
-  m_canvas_list.push_back( canvas::PPS() );
-  m_canvas_list.push_back( canvas::AIR() );
-  // m_canvas_list.push_back( canvas::BGO() );
-  // m_canvas_list.push_back( canvas::MPPC_SFT() );
-  // m_canvas_list.push_back( canvas::MPPC_CFT() );
-  m_canvas_list.push_back( canvas::SLIT() );
-  m_canvas_list.push_back( canvas::ESS() );
-  m_canvas_list.push_back( canvas::Field() );
-  m_canvas_list.push_back( canvas::GAS() );
-  m_canvas_list.push_back( canvas::TPC() );
-  m_canvas_list.push_back( canvas::SHSCLG() );
-  m_canvas_list.push_back( canvas::SHSLOG() );
+  // m_canvas_list.push_back( canvas::ACC() );
+  // m_canvas_list.push_back( canvas::T1() );
+  // m_canvas_list.push_back( canvas::PPS() );
+  // m_canvas_list.push_back( canvas::AIR() );
+  // // m_canvas_list.push_back( canvas::BGO() );
+  // // m_canvas_list.push_back( canvas::MPPC_SFT() );
+  // // m_canvas_list.push_back( canvas::MPPC_CFT() );
+  // m_canvas_list.push_back( canvas::SLIT() );
+  // m_canvas_list.push_back( canvas::ESS() );
+  // m_canvas_list.push_back( canvas::Field() );
+  // m_canvas_list.push_back( canvas::GAS() );
+  // m_canvas_list.push_back( canvas::TPC() );
+  // m_canvas_list.push_back( canvas::SHSCLG() );
+  // m_canvas_list.push_back( canvas::SHSLOG() );
 
   return true;
 }

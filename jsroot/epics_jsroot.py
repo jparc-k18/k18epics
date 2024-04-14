@@ -10,8 +10,8 @@ import epics
 import ROOT
 
 logging.basicConfig(
-  # level=logging.DEBUG,
-  level=logging.INFO,
+  level=logging.DEBUG,
+  # level=logging.INFO,
   format="%(asctime)s [%(levelname)s] %(message)s",
 )
 logger = logging.getLogger(__name__)
@@ -70,6 +70,8 @@ def make_canvas():
   c.cd( 8); draw('AIR:WCD:HUMI');
   c.cd( 9); draw('AIR:BH2_RACK:TEMP');
   c.cd(10); draw('AIR:BH2_RACK:HUMI');
+  c.cd(11); draw('AIR:HBX_RACK:TEMP');
+  c.cd(12); draw('AIR:HBX_RACK:HUMI');
   c = ROOT.TCanvas('ESS', 'ESS')
   canvas_dict['ESS'] = c
   c.Divide(5, 2)
@@ -112,19 +114,16 @@ def make_canvas():
   c.cd(4); draw("MPPC:BFT:CH1:IMON");
   c = ROOT.TCanvas('MPPC_AFT', 'MPPC_AFT')
   canvas_dict['MPPC_AFT'] = c
-  c.Divide(4, 3)
-  c.cd( 1); draw("MPPC:AFT:CH0:VMON");
-  c.cd( 2); draw("MPPC:AFT:CH0:IMON");
-  c.cd( 3); draw("MPPC:AFT:CH1:VMON");
-  c.cd( 4); draw("MPPC:AFT:CH1:IMON");
-  c.cd( 5); draw("MPPC:AFT:CH2:VMON");
-  c.cd( 6); draw("MPPC:AFT:CH2:IMON");
-  c.cd( 7); draw("MPPC:AFT:CH3:VMON");
-  c.cd( 8); draw("MPPC:AFT:CH3:IMON");
-  c.cd( 9); draw("MPPC:AFT:CH4:VMON");
-  c.cd(10); draw("MPPC:AFT:CH4:IMON");
-  c.cd(11); draw("MPPC:AFT:CH5:VMON");
-  c.cd(12); draw("MPPC:AFT:CH5:IMON");
+  c.Divide(4, 2)
+  c.cd(1); draw("MPPC:AFT:CH1:VMON");
+  c.cd(2); draw("MPPC:AFT:CH1:IMON");
+  c.cd(3); draw("MPPC:AFT:CH2:VMON");
+  c.cd(4); draw("MPPC:AFT:CH2:IMON");
+  c.cd(5); draw("MPPC:AFT:CH3:VMON");
+  c.cd(6); draw("MPPC:AFT:CH3:IMON");
+  c.cd(7); draw("MPPC:AFT:CH4:VMON");
+  c.cd(8); draw("MPPC:AFT:CH4:IMON");
+
   c = ROOT.TCanvas('PPS', 'PPS')
   canvas_dict['PPS'] = c
   c.Divide(4, 2)
@@ -178,8 +177,9 @@ def update_connection(pvname=None, conn=None, **kws):
 
 #______________________________________________________________________________
 def update_value(pvname=None, value=None, timestamp=None, **kws):
-  logger.debug(f'update value {pvname:20} {value}')
-  if pvname is None or value is None or timestamp is None:
+  logger.debug(f'update value {pvname:20} {value} {type(value)}')
+  if (pvname is None or value is None or timestamp is None or
+      type(value) is numpy.ndarray):
     return
   if pvname in graph_dict:
     g = graph_dict[pvname]
@@ -243,10 +243,11 @@ def run():
   make_canvas()
   last = time.time()
   try:
-    while True:
-    # while not ROOT.gSystem.ProcessEvents():
+    # while True:
+    while not ROOT.gSystem.ProcessEvents():
       update_canvases()
-      time.sleep(10)
+      # time.sleep(10)
+
       # for pv in pv_list:
       #   update_value(pv.pvname, pv.value, pv.timestamp)
       # now = time.time()

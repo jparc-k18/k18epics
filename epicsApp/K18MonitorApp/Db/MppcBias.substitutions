@@ -85,4 +85,26 @@ file "db/MppcBias.template" {
      { name=MPPC:BFT:CH7:VMON, ch=80 }
      { name=MPPC:BFT:CH7:IMON, ch=81 }
      { name=MPPC:BFT:CH7:TEMP, ch=82 }
+
+     { name=MPPC:AFT:BOARD,    ch=83 }
+     { name=MPPC:AFT:CH1:STAT, ch=84 }
+     { name=MPPC:AFT:CH1:VSET, ch=85 }
+     { name=MPPC:AFT:CH1:VMON, ch=86 }
+     { name=MPPC:AFT:CH1:IMON, ch=87 }
+     { name=MPPC:AFT:CH1:TEMP, ch=88 }
+     { name=MPPC:AFT:CH2:STAT, ch=89 }
+     { name=MPPC:AFT:CH2:VSET, ch=90 }
+     { name=MPPC:AFT:CH2:VMON, ch=91 }
+     { name=MPPC:AFT:CH2:IMON, ch=92 }
+     { name=MPPC:AFT:CH2:TEMP, ch=93 }
+     { name=MPPC:AFT:CH3:STAT, ch=94 }
+     { name=MPPC:AFT:CH3:VSET, ch=95 }
+     { name=MPPC:AFT:CH3:VMON, ch=96 }
+     { name=MPPC:AFT:CH3:IMON, ch=97 }
+     { name=MPPC:AFT:CH3:TEMP, ch=98 }
+     { name=MPPC:AFT:CH4:STAT, ch=99 }
+     { name=MPPC:AFT:CH4:VSET, ch=100 }
+     { name=MPPC:AFT:CH4:VMON, ch=101 }
+     { name=MPPC:AFT:CH4:IMON, ch=102 }
+     { name=MPPC:AFT:CH4:TEMP, ch=103 }
 }

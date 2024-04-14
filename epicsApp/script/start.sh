@@ -8,42 +8,46 @@ pyioc_dir=$script_dir/../pyioc
 cmd_list=(
   tr700
   tr72nw_socket
-  # separator
   sksd4
-  # k18line
-  # aline
-  # bline
-  # accel
-  # hadron
   zrrx40 # slit
-  # zrrx45
-  # gl840_bgo
   gl840_aft
   caenhv1
   caenhv2
   caenhv3
   caenhv4
-  caenhv5
-  caenv895
+  # caenhv5
+  # caenv895
   hddaq
   hultrigger
   mppcbias
-  # gas
-  # tr72nw
-  # mqv9500
-  # gl840_tpc
-  # gl840_kurama
-  # gl840_dcth
-  # shs
-  # misc
-  # hul_scaler
+
   pmx18
   pressdc
+
+  separator
+  k18line
+  aline
+  bline
+  accel
+  hadron
+  zrrx45
+  gl840_bgo
+
+  # gas
+  tr72nw
+  mqv9500
+  gl840_tpc
+  gl840_kurama
+  gl840_dcth
+  shs
+  misc
+  hul_scaler
 )
 
 pyioc_list=(
 #    tpc-spark
-    mppc_hv
+  mppc_kikusui_hv
+  mppc_hv
 )
 
 for cmd in ${cmd_list[@]}

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import datetime
 import logging
 import logging.config
 import os
@@ -14,11 +15,21 @@ import hddaq_getter
 logger = logging.getLogger(__name__)
 
 #______________________________________________________________________________
+def make_magnet_param():
+  comment_info = hddaq_getter.comment_info()
+  epics_getter.set_comment_info(comment_info)
+  epics_getter.make_magnet_param()
+
+#______________________________________________________________________________
 def run(offset=1):
   try:
+    csv_writer.make_title(force=True)
     while True:
+      make_magnet_param()
       comment_info = hddaq_getter.comment_info()
       recorder_info = hddaq_getter.recorder_info()
+      epics_getter.set_comment_info(comment_info)
+      epics_getter.read_all()
       for n in range(offset, offset + 10000):
         if csv_writer.is_listed(n):
           continue
@@ -27,9 +38,10 @@ def run(offset=1):
         c = comment_info[n]
         values = list()
         if 'StopTime' in c:
+          values.append(n)
           values.append(c['StartTime'])
           values.append(c['StopTime'])
-          values.append(n)
+          values.append(c['ElapsedTime'])
           values.append(c['Title'])
           if n in recorder_info:
             r = recorder_info[n]
@@ -40,12 +52,18 @@ def run(offset=1):
             values.append('')
             values.append('OFF')
             values.append('')
-          t = hddaq_getter.trigger(n)
-          values.append(t[0])
-          e = epics_getter.info(n)
-          values.extend(t[1:])
+          # t = hddaq_getter.trigger(n)
+          if datetime.datetime.now() - c['StopTimeDT'] < datetime.timedelta(hours=4, minutes=30):
+            continue
+          t = epics_getter.trigger_info(n)
+          # values.append(t[0])
+          s = hddaq_getter.scaler(n)
+          values.extend(s)
+          e = epics_getter.epics_info(n)
+          values.extend(e)
+          values.extend(t)
           csv_writer.write(values)
-        logger.info(n)
+      # break
       time.sleep(2)
       #     # values.append(f'{year}/{date} {hms}')
       #     # values.append()
@@ -57,8 +75,9 @@ if __name__ == '__main__':
   log_conf = os.path.join(top_dir, 'logging_config.yml')
   with open(log_conf, 'r') as f:
     logging.config.dictConfig(yaml.safe_load(f))
-  csv_writer.make_title()
-  run(70001)
+  # make_magnet_param()
+  run(71000)
+
   # epics_getter.get(70183, 'K18MAG:D4:FLD')
   # hddaq_getter.event_number(70183)
   # hddaq_getter.comment_info()

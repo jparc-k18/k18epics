@@ -39,6 +39,7 @@ static long read_wf(waveformRecord *rec)
   UserSocket sock( host, port);
   usleep(1000*1);
   if( !sock.IsOpen() ){
+    cout << "not connected to host " << host << endl;
     return -1;
   }
 
@@ -56,19 +57,19 @@ static long read_wf(waveformRecord *rec)
   usleep(1000*10);
   sock.Read(Read_Vread,100);
   Value_Vread = strtod(Read_Vread,0);
-  std::cout << "Vread: " << Read_Vread
-	    << "       -> " << Value_Vread << " [V]" << std::endl;
+  // std::cout << "Vread: " << Read_Vread
+  // 	    << "       -> " << Value_Vread << " [V]" << std::endl;
 
   // current
   sock.Write(Command_Aread,100);
   usleep(1000*10);
   sock.Read(Read_Aread,100);
   Value_Aread = strtod(Read_Aread,0);
-  std::cout << "Aread: " << Read_Aread
-	    << "       -> " << Value_Aread << " [A]" << std::endl;
+  // std::cout << "Aread: " << Read_Aread
+  // 	    << "       -> " << Value_Aread*1000 << " [mA]" << std::endl;
   float* ptr = (float*) rec->bptr;
   ptr[0] = Value_Vread;
-  ptr[1] = Value_Aread;
+  ptr[1] = Value_Aread*1000;
 
   rec->nord = 2;
 

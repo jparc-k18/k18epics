@@ -1,1 +1,1 @@
-channel_list_e70_20230613.txt
+channel_list_e70_20240402.txt

@@ -22,15 +22,17 @@ if __name__ == '__main__':
           if len(columns) == 2:
             if columns[0] == "192.168.30.81":
               ch_header = 'MPPC:BFT:'
-            elif columns[0] == "192.168.30.80":
-              ch_header = 'MPPC:AFT:'
-            if columns[1] =="ON":
-              state = 1
-            elif columns[1] == "OFF":
-              state = 0
-            else:
-              state = -1
-            epics.caput(ch_header+"BOARD", state, wait=1.0)
+              print("ch_header"+str(ch_header))
+#            elif columns[0] == "192.168.30.80":
+ #             ch_header = 'MPPC:AFT:'
+              if columns[1] =="ON":
+                state = 1
+              elif columns[1] == "OFF":
+                state = 0
+              else:
+                state = -1
+              epics.caput(ch_header+"BOARD", state, wait=1.0)
+              print("state"+str(state))
           if len(columns) == 8:
             if columns[1] =="ON":
               state = 1
@@ -39,9 +41,13 @@ if __name__ == '__main__':
             else:
               state = -1
             hv_set = columns[4]
+            print("hv_set"+str(hv_set))
             hv_mon = columns[5]
+            print("hv_mon"+str(hv_mon))
             i_mon = columns[6]
+            print("i_mon"+str(i_mon))
             temp = columns[7]
+            print("temp"+str(temp))
             ch_name = ch_header + columns[0]
             epics.caput(ch_name+':STAT', state, wait=1.0)
             epics.caput(ch_name+':VSET', hv_set, wait=1.0)
@@ -53,6 +59,6 @@ if __name__ == '__main__':
             print(ch_name+":VMON", hv_mon)
             print(ch_name+":IMON", i_mon)
             print(ch_name+":TEMP", temp)
-      time.sleep(interval - (time.time() - start))
+        time.sleep(interval - (time.time() - start))
  # except:
   #  pass

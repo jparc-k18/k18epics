@@ -66,6 +66,7 @@ static long read_wf(waveformRecord *rec)
 
   }
   int port = 57172;
+  cout << "ip: " << host << endl;
   UserSocket sock( host, port );
   if( !sock.IsOpen() )
     return -1;
@@ -76,10 +77,10 @@ static long read_wf(waveformRecord *rec)
                         0x01, 0x33, 0x00, 0x04, 0x00,
                         0x00, 0x00, 0x00, 0x00, 0x38, 0x00};
   for(int n=0;n<4;n++){
-    //std::cout << std::hex << std::setfill('0') << std::setw(2) << +SerialNumber[n] << std::dec << std::endl;
+    std::cout << std::hex << std::setfill('0') << std::setw(2) << +SerialNumber[n] << std::dec << std::endl;
   }
   for(int n=0;n<13;n++){
-    //std::cout << std::hex << std::setfill('0') << std::setw(2) << +ReadCommand[n] << std::dec << std::endl;
+    std::cout << std::hex << std::setfill('0') << std::setw(2) << +ReadCommand[n] << std::dec << std::endl;
   }
   sock.Write(SerialNumber, 4);
   sock.Write(ReadCommand, 13);
@@ -87,17 +88,18 @@ static long read_wf(waveformRecord *rec)
   usleep(1000*50);
 
   // // for debug
-  // for (int i=0; i<4; i++){
-  //   //    ofs << "SerialNumber[" << i << "]: " << SerialNumber[i] << endl;
-  //   ofs << "SerialNumber[" << i << "]: " << SN_str[i] << endl;
-  // }
-  // ofs << std::endl << " * Write command * " << std::endl;
-  // for(int n=0;n<4;n++){
-  //   ofs << std::hex << std::setfill('0') << std::setw(2) << +SerialNumber[n] << std::dec << std::endl;
-  // }
-  // for(int n=0;n<13;n++){
-  //   ofs << std::hex << std::setfill('0') << std::setw(2) << +ReadCommand[n] << std::dec << std::endl;
-  // }
+
+  for (int i=0; i<4; i++){
+       cout  << "SerialNumber[" << i << "]: " << SerialNumber[i] << endl;
+       cout  << "SerialNumber[" << i << "]: " << SN_str[i] << endl;
+  }
+  cout << std::endl << " * Write command * " << std::endl;
+  for(int n=0;n<4;n++){
+    cout << std::hex << std::setfill('0') << std::setw(2) << +SerialNumber[n] << std::dec << std::endl;
+  }
+  for(int n=0;n<13;n++){
+    cout << std::hex << std::setfill('0') << std::setw(2) << +ReadCommand[n] << std::dec << std::endl;
+  }
 
 
   //std::cout << std::endl << " * Read date * " << std::endl;

@@ -2,7 +2,7 @@ record(waveform, "MppcBias:DATA")
 {
         field(DESC, "MPPC Bias Status")
 	field(FTVL, "FLOAT")
-        field(NELM, "82")
+        field(NELM, "103")
 	field(SCAN, "Passive")
 	field(PHAS, "0")
 	field(PREC, "1")

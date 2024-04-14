@@ -34,7 +34,11 @@ def update_value(pvname=None, value=None, timestamp=None, **kws):
   if pvname is None or value is None or timestamp is None:
     return
   if pvname in graph_dict:
-    graph_dict[pvname].AddPoint(timestamp, value)
+    try:
+      graph_dict[pvname].AddPoint(timestamp, value)
+    except TypeError as e:
+      logger.error(e)
+      logger.error(f'{timestamp} {value}')
 
 #______________________________________________________________________________
 def run():
@@ -71,9 +75,13 @@ def run():
     while True:
       unix_time[0] = time.time()
       for pv in pv_list:
-        val_dict[pv.pvname][0] = pv.value
-        val_dict[pv.pvname][1] = pv.timestamp
         logger.debug(f'{pv.pvname} {pv.value} {pv.timestamp}')
+        try:
+          val_dict[pv.pvname][0] = pv.value
+        except:
+          logger.error(f'{pv.pvname} {pv.value} {pv.timestamp}')
+          val_dict[pv.pvname][0] = numpy.NAN
+        val_dict[pv.pvname][1] = pv.timestamp
       logger.debug(f'tree.Fill()')
       tree.Fill()
       if unix_time[0] - last > newfile_interval:
