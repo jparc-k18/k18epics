@@ -98,12 +98,12 @@ def make_canvas():
   c.cd(3); draw("GAS:SDC5:DIFP");
   c = ROOT.TCanvas('AFT', 'AFT')
   canvas_dict['AFT'] = c
-  draw("AFT:X-U1:TEMP", color=ROOT.kRed+1);
-  draw("AFT:X-U2:TEMP", color=ROOT.kBlue+1, option='L');
-  draw("AFT:Y-U:TEMP", color=ROOT.kGreen+1, option='L');
-  draw("AFT:Y-D:TEMP", color=ROOT.kMagenta+1, option='L');
-  draw("AFT:X-D1:TEMP", color=ROOT.kOrange+1, option='L');
-  draw("AFT:X-D2:TEMP", color=ROOT.kCyan+1, option='L');
+  draw("AFT:X_U1:TEMP", color=ROOT.kRed+1);
+  draw("AFT:X_U2:TEMP", color=ROOT.kBlue+1, option='L');
+  draw("AFT:Y_U:TEMP", color=ROOT.kGreen+1, option='L');
+  draw("AFT:Y_D:TEMP", color=ROOT.kMagenta+1, option='L');
+  draw("AFT:X_D1:TEMP", color=ROOT.kOrange+1, option='L');
+  draw("AFT:X_D2:TEMP", color=ROOT.kCyan+1, option='L');
   draw("AFT:AIR:TEMP", color=ROOT.kYellow+1, option='L');
   c = ROOT.TCanvas('MPPC_BFT', 'MPPC_BFT')
   canvas_dict['MPPC_BFT'] = c
@@ -204,7 +204,7 @@ def update_value(pvname=None, value=None, timestamp=None, **kws):
     ax.SetNdivisions(-506)
     # margin = (ymax - ymin)*0.05
     # ay.SetRangeUser(ymin - margin, ymax + margin)
-    if pvname == 'AFT:X-U1:TEMP':
+    if pvname == 'AFT:X_U1:TEMP':
       g.SetTitle('AFT TEMP')
       ay = g.GetYaxis()
       ay.SetRangeUser(10, 40)
