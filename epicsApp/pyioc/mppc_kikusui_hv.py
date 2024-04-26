@@ -3,10 +3,13 @@
 import datetime
 import epics
 import time
+import os
+
+os.makedirs("/home/sks/k18epics/epicsApp/pyioc/error_log", exist_ok=True)
+error_log = "/home/sks/k18epics/epicsApp/pyioc/error_log/error_mppc_kikusui_hv.txt"
 
 interval = 1
 N=0
-error_log="error_log/error_mppc_kikusui_hv.txt"
 
 if __name__ == '__main__':
   print(datetime.datetime.now(), 'IOC start')

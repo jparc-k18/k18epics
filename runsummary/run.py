@@ -58,6 +58,8 @@ def run(offset=1):
           t = epics_getter.trigger_info(n)
           # values.append(t[0])
           s = hddaq_getter.scaler(n)
+          if s is False:
+            continue
           values.extend(s)
           e = epics_getter.epics_info(n)
           values.extend(e)

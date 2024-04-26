@@ -3,9 +3,12 @@
 import datetime
 import epics
 import time
+import os
 
+os.makedirs("/home/sks/k18epics/epicsApp/pyioc/error_log", exist_ok=True)
+error_log = "/home/sks/k18epics/epicsApp/pyioc/error_log/error_mppc_hv.txt"
 mppchv_text = '/misc/subdata/MPPC_HV/mppcbias_summary.txt'
-error_log="error_log/error_mppc_hv.txt"
+
 interval = 1
 
 if __name__ == '__main__':

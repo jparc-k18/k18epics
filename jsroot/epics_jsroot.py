@@ -10,8 +10,8 @@ import epics
 import ROOT
 
 logging.basicConfig(
-  level=logging.DEBUG,
-  # level=logging.INFO,
+  # level=logging.DEBUG,
+  level=logging.INFO,
   format="%(asctime)s [%(levelname)s] %(message)s",
 )
 logger = logging.getLogger(__name__)

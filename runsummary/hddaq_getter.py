@@ -94,9 +94,17 @@ def scaler(run_number):
     info[k] = str()
   scaler_txt = os.path.join(g.subdata_path, 'scaler_2024may',
                             f'scaler_{run_number:05d}.txt')
-  if not os.path.isfile(scaler_txt):
-    logger.warning(f'cannot find {scaler_txt}')
+  rec_info = recorder_info()
+  if run_number in rec_info:
+    evnum = rec_info[run_number]['EventNumber']
+  else:
     return info.values()
+  if evnum == 0:
+    return info.values()
+  if evnum > 0 and not os.path.isfile(scaler_txt):
+    # logger.warning(f'cannot find {scaler_txt}')
+    # return info.values()
+    return False
   scaler_dict = dict()
   with open(scaler_txt, 'r') as f:
     lines = f.readlines()
