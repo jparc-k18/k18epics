@@ -31,6 +31,25 @@ static long read_ai(aiRecord *rec)
   if (!sock->IsOpen())
     std::exit(1);
 
+  //rehold?
+  char sig_rehold[50];
+  int flag_rehold = 0;
+  FILE *f_sighold = fopen("/home/sks/work/NMR_rehold/rehold_signal.txt","r");
+  fgets(sig_rehold, 50, f_sighold);
+  if( sig_rehold[0]=='a' || sig_rehold[0]=='b'|| sig_rehold[0]=='c' || sig_rehold[0]=='d' ){
+    // detect re_hold signal
+    flag_rehold = 1;
+  }
+  fclose(f_sighold);
+  if( flag_rehold ){
+    printf("SKS NMR send rehold command\n");
+    FILE *f_sigout = fopen("/home/sks/work/NMR_rehold/rehold_signal.txt","w");
+    fprintf(f_sigout, "0");
+    fclose(f_sigout);
+    sock->Write(sig_rehold, 1); // seng range setting (force reset val to manual value)
+    usleep(1000*100);
+  }
+
   //get value
   if(sock->Write("n",1) < 0)
     std::exit(1);
