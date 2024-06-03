@@ -38,7 +38,7 @@ def update_value(pvname=None, value=None, timestamp=None, **kws):
       graph_dict[pvname].AddPoint(timestamp, value)
     except TypeError as e:
       logger.error(e)
-      logger.error(f'{timestamp} {value}')
+      logger.error(f'{timestamp} {pvname} {value}')
 
 #______________________________________________________________________________
 def run():
